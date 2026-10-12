@@ -1,0 +1,122 @@
+[
+	{
+		"path": "/",
+		"componentName": "HomePage_system_home",
+		"importPath": "@/pages/builder/home/HomePage",
+		"exportName": "HomePage",
+		"locale": "system",
+		"pageId": "home",
+		"isHome": true,
+		"pageType": "default"
+	},
+	{
+		"path": "/pitru-paksha-pooja-dubai",
+		"componentName": "PitruPakshaPoojaDubaiPage_system_zBN4fQ",
+		"importPath": "@/pages/builder/pitru-paksha-pooja-dubai/PitruPakshaPoojaDubaiPage",
+		"exportName": "PitruPakshaPoojaDubaiPage",
+		"locale": "system",
+		"pageId": "zBN4fQ",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/car-pooja-in-dubai-vehicle-pooja-in-dubai",
+		"componentName": "CarPoojaInDubaiVehiclePoojaInDubaiPage_system_zBo0UF",
+		"importPath": "@/pages/builder/car-pooja-in-dubai-vehicle-pooja-in-dubai/CarPoojaInDubaiVehiclePoojaInDubaiPage",
+		"exportName": "CarPoojaInDubaiVehiclePoojaInDubaiPage",
+		"locale": "system",
+		"pageId": "zBo0UF",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/wedding-ceremonies",
+		"componentName": "WeddingCeremoniesPage_system_zLiR5v",
+		"importPath": "@/pages/builder/wedding-ceremonies/WeddingCeremoniesPage",
+		"exportName": "WeddingCeremoniesPage",
+		"locale": "system",
+		"pageId": "zLiR5v",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/book-pandit-in-dubai",
+		"componentName": "BookPanditInDubaiPage_system_zXyBpB",
+		"importPath": "@/pages/builder/book-pandit-in-dubai/BookPanditInDubaiPage",
+		"exportName": "BookPanditInDubaiPage",
+		"locale": "system",
+		"pageId": "zXyBpB",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/shanti-havan-and-yagna",
+		"componentName": "ShantiHavanAndYagnaPage_system_zaW86l",
+		"importPath": "@/pages/builder/shanti-havan-and-yagna/ShantiHavanAndYagnaPage",
+		"exportName": "ShantiHavanAndYagnaPage",
+		"locale": "system",
+		"pageId": "zaW86l",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/authentic-vedic-pooja-dubai",
+		"componentName": "AuthenticVedicPoojaDubaiPage_system_zcfa3j",
+		"importPath": "@/pages/builder/authentic-vedic-pooja-dubai/AuthenticVedicPoojaDubaiPage",
+		"exportName": "AuthenticVedicPoojaDubaiPage",
+		"locale": "system",
+		"pageId": "zcfa3j",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/rudrabhishek-and-planets",
+		"componentName": "RudrabhishekAndPlanetsPage_system_zggWVH",
+		"importPath": "@/pages/builder/rudrabhishek-and-planets/RudrabhishekAndPlanetsPage",
+		"exportName": "RudrabhishekAndPlanetsPage",
+		"locale": "system",
+		"pageId": "zggWVH",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/satyanarayan-and-festivals",
+		"componentName": "SatyanarayanAndFestivalsPage_system_zma8j",
+		"importPath": "@/pages/builder/satyanarayan-and-festivals/SatyanarayanAndFestivalsPage",
+		"exportName": "SatyanarayanAndFestivalsPage",
+		"locale": "system",
+		"pageId": "zma8j-",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/pooja-services-in-dubai",
+		"componentName": "PoojaServicesInDubaiPage_system_zz4Hbb",
+		"importPath": "@/pages/builder/pooja-services-in-dubai/PoojaServicesInDubaiPage",
+		"exportName": "PoojaServicesInDubaiPage",
+		"locale": "system",
+		"pageId": "zz4Hbb",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/griha-pravesh-and-vastu",
+		"componentName": "GrihaPraveshAndVastuPage_system_zzyXkY",
+		"importPath": "@/pages/builder/griha-pravesh-and-vastu/GrihaPraveshAndVastuPage",
+		"exportName": "GrihaPraveshAndVastuPage",
+		"locale": "system",
+		"pageId": "zzyXkY",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/:slug",
+		"componentName": "DynamicProductPage_system",
+		"importPath": "@/pages/builder/dynamic-product/DynamicProductPage",
+		"exportName": "DynamicProductPage",
+		"locale": "system",
+		"pageId": "zjKvah",
+		"isHome": false,
+		"pageType": "ecommerce-dynamic-product"
+	}
+]
