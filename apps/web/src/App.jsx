@@ -6,6 +6,7 @@ import ScrollToTop from '@/components/ScrollToTop';
 import CustomSiteCode from '@/components/builder/CustomSiteCode';
 import CookieConsent from '@/components/builder/CookieConsent';
 import WhatsAppBubble from '@/components/builder/WhatsAppBubble';
+import PhoneBubble from '@/components/builder/PhoneBubble';
 import { EcommerceCartProvider } from '@/components/builder/blocks/EcommerceCart';
 import EcommerceCheckoutSuccess from '@/components/builder/blocks/EcommerceCheckoutSuccess';
 import HomePage_system_home from "@/pages/builder/home/HomePage";
@@ -30,6 +31,7 @@ function App() {
 					<ScrollToTop />
 					<CustomSiteCode />
 					<CookieConsent />
+					<PhoneBubble />
 					<WhatsAppBubble />
 					<EcommerceCheckoutSuccess />
 					<Routes>

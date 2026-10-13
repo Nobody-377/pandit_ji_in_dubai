@@ -73,10 +73,10 @@
 	.grid-button {
 		width: var(--m-width, 100%);
 		height: var(--m-height, min-content);
-		font-size: var(--font-size-mobile, var(--grid-button-primary-m-font-size, var(--grid-button-primary-font-size, 16px)));
+		font-size: max(var(--font-size-mobile, 0px), var(--grid-button-primary-m-font-size, 16px));
 	}
 
 	.grid-button--secondary {
-		font-size: var(--font-size-mobile, var(--grid-button-secondary-m-font-size, var(--grid-button-secondary-font-size, 16px)));
+		font-size: max(var(--font-size-mobile, 0px), var(--grid-button-secondary-m-font-size, 16px));
 	}
 }

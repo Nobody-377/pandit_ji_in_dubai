@@ -155,14 +155,14 @@ export default function Section1() {
 				elementId={"zXNdH4"}
 				className={"layout-element layout-element--layout transition transition--slide"}
 				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
+					"--text": "center",
+					"--align": "center",
+					"--justify": "center",
 					"--m-element-margin": "0 0 16px 0",
 					"--z-index": 6,
 					"--grid-row": "10/11",
-					"--grid-column": "7/18",
-					"--m-grid-row": "12/14",
+					"--grid-column": "3/23",
+					"--m-grid-row": "12/13",
 					"--m-grid-column": "1/10"
 				}}
 				hasRotationFrame={false}
@@ -170,9 +170,9 @@ export default function Section1() {
 			>
 				<GridTextBox
 					id={"zXNdH4"}
-					content={"<h2 dir=\"auto\" style=\"color: rgb(44, 24, 16); letter-spacing: normal; margin-bottom: 40px;\">          About </h2><h2 dir=\"auto\" style=\"color: rgb(44, 24, 16); --lineHeightMobile: 1.3; --fontSizeMobile: 36px; margin-bottom: 40px;\">Griha Pravesh Pooja</h2>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
+					content={"<h2 dir=\"auto\" style=\"color: rgb(44, 24, 16); letter-spacing: normal; text-align: center; margin-bottom: 16px;\"><span style=\"display: block; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; color: rgb(212, 164, 55); margin-bottom: 6px; font-weight: 700;\">About</span>Griha Pravesh Pooja</h2>"}
+					textAlign={"center"}
+					textAlignMobile={"center"}
 					className={"layout-element__component layout-element__component--GridTextBox"}
 				/>
 			</LayoutElement>
@@ -180,13 +180,13 @@ export default function Section1() {
 				elementId={"zOAMfK"}
 				className={"layout-element layout-element--layout transition transition--slide"}
 				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
+					"--text": "center",
+					"--align": "center",
+					"--justify": "center",
 					"--m-element-margin": "0 0 16px 0",
 					"--z-index": 7,
 					"--grid-row": "12/13",
-					"--grid-column": "5/24",
+					"--grid-column": "4/22",
 					"--m-grid-row": "13/15",
 					"--m-grid-column": "1/10"
 				}}
@@ -195,9 +195,9 @@ export default function Section1() {
 			>
 				<GridTextBox
 					id={"zOAMfK"}
-					content={"<p dir=\"auto\" class=\"body\">Griha Pravesh Pooja is a sacred Hindu housewarming ceremony performed before entering a new home. The ritual seeks blessings for peace, prosperity, harmony and wellbeing for all family members.</p><p dir=\"auto\" class=\"body-large\">Our experienced pandits conduct authentic Vedic ceremonies across Dubai and UAE, helping families begin their journey in a spiritually positive environment.</p>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
+					content={"<p dir=\"auto\" class=\"body\" style=\"text-align: center; margin-bottom: 14px;\">Griha Pravesh Pooja is a sacred Hindu housewarming ceremony performed before entering a new home. The ritual seeks blessings for peace, prosperity, harmony and wellbeing for all family members.</p><p dir=\"auto\" class=\"body-large\" style=\"text-align: center;\">Our experienced pandits conduct authentic Vedic ceremonies across Dubai and UAE, helping families begin their journey in a spiritually positive environment.</p>"}
+					textAlign={"center"}
+					textAlignMobile={"center"}
 					className={"layout-element__component layout-element__component--GridTextBox"}
 				/>
 			</LayoutElement>
@@ -205,14 +205,14 @@ export default function Section1() {
 				elementId={"z3VWz0"}
 				className={"layout-element layout-element--layout transition transition--slide"}
 				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
+					"--text": "center",
+					"--align": "center",
+					"--justify": "center",
 					"--m-element-margin": "0 0 16px 0",
 					"--z-index": 8,
-					"--grid-row": "14/16",
-					"--grid-column": "8/17",
-					"--m-grid-row": "16/18",
+					"--grid-row": "14/15",
+					"--grid-column": "3/23",
+					"--m-grid-row": "15/17",
 					"--m-grid-column": "1/10"
 				}}
 				hasRotationFrame={false}
@@ -220,109 +220,9 @@ export default function Section1() {
 			>
 				<GridTextBox
 					id={"z3VWz0"}
-					content={"<h2 dir=\"auto\" style=\"color: rgb(44, 24, 16); letter-spacing: normal; margin-bottom: 40px;\">      Benefits Of </h2><h2 dir=\"auto\" style=\"color: rgb(44, 24, 16); letter-spacing: normal; margin-bottom: 40px;\">Griha Pravesh Pooja</h2>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
-					className={"layout-element__component layout-element__component--GridTextBox"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"z0C4Wu"}
-				className={"layout-element layout-element--layout transition transition--slide"}
-				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 9,
-					"--grid-row": "17/18",
-					"--grid-column": "4/6",
-					"--m-grid-row": "18/20",
-					"--m-grid-column": "7/10"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridTextBox
-					id={"z0C4Wu"}
-					content={"<h5 dir=\"auto\">Blessings For New Home</h5>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
-					className={"layout-element__component layout-element__component--GridTextBox"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"zA4_kB"}
-				className={"layout-element layout-element--layout transition transition--slide"}
-				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 10,
-					"--grid-row": "17/18",
-					"--grid-column": "9/12",
-					"--m-grid-row": "22/23",
-					"--m-grid-column": "8/10"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridTextBox
-					id={"zA4_kB"}
-					content={"<h5 dir=\"auto\">Spiritual Harmony</h5>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
-					className={"layout-element__component layout-element__component--GridTextBox"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"zElBY8"}
-				className={"layout-element layout-element--layout transition transition--slide"}
-				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 11,
-					"--grid-row": "17/18",
-					"--grid-column": "15/19",
-					"--m-grid-row": "22/23",
-					"--m-grid-column": "2/6"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridTextBox
-					id={"zElBY8"}
-					content={"<h5 dir=\"auto\">Family Wellbeing</h5>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
-					className={"layout-element__component layout-element__component--GridTextBox"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"zjRmHN"}
-				className={"layout-element layout-element--layout transition transition--slide"}
-				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 12,
-					"--grid-row": "17/18",
-					"--grid-column": "20/21",
-					"--m-grid-row": "19/21",
-					"--m-grid-column": "3/5"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridTextBox
-					id={"zjRmHN"}
-					content={"<h5 dir=\"auto\">Positive Energy</h5>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
+					content={"<h2 dir=\"auto\" style=\"color: rgb(44, 24, 16); letter-spacing: normal; text-align: center; margin-bottom: 16px;\"><span style=\"display: block; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; color: rgb(212, 164, 55); margin-bottom: 6px; font-weight: 700;\">Benefits Of</span>Griha Pravesh Pooja</h2>"}
+					textAlign={"center"}
+					textAlignMobile={"center"}
 					className={"layout-element__component layout-element__component--GridTextBox"}
 				/>
 			</LayoutElement>
@@ -332,23 +232,19 @@ export default function Section1() {
 				style={{
 					"--z-index": 1,
 					"--grid-row": "15/19",
-					"--grid-column": "2/23",
+					"--grid-column": "2/24",
 					"--m-grid-row": "17/24",
 					"--m-grid-column": "1/10"
 				}}
 				hasRotationFrame={false}
 				hasEntranceAnimation={true}
 			>
-				<GridCard
-					id={"zTRRga"}
-					background={"rgb(250, 246, 240)"}
-					border={"1px solid rgb(0, 0, 0)"}
-					borderRadius={"12px"}
-					boxShadow={"none"}
-					opacity={"1"}
-					height={"104px"}
-					className={"layout-element__component layout-element__component--GridCard"}
-				/>
+				<div className="griha-pravesh-benefits-card" data-element-id="zTRRga">
+					<h5 className="griha-pravesh-benefits-card__item">Blessings For New Home</h5>
+					<h5 className="griha-pravesh-benefits-card__item">Spiritual Harmony</h5>
+					<h5 className="griha-pravesh-benefits-card__item">Family Wellbeing</h5>
+					<h5 className="griha-pravesh-benefits-card__item">Positive Energy</h5>
+				</div>
 			</LayoutElement>
 			<LayoutElement
 				elementId={"zkUicM"}
@@ -369,7 +265,7 @@ export default function Section1() {
 			>
 				<GridTextBox
 					id={"zkUicM"}
-					content={"<p dir=\"auto\" class=\"body\" style=\"--lineHeightMobile: 1.3; --fontSizeMobile: 14px;\"><span style=\"color: rgb(212, 164, 55); text-transform: none; letter-spacing: 2px; font-family: Poppins, sans-serif; font-weight: 700;\">HOUSEWARMING CEREMONY</span></p>"}
+					content={"<p dir=\"auto\" class=\"body\" style=\"--lineHeightMobile: 1.3; --fontSizeMobile: 16px;\"><span style=\"color: rgb(212, 164, 55); text-transform: none; letter-spacing: 2px; font-family: Poppins, sans-serif; font-weight: 700;\">HOUSEWARMING CEREMONY</span></p>"}
 					textAlign={"left"}
 					textAlignMobile={"left"}
 					className={"layout-element__component layout-element__component--GridTextBox"}

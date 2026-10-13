@@ -1,0 +1,198 @@
+.section-steps-block {
+	background-color: #faf6f0;
+	padding: 48px 20px 60px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.section-steps-container {
+	max-width: 1224px;
+	margin: 0 auto;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.section-steps-header {
+	text-align: center;
+	margin-bottom: 36px;
+}
+
+.page .section-steps-eyebrow,
+.section-steps-eyebrow {
+	color: rgb(229, 179, 97) !important;
+	font-family: var(--font-primary, 'Marcellus', serif);
+	font-size: clamp(13px, 1.2vw, 15px);
+	font-weight: 600;
+	letter-spacing: 0.25em;
+	margin: 0 0 10px 0;
+	text-transform: uppercase;
+}
+
+.page .section-steps-heading,
+.section-steps-heading {
+	color: rgb(140, 43, 29) !important;
+	font-family: var(--font-primary, 'Marcellus', serif);
+	font-size: clamp(24px, 3.2vw, 38px);
+	font-weight: 600;
+	line-height: 1.25;
+	margin: 0 auto;
+	max-width: 800px;
+}
+
+/* 4 cards in 1 row across desktop and tablet down to 720px */
+.section-steps-grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: clamp(10px, 1.4vw, 16px);
+	align-items: stretch;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.section-steps-card {
+	background-color: #faf6f0;
+	border: 5px solid #ffffff;
+	border-radius: 13px;
+	box-shadow: 0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 8px 10px -6px rgba(0, 0, 0, 0.1);
+	padding: clamp(14px, 1.8vw, 22px) clamp(10px, 1.2vw, 14px);
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.section-steps-card:hover {
+	transform: translateY(-3px);
+	box-shadow: 0px 25px 30px -5px rgba(0, 0, 0, 0.14), 0px 10px 14px -6px rgba(0, 0, 0, 0.1);
+}
+
+.page .section-steps-card-title,
+.section-steps-card-title {
+	color: rgb(140, 43, 29) !important;
+	font-family: var(--font-primary, 'Marcellus', serif);
+	font-size: clamp(14px, 1.15vw, 16px);
+	font-weight: 600;
+	line-height: 1.3;
+	text-align: center;
+	margin: 0 0 14px 0;
+	white-space: nowrap;
+	min-height: 22px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.section-steps-card-body {
+	display: flex;
+	align-items: center;
+	gap: clamp(8px, 1vw, 12px);
+	flex: 1;
+}
+
+.page .section-steps-card-number,
+.section-steps-card-number {
+	color: rgb(229, 179, 97) !important;
+	font-family: var(--font-primary, 'Marcellus', serif);
+	font-size: clamp(26px, 2.6vw, 34px);
+	font-weight: 500;
+	line-height: 1;
+	flex-shrink: 0;
+	white-space: nowrap;
+	min-width: clamp(30px, 3vw, 38px);
+	text-align: center;
+}
+
+.section-steps-card-text {
+	color: var(--body-color, #1d1e20);
+	font-family: var(--font-secondary, 'Marcellus', serif);
+	font-size: clamp(12.5px, 1.05vw, 14px);
+	line-height: 1.5;
+	margin: 0;
+	flex: 1;
+	text-align: left;
+}
+
+/* Dots indicator (hidden on wide screens, visible on mobile) */
+.section-steps-dots {
+	display: none;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
+	margin-top: 18px;
+}
+
+.section-steps-dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background-color: rgba(140, 43, 29, 0.2);
+	transition: background-color 0.2s ease, transform 0.2s ease;
+	cursor: pointer;
+}
+
+.section-steps-dot.active {
+	background-color: rgb(140, 43, 29);
+	transform: scale(1.25);
+}
+
+/* Mobile Screens (< 720px): Horizontal swipe track keeping all 4 cards in 1 row */
+@media screen and (max-width: 719px) {
+	.section-steps-block {
+		padding: 36px 16px 44px;
+	}
+
+	.section-steps-header {
+		margin-bottom: 24px;
+	}
+
+	.section-steps-heading {
+		font-size: clamp(26px, 6.5vw, 30px);
+	}
+
+	.section-steps-grid {
+		display: flex;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		-webkit-overflow-scrolling: touch;
+		gap: 14px;
+		padding: 8px 4px 16px 4px;
+		scrollbar-width: none;
+		margin: 0 -8px;
+		padding-left: 12px;
+		padding-right: 12px;
+	}
+
+	.section-steps-grid::-webkit-scrollbar {
+		display: none;
+	}
+
+	.section-steps-card {
+		flex: 0 0 78%;
+		max-width: 300px;
+		min-width: 250px;
+		scroll-snap-align: center;
+		padding: 22px 16px;
+	}
+
+	.page .section-steps-card-title,
+	.section-steps-card-title {
+		font-size: 18.5px;
+		white-space: nowrap;
+		margin-bottom: 14px;
+	}
+
+	.page .section-steps-card-number,
+	.section-steps-card-number {
+		font-size: 36px;
+		min-width: 38px;
+	}
+
+	.section-steps-card-text {
+		font-size: 16px;
+		line-height: 1.55;
+	}
+
+	.section-steps-dots {
+		display: flex;
+	}
+}

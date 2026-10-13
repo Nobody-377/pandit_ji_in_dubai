@@ -201,9 +201,9 @@ export default function Section1() {
 					"--justify": "flex-start",
 					"--m-element-margin": "0 0 16px 0",
 					"--z-index": 8,
-					"--grid-row": "13/15",
-					"--grid-column": "10/21",
-					"--m-grid-row": "16/19",
+					"--grid-row": "13/14",
+					"--grid-column": "4/24",
+					"--m-grid-row": "16/17",
 					"--m-grid-column": "1/13"
 				}}
 				hasRotationFrame={false}
@@ -211,9 +211,9 @@ export default function Section1() {
 			>
 				<GridTextBox
 					id={"zCrITn"}
-					content={"<h2 dir=\"auto\" style=\"color: rgb(44, 24, 16); letter-spacing: normal; margin-bottom: 40px;\">     Benefits Of Satyanarayan Pooja</h2>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
+					content={"<h2 dir=\"auto\" style=\"color: rgb(44, 24, 16); letter-spacing: normal; text-align: center; margin-bottom: 20px;\">Benefits Of Satyanarayan Pooja</h2>"}
+					textAlign={"center"}
+					textAlignMobile={"center"}
 					className={"layout-element__component layout-element__component--GridTextBox"}
 				/>
 			</LayoutElement>

@@ -235,4 +235,12 @@
 	.block-blog-list__search {
 		width: 100%;
 	}
+
+	.block-blog-list__filter-button {
+		font-size: 16px;
+	}
+
+	.block-blog-list-item__description {
+		font-size: var(--body-m-font-size, 17px);
+	}
 }

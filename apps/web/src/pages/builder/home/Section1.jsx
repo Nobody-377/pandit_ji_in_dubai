@@ -295,7 +295,7 @@ export default function Section1() {
 			>
 				<GridTextBox
 					id={"zULVDx"}
-					content={"<h3 dir=\"auto\" style=\"color: rgb(250, 246, 240); --lineHeightMobile: 1.3; --lineHeightDesktop: 1.3; --fontSizeMobile: 14px; --fontSizeDesktop: 14px;\">Years Performing Vedic rituals..</h3>"}
+					content={"<h3 dir=\"auto\" style=\"color: rgb(250, 246, 240); --lineHeightMobile: 1.3; --lineHeightDesktop: 1.3; --fontSizeMobile: 16px; --fontSizeDesktop: 14px;\">Years Performing Vedic rituals..</h3>"}
 					textAlign={"left"}
 					textAlignMobile={"left"}
 					className={"layout-element__component layout-element__component--GridTextBox"}
@@ -320,7 +320,7 @@ export default function Section1() {
 			>
 				<GridTextBox
 					id={"z63dZ7"}
-					content={"<h3 dir=\"auto\" style=\"color: rgb(250, 246, 240); --lineHeightMobile: 1.3; --lineHeightDesktop: 1.3; --fontSizeMobile: 14px; --fontSizeDesktop: 14px;\">Ceremonies across the UAE..</h3>"}
+					content={"<h3 dir=\"auto\" style=\"color: rgb(250, 246, 240); --lineHeightMobile: 1.3; --lineHeightDesktop: 1.3; --fontSizeMobile: 16px; --fontSizeDesktop: 14px;\">Ceremonies across the UAE..</h3>"}
 					textAlign={"left"}
 					textAlignMobile={"left"}
 					className={"layout-element__component layout-element__component--GridTextBox"}
@@ -345,7 +345,7 @@ export default function Section1() {
 			>
 				<GridTextBox
 					id={"zLkrb-"}
-					content={"<h3 dir=\"auto\" style=\"color: rgb(250, 246, 240); --lineHeightMobile: 1.3; --lineHeightDesktop: 1.3; --fontSizeMobile: 14px; --fontSizeDesktop: 14px;\">Available 24/7 on call..</h3>"}
+					content={"<h3 dir=\"auto\" style=\"color: rgb(250, 246, 240); --lineHeightMobile: 1.3; --lineHeightDesktop: 1.3; --fontSizeMobile: 16px; --fontSizeDesktop: 14px;\">Available 24/7 on call..</h3>"}
 					textAlign={"left"}
 					textAlignMobile={"left"}
 					className={"layout-element__component layout-element__component--GridTextBox"}
@@ -355,24 +355,27 @@ export default function Section1() {
 				elementId={"zbZkp-"}
 				className={"layout-element layout-element--layout transition transition--slide"}
 				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
+					"--text": "center",
+					"--align": "center",
+					"--justify": "center",
+					"--m-text": "center",
+					"--m-align": "center",
+					"--m-justify": "center",
 					"--m-element-margin": "0 0 16px 0",
 					"--z-index": 13,
 					"--grid-row": "2/3",
-					"--grid-column": "17/18",
+					"--grid-column": "1/30",
 					"--m-grid-row": "2/3",
-					"--m-grid-column": "10/12"
+					"--m-grid-column": "1/19"
 				}}
 				hasRotationFrame={false}
 				hasEntranceAnimation={true}
 			>
 				<GridTextBox
 					id={"zbZkp-"}
-					content={"<h3 dir=\"auto\" style=\"color: rgb(255, 255, 255); --lineHeightMobile: 1.3; --fontSizeMobile: 14px;\"><span style=\"color: rgb(229, 179, 97);\">ॐ</span> </h3>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
+					content={"<h3 dir=\"auto\" style=\"color: rgb(255, 255, 255); --lineHeightMobile: 1.3; --fontSizeMobile: 26px; --fontSizeDesktop: 32px; font-size: clamp(24px, 5vw, 32px); text-align: center;\"><span style=\"color: rgb(229, 179, 97);\">ॐ</span></h3>"}
+					textAlign={"center"}
+					textAlignMobile={"center"}
 					className={"layout-element__component layout-element__component--GridTextBox"}
 				/>
 			</LayoutElement>
@@ -380,24 +383,24 @@ export default function Section1() {
 				elementId={"z0NLBH"}
 				className={"layout-element layout-element--layout transition transition--rise"}
 				style={{
-					"--text": "left",
-					"--align": "flex-start",
+					"--text": "center",
+					"--align": "center",
 					"--m-text": "center",
-					"--justify": "flex-start",
+					"--justify": "center",
 					"--m-element-margin": "0 0 16px 0",
 					"--z-index": 14,
 					"--grid-row": "4/5",
-					"--grid-column": "14/20",
+					"--grid-column": "1/30",
 					"--m-grid-row": "3/4",
-					"--m-grid-column": "1/17"
+					"--m-grid-column": "1/19"
 				}}
 				hasRotationFrame={false}
 				hasEntranceAnimation={true}
 			>
 				<GridTextBox
 					id={"z0NLBH"}
-					content={"<p dir=\"auto\" class=\"body\" style=\"color: rgb(217, 119, 36); --lineHeightMobile: 1.3; --fontSizeMobile: 14px;\"><span style=\"font-weight: 700;\"><strong>वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ।</strong></span></p><p dir=\"auto\" class=\"body\" style=\"color: rgb(217, 119, 36); --lineHeightMobile: 1.3; --fontSizeMobile: 14px;\"><span style=\"font-weight: 700;\"><strong>निर्विघ्नं कुरु मे देव शुभकार्येषु सर्वदा॥</strong></span></p>"}
-					textAlign={"left"}
+					content={"<p dir=\"auto\" class=\"body\" style=\"color: rgb(217, 119, 36); --lineHeightMobile: 1.45; --fontSizeMobile: 17px; --fontSizeDesktop: 20px; font-size: clamp(16px, 4.2vw, 20px); line-height: 1.45; text-align: center; margin-bottom: 4px;\"><span style=\"font-weight: 700;\"><strong>वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ।</strong></span></p><p dir=\"auto\" class=\"body\" style=\"color: rgb(217, 119, 36); --lineHeightMobile: 1.45; --fontSizeMobile: 17px; --fontSizeDesktop: 20px; font-size: clamp(16px, 4.2vw, 20px); line-height: 1.45; text-align: center; margin-bottom: 0;\"><span style=\"font-weight: 700;\"><strong>निर्विघ्नं कुरु मे देव शुभकार्येषु सर्वदा॥</strong></span></p>"}
+					textAlign={"center"}
 					textAlignMobile={"center"}
 					className={"layout-element__component layout-element__component--GridTextBox"}
 				/>

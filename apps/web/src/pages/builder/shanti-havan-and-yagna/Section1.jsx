@@ -170,19 +170,19 @@ export default function Section1() {
 					"--justify": "flex-start",
 					"--m-element-margin": "0 0 16px 0",
 					"--z-index": 7,
-					"--grid-row": "13/15",
-					"--grid-column": "10/20",
+					"--grid-row": "13/14",
+					"--grid-column": "4/24",
 					"--m-grid-row": "15/16",
-					"--m-grid-column": "3/14"
+					"--m-grid-column": "2/14"
 				}}
 				hasRotationFrame={false}
 				hasEntranceAnimation={true}
 			>
 				<GridTextBox
 					id={"zS7Rg0"}
-					content={"<h2 dir=\"auto\" style=\"color: rgb(44, 24, 16); letter-spacing: normal; margin-bottom: 40px;\">Benefits Of Havan</h2>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
+					content={"<h2 dir=\"auto\" style=\"color: rgb(44, 24, 16); letter-spacing: normal; text-align: center; margin-bottom: 20px;\">Benefits Of Havan</h2>"}
+					textAlign={"center"}
+					textAlignMobile={"center"}
 					className={"layout-element__component layout-element__component--GridTextBox"}
 				/>
 			</LayoutElement>

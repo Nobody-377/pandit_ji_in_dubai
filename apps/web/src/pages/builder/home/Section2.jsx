@@ -51,7 +51,7 @@ export default function Section2() {
 					content={"ॐ Griha Pravesh ॐ • ॐ Wedding Ceremonies ॐ • ॐ Griha Shanti Havan ॐ Yagna ॐ • ॐ "}
 					fontColor={"rgb(242, 115, 3)"}
 					fontSize={32}
-					mobileFontSize={15}
+					mobileFontSize={20}
 					fontFamily={"Quicksand"}
 					fontWeight={300}
 					backgroundColor={"rgba(0, 0, 0, 0)"}

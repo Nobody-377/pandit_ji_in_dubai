@@ -253,7 +253,7 @@ export default function Section1() {
 			>
 				<GridTextBox
 					id={"h8zUqQ"}
-					content={"<div style=\"padding: 16px 22px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; height: 100%;\"><h6 dir=\"auto\" style=\"color: rgb(229, 179, 97); margin: 0 0 8px 0; font-size: 18px; font-weight: 600; letter-spacing: 0.3px;\">Address</h6><p dir=\"auto\" class=\"body\" style=\"color: rgb(250, 246, 240); margin: 0; font-size: 15px; line-height: 1.4;\">Meena Bazaar, Bur Dubai - Al Souq Al Kabeer, Dubai</p></div>"}
+					content={"<div style=\"padding: 16px 22px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; height: 100%;\"><h6 dir=\"auto\" style=\"color: rgb(229, 179, 97); margin: 0 0 8px 0; font-size: 19px; font-weight: 600; letter-spacing: 0.3px;\">Address</h6><p dir=\"auto\" class=\"body\" style=\"color: rgb(250, 246, 240); margin: 0; font-size: 16.5px; line-height: 1.5;\">Meena Bazaar, Bur Dubai - Al Souq Al Kabeer, Dubai</p></div>"}
 					textAlign={"left"}
 					textAlignMobile={"left"}
 					className={"layout-element__component layout-element__component--GridTextBox"}
@@ -275,7 +275,7 @@ export default function Section1() {
 			>
 				<GridTextBox
 					id={"9FqdQS"}
-					content={"<div style=\"padding: 16px 22px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; height: 100%;\"><h6 dir=\"auto\" style=\"color: rgb(229, 179, 97); margin: 0 0 8px 0; font-size: 18px; font-weight: 600; letter-spacing: 0.3px;\">Call Us</h6><p dir=\"auto\" class=\"body\" style=\"color: rgb(250, 246, 240); margin: 0; font-size: 15px; line-height: 1.4;\"><a href=\"tel:+971504192987\" style=\"color: rgb(250, 246, 240); text-decoration: none;\">+971 50 419 2987</a></p></div>"}
+					content={"<div style=\"padding: 16px 22px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; height: 100%;\"><h6 dir=\"auto\" style=\"color: rgb(229, 179, 97); margin: 0 0 8px 0; font-size: 19px; font-weight: 600; letter-spacing: 0.3px;\">Call Us</h6><p dir=\"auto\" class=\"body\" style=\"color: rgb(250, 246, 240); margin: 0; font-size: 16.5px; line-height: 1.5;\"><a href=\"tel:+971504192987\" style=\"color: rgb(250, 246, 240); text-decoration: none;\">+971 50 419 2987</a></p></div>"}
 					textAlign={"left"}
 					textAlignMobile={"left"}
 					className={"layout-element__component layout-element__component--GridTextBox"}
@@ -297,7 +297,7 @@ export default function Section1() {
 			>
 				<GridTextBox
 					id={"7DhoJt"}
-					content={"<div style=\"padding: 16px 22px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; height: 100%;\"><h6 dir=\"auto\" style=\"color: rgb(229, 179, 97); margin: 0 0 8px 0; font-size: 18px; font-weight: 600; letter-spacing: 0.3px;\">Email</h6><p dir=\"auto\" class=\"body\" style=\"color: rgb(250, 246, 240); margin: 0; font-size: 15px; line-height: 1.4;\"><a href=\"mailto:Vishaldevmorari487@gmail.com\" style=\"color: rgb(250, 246, 240); text-decoration: none;\">Vishaldevmorari487@gmail.com</a></p></div>"}
+					content={"<div style=\"padding: 16px 22px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; height: 100%;\"><h6 dir=\"auto\" style=\"color: rgb(229, 179, 97); margin: 0 0 8px 0; font-size: 19px; font-weight: 600; letter-spacing: 0.3px;\">Email</h6><p dir=\"auto\" class=\"body\" style=\"color: rgb(250, 246, 240); margin: 0; font-size: 16.5px; line-height: 1.5;\"><a href=\"mailto:Vishaldevmorari487@gmail.com\" style=\"color: rgb(250, 246, 240); text-decoration: none;\">Vishaldevmorari487@gmail.com</a></p></div>"}
 					textAlign={"left"}
 					textAlignMobile={"left"}
 					className={"layout-element__component layout-element__component--GridTextBox"}

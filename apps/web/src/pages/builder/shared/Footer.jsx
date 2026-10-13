@@ -110,7 +110,7 @@ export default function Footer() {
 					"--m-text": "center",
 					"--z-index": 2,
 					"--grid-row": "5/6",
-					"--grid-column": "3/10",
+					"--grid-column": "2/10",
 					"--m-grid-row": "9/11",
 					"--m-grid-column": "1/8"
 				}}
@@ -133,17 +133,17 @@ export default function Footer() {
 					"--text": "left",
 					"--m-text": "center",
 					"--z-index": 5,
-					"--grid-row": "8/10",
-					"--grid-column": "5/9",
+					"--grid-row": "7/9",
+					"--grid-column": "2/10",
 					"--m-grid-row": "12/14",
-					"--m-grid-column": "4/7"
+					"--m-grid-column": "1/8"
 				}}
 				hasRotationFrame={false}
 				hasEntranceAnimation={true}
 			>
 				<GridTextBox
 					id={"zvvbSF"}
-					content={"<p dir=\"auto\" class=\"body-small\" style=\"color: rgb(247, 239, 229); margin-bottom: 12px;\">Meena Bazaar,BUR Dubai-AL Souq AL Kabeer ,Dubai</p>"}
+					content={"<p dir=\"auto\" class=\"body-small\" style=\"color: rgb(247, 239, 229); margin-bottom: 12px;\">ADDRESS:-   Meena Bazaar, BUR Dubai - AL Souq AL Kabeer, Dubai</p>"}
 					textAlign={"left"}
 					textAlignMobile={"center"}
 					className={"layout-element__component layout-element__component--GridTextBox"}
@@ -157,9 +157,9 @@ export default function Footer() {
 					"--m-text": "center",
 					"--z-index": 7,
 					"--grid-row": "4/5",
-					"--grid-column": "4/8",
+					"--grid-column": "2/10",
 					"--m-grid-row": "8/10",
-					"--m-grid-column": "2/5"
+					"--m-grid-column": "1/8"
 				}}
 				hasRotationFrame={false}
 				hasEntranceAnimation={true}
@@ -167,29 +167,6 @@ export default function Footer() {
 				<GridTextBox
 					id={"z26k0Y"}
 					content={"<p dir=\"auto\" class=\"body-small\" style=\"color: rgb(247, 239, 229); margin-bottom: 12px;\">PHONE NO:-   +971 50 419 2987</p>"}
-					textAlign={"left"}
-					textAlignMobile={"center"}
-					className={"layout-element__component layout-element__component--GridTextBox"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"zK5o3j"}
-				className={"layout-element layout-element--layout transition transition--slide"}
-				style={{
-					"--text": "left",
-					"--m-text": "center",
-					"--z-index": 8,
-					"--grid-row": "7/9",
-					"--grid-column": "2/6",
-					"--m-grid-row": "12/13",
-					"--m-grid-column": "1/4"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridTextBox
-					id={"zK5o3j"}
-					content={"<p dir=\"auto\" class=\"body\" style=\"color: rgb(255, 255, 255);\">ADDRESS:-</p>"}
 					textAlign={"left"}
 					textAlignMobile={"center"}
 					className={"layout-element__component layout-element__component--GridTextBox"}

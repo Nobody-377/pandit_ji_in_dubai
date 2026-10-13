@@ -454,6 +454,58 @@
 	cursor: pointer;
 	border-radius: 100px;
 	box-shadow: rgb(0 0 0 / 15%) 0 4px 12px 0;
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.phone-bubble {
+	position: fixed;
+	right: 20px;
+	bottom: 98px;
+	z-index: 19;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	border-radius: 100px;
+	box-shadow: rgb(0 0 0 / 15%) 0 4px 12px 0;
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.whats-app-bubble:hover,
+.phone-bubble:hover {
+	transform: scale(1.06);
+	box-shadow: rgb(0 0 0 / 25%) 0 6px 18px 0;
+}
+
+.phone-bubble__tooltip {
+	position: absolute;
+	right: calc(100% + 12px);
+	top: 50%;
+	transform: translateY(-50%);
+	background: #2B1A14;
+	color: #FAF6F0;
+	padding: 6px 14px;
+	border-radius: 20px;
+	font-family: var(--font-primary, inherit);
+	font-size: 14px;
+	font-weight: 600;
+	letter-spacing: 0.3px;
+	white-space: nowrap;
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.phone-bubble:hover .phone-bubble__tooltip {
+	opacity: 1;
+	transform: translateY(-50%) translateX(-2px);
+}
+
+@media (max-width: 768px) {
+	.phone-bubble__tooltip {
+		display: none;
+	}
 }
 
 .block-navigation {
@@ -1157,6 +1209,32 @@
 	color: var(--grid-button-primary-color-hover, var(--grid-button-primary-color, #fff));
 	background: var(--grid-button-primary-background-color-hover, var(--grid-button-primary-background-color, #000));
 	border-color: var(--grid-button-primary-border-color-hover, var(--grid-button-primary-border-color, transparent));
+}
+
+@media screen and (max-width: 920px) {
+	.grid-form__input {
+		font-size: 16px;
+	}
+
+	.grid-form__label {
+		font-size: 15.5px;
+	}
+
+	.grid-form__submit {
+		font-size: max(var(--submit-font-size, 0px), 16px);
+	}
+
+	.grid-reach-form {
+		font-size: var(--body-m-font-size, 17px);
+	}
+
+	.grid-reach-form__input {
+		font-size: 16px;
+	}
+
+	.grid-reach-form__submit {
+		font-size: max(var(--grid-button-primary-m-font-size, 0px), 16px);
+	}
 }
 
 .block-product-list--with-categories .block-product-list__wrapper {
@@ -2392,7 +2470,7 @@
 	}
 
 	.block-navigation__link {
-		font-size: var(--nav-link-m-font-size, var(--nav-link-font-size, 16px));
+		font-size: max(var(--nav-link-m-font-size, 0px), 17px);
 	}
 
 	.block-navigation__dropdown-area {
@@ -2643,4 +2721,133 @@
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 12px;
+}
+
+@media screen and (max-width: 920px) {
+	.ecommerce-cart__meta,
+	.ecommerce-cart__variant,
+	.ecommerce-cart__custom-field {
+		font-size: 14.5px;
+	}
+
+	.product-list__total-count,
+	.product-list-sorting__label,
+	.block-product-list__rating,
+	.block-product__booking-option,
+	.block-product__booking-status {
+		font-size: 15.5px;
+	}
+
+	.block-product__booking-timezone {
+		font-size: 14px;
+	}
+}
+
+.griha-pravesh-benefits-card {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 16px;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	min-height: 104px;
+	padding: 24px 20px;
+	background: rgb(250, 246, 240);
+	border: 1px solid rgb(0, 0, 0);
+	border-radius: 12px;
+	box-sizing: border-box;
+}
+
+.griha-pravesh-benefits-card__item {
+	text-align: center;
+	color: rgb(140, 43, 29);
+	font-weight: 600;
+	font-size: 17px;
+	line-height: 1.35;
+	margin: 0;
+}
+
+@media screen and (max-width: 920px) {
+	.griha-pravesh-benefits-card {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 18px 12px;
+		padding: 20px 16px;
+	}
+
+	.griha-pravesh-benefits-card__item {
+		font-size: 15.5px;
+	}
+}
+
+@media screen and (max-width: 420px) {
+	.griha-pravesh-benefits-card__item {
+		font-size: 14.5px;
+	}
+}
+
+.shastri-badge {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 12px 24px;
+	background: #ffffff;
+	border: 1px solid rgba(229, 179, 97, 0.45);
+	border-radius: 12px;
+	box-shadow: 0 6px 22px rgba(43, 26, 20, 0.12);
+	box-sizing: border-box;
+	text-align: center;
+	width: fit-content;
+	margin: 0 auto;
+}
+
+.shastri-badge__name {
+	font-family: var(--h3-font-family, 'Marcellus', serif);
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 1.3;
+	color: rgb(43, 26, 20);
+	margin-bottom: 4px;
+	white-space: nowrap;
+}
+
+.shastri-badge__degree {
+	font-family: 'Mukta', sans-serif;
+	font-size: 14.5px;
+	font-weight: 500;
+	line-height: 1.3;
+	color: rgb(140, 43, 29);
+	letter-spacing: 0.5px;
+	white-space: nowrap;
+	margin: 0;
+}
+
+@media screen and (max-width: 920px) {
+	.shastri-badge {
+		padding: 12px 20px;
+		min-width: 230px;
+	}
+
+	.shastri-badge__name {
+		font-size: 17px;
+	}
+
+	.shastri-badge__degree {
+		font-size: 14px;
+	}
+}
+
+@media screen and (max-width: 360px) {
+	.shastri-badge {
+		padding: 10px 14px;
+		min-width: 200px;
+	}
+
+	.shastri-badge__name {
+		font-size: 15.5px;
+	}
+
+	.shastri-badge__degree {
+		font-size: 13px;
+	}
 }

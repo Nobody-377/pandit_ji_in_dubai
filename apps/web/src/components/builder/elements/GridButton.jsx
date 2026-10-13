@@ -4,6 +4,7 @@ import SmartLink from '../SmartLink.jsx';
 export default function GridButton({
 	id,
 	text = '',
+	children,
 	type = 'primary',
 	href = '#',
 	target = '_self',
@@ -54,7 +55,7 @@ export default function GridButton({
 	const className = [
 		'grid-button',
 		`grid-button--${type}`,
-		!text ? 'grid-button--empty' : '',
+		(!text && !children) ? 'grid-button--empty' : '',
 		isLoading ? 'loading' : '',
 	].filter(Boolean).join(' ');
 
@@ -71,7 +72,7 @@ export default function GridButton({
 	if (Tag === 'button') {
 		return (
 			<button type={buttonType} {...sharedProps}>
-				{text}
+				{children || text}
 			</button>
 		);
 	}
@@ -83,7 +84,7 @@ export default function GridButton({
 			target={target}
 			rel={rel}
 		>
-			{text}
+			{children || text}
 		</SmartLink>
 	);
 }

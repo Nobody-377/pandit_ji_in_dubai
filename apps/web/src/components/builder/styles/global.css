@@ -149,17 +149,26 @@ a {
 }
 
 @media screen and (max-width: 920px) {
+	:root {
+		--body-m-font-size: 17px;
+		--body-small-m-font-size: 15.5px;
+		--body-large-m-font-size: 19px;
+		--nav-link-m-font-size: 17px;
+		--grid-button-primary-m-font-size: 16px;
+		--grid-button-secondary-m-font-size: 16px;
+	}
+
 	body {
 		font-family: var(--body-m-font-family, var(--body-font-family, system-ui, sans-serif));
-		font-size: var(--body-m-font-size, var(--body-font-size, 16px));
+		font-size: var(--body-m-font-size, 17px);
 		font-weight: var(--body-m-font-weight, var(--body-font-weight, 400));
-		line-height: var(--body-m-line-height, var(--body-line-height, 1.5));
+		line-height: var(--body-m-line-height, var(--body-line-height, 1.55));
 		color: var(--body-m-color, var(--body-color, #1d1e20));
 	}
 
 	.page h1 {
 		font-family: var(--h1-m-font-family, var(--h1-font-family));
-		font-size: var(--h1-m-font-size, var(--h1-font-size));
+		font-size: max(var(--h1-m-font-size, var(--h1-font-size, 28px)), 28px);
 		font-weight: var(--h1-m-font-weight, var(--h1-font-weight));
 		line-height: var(--h1-m-line-height, var(--h1-line-height));
 		color: var(--h1-m-color, var(--h1-color, inherit));
@@ -167,7 +176,7 @@ a {
 
 	.page h2 {
 		font-family: var(--h2-m-font-family, var(--h2-font-family));
-		font-size: var(--h2-m-font-size, var(--h2-font-size));
+		font-size: max(var(--h2-m-font-size, var(--h2-font-size, 24px)), 24px);
 		font-weight: var(--h2-m-font-weight, var(--h2-font-weight));
 		line-height: var(--h2-m-line-height, var(--h2-line-height));
 		color: var(--h2-m-color, var(--h2-color, inherit));
@@ -175,7 +184,7 @@ a {
 
 	.page h3 {
 		font-family: var(--h3-m-font-family, var(--h3-font-family));
-		font-size: var(--h3-m-font-size, var(--h3-font-size));
+		font-size: max(var(--h3-m-font-size, var(--h3-font-size, 20px)), 20px);
 		font-weight: var(--h3-m-font-weight, var(--h3-font-weight));
 		line-height: var(--h3-m-line-height, var(--h3-line-height));
 		color: var(--h3-m-color, var(--h3-color, inherit));
@@ -183,7 +192,7 @@ a {
 
 	.page h4 {
 		font-family: var(--h4-m-font-family, var(--h4-font-family));
-		font-size: var(--h4-m-font-size, var(--h4-font-size));
+		font-size: max(var(--h4-m-font-size, var(--h4-font-size, 18px)), 18px);
 		font-weight: var(--h4-m-font-weight, var(--h4-font-weight));
 		line-height: var(--h4-m-line-height, var(--h4-line-height));
 		color: var(--h4-m-color, var(--h4-color, inherit));
@@ -191,7 +200,7 @@ a {
 
 	.page h5 {
 		font-family: var(--h5-m-font-family, var(--h5-font-family));
-		font-size: var(--h5-m-font-size, var(--h5-font-size));
+		font-size: max(var(--h5-m-font-size, var(--h5-font-size, 17px)), 17px);
 		font-weight: var(--h5-m-font-weight, var(--h5-font-weight));
 		line-height: var(--h5-m-line-height, var(--h5-line-height));
 		color: var(--h5-m-color, var(--h5-color, inherit));
@@ -199,7 +208,7 @@ a {
 
 	.page h6 {
 		font-family: var(--h6-m-font-family, var(--h6-font-family));
-		font-size: var(--h6-m-font-size, var(--h6-font-size));
+		font-size: max(var(--h6-m-font-size, var(--h6-font-size, 16px)), 16px);
 		font-weight: var(--h6-m-font-weight, var(--h6-font-weight));
 		line-height: var(--h6-m-line-height, var(--h6-line-height));
 		color: var(--h6-m-color, var(--h6-color, inherit));

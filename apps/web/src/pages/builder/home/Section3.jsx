@@ -127,75 +127,22 @@ export default function Section3() {
 				elementId={"z3VT1L"}
 				className={"layout-element layout-element--layout transition transition--slide"}
 				style={{
-					"--z-index": 4,
-					"--grid-row": "4/10",
-					"--grid-column": "2/6",
-					"--m-grid-row": "3/8",
-					"--m-grid-column": "2/7"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridCard
-					id={"z3VT1L"}
-					background={"rgb(255, 255, 255)"}
-					border={"1px solid rgb(250, 246, 240)"}
-					borderRadius={"12px"}
-					boxShadow={"none"}
-					opacity={"1"}
-					height={"80px"}
-					className={"layout-element__component layout-element__component--GridCard"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"zZvAgo"}
-				className={"layout-element layout-element--layout transition transition--slide"}
-				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
-					"--m-element-margin": "0 0 16px 0",
 					"--z-index": 5,
-					"--grid-row": "6/7",
-					"--grid-column": "3/8",
-					"--m-grid-row": "4/6",
-					"--m-grid-column": "3/6"
+					"--text": "center",
+					"--align": "center",
+					"--justify": "center",
+					"--grid-row": "7/10",
+					"--grid-column": "2/6",
+					"--m-grid-row": "3/7",
+					"--m-grid-column": "1/8"
 				}}
 				hasRotationFrame={false}
 				hasEntranceAnimation={true}
 			>
-				<GridTextBox
-					id={"zZvAgo"}
-					content={"<h3 dir=\"auto\" style=\"color: rgb(26, 26, 26); --lineHeightMobile: 1.3; --lineHeightDesktop: 1.3; --fontSizeMobile: 14px; --fontSizeDesktop: 16px;\">Shastri Shree Vishal Bhai</h3>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
-					className={"layout-element__component layout-element__component--GridTextBox"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"z72SPT"}
-				className={"layout-element layout-element--layout transition transition--slide"}
-				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 6,
-					"--grid-row": "7/9",
-					"--grid-column": "4/10",
-					"--m-grid-row": "6/7",
-					"--m-grid-column": "4/5"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridTextBox
-					id={"z72SPT"}
-					content={"<h3 dir=\"auto\" style=\"color: rgb(26, 26, 26); --lineHeightMobile: 1.3; --lineHeightDesktop: 1.3; --fontSizeMobile: 14px; --fontSizeDesktop: 14px;\"><span style=\"font-family: Mukta; font-weight: 300;\">B.A./M.A. In Astrology</span></h3>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
-					className={"layout-element__component layout-element__component--GridTextBox"}
-				/>
+				<div className="shastri-badge" data-element-id="z3VT1L">
+					<div className="shastri-badge__name">Shastri Shree Vishal Bhai</div>
+					<div className="shastri-badge__degree">B.A. / M.A. In Astrology</div>
+				</div>
 			</LayoutElement>
 		</BlockLayout>
 	);
