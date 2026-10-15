@@ -14,14 +14,15 @@ export default function Section1() {
 			blockClassName={"block block--desktop-first-visible block--mobile-first-visible"}
 			className={"block-layout block-layout--layout"}
 			style={{
+				paddingBottom: "36px",
 				"--block-padding-top": "16px",
 				"--block-padding": "16px 0 16px 0",
 				"--block-padding-right": "0",
-				"--block-padding-bottom": "16px",
+				"--block-padding-bottom": "48px",
 				"--block-padding-left": "0",
-				"--m-block-padding": "16px",
-				"--m-grid-template-rows": "6.67vw auto 7.50vw auto auto 5.56vw auto 3.89vw auto 11.11vw auto 1.94vw auto 25.00vw auto 2.50vw 1.67vw 9.44vw auto 28.89vw 7.50vw auto 1.11vw 51px",
-				"--t-grid-template-rows": "minmax(24px, auto) minmax(23px, auto) minmax(27px, auto) minmax(150px, auto) minmax(156px, auto) minmax(20px, auto) minmax(50px, auto) minmax(14px, auto) minmax(280px, auto) minmax(40px, auto) minmax(106px, auto) minmax(7px, auto) minmax(263px, auto) minmax(90px, auto) minmax(85px, auto) minmax(9px, auto) minmax(6px, auto) minmax(34px, auto) minmax(16px, auto) minmax(104px, auto) minmax(27px, auto) minmax(23px, auto) minmax(4px, auto) 1fr",
+				"--m-block-padding": "16px 16px 48px 16px",
+				"--m-grid-template-rows": "6.67vw auto 7.50vw auto auto 5.56vw auto 3.89vw auto 11.11vw auto 1.94vw auto 25.00vw auto 2.50vw 4.50vw 9.44vw auto 28.89vw 7.50vw auto 8.50vw 50px",
+				"--t-grid-template-rows": "minmax(24px, auto) minmax(23px, auto) minmax(27px, auto) minmax(150px, auto) minmax(156px, auto) minmax(20px, auto) minmax(50px, auto) minmax(14px, auto) minmax(280px, auto) minmax(40px, auto) minmax(106px, auto) minmax(7px, auto) minmax(263px, auto) minmax(90px, auto) minmax(85px, auto) minmax(9px, auto) minmax(6px, auto) minmax(34px, auto) minmax(16px, auto) minmax(104px, auto) minmax(27px, auto) minmax(23px, auto) minmax(4px, auto) 50px",
 				"--small-desktop-grid-template-rows": "minmax(5.23vw, auto) minmax(2.04vw, auto) minmax(1.23vw, auto) minmax(24.26vw, auto) minmax(1.88vw, auto) minmax(3.19vw, auto) minmax(5.80vw, auto) minmax(4.08vw, auto) minmax(3.27vw, auto) minmax(11.11vw, auto) minmax(0.49vw, auto) minmax(10.95vw, auto) minmax(7.92vw, auto) minmax(0.25vw, auto) minmax(1.96vw, auto) minmax(2.04vw, auto) minmax(4.25vw, auto) minmax(4.82vw, auto) minmax(26.14vw, auto) 17.89vw",
 				"--grid-template-rows": "minmax(64px, auto) minmax(25px, auto) minmax(15px, auto) minmax(297px, auto) minmax(23px, auto) minmax(39px, auto) minmax(71px, auto) minmax(50px, auto) minmax(40px, auto) minmax(136px, auto) minmax(6px, auto) minmax(134px, auto) minmax(97px, auto) minmax(3px, auto) minmax(24px, auto) minmax(25px, auto) minmax(52px, auto) minmax(59px, auto) minmax(320px, auto) 1fr",
 				"--m-grid-template-columns": "2.74% 1.52% 17.38% 5.18% 2.13% 6.40% 37.50% 1.83% 0.61% 0.61% 16.16% 3.35% 0.30% 4.27%",
@@ -302,11 +303,11 @@ export default function Section1() {
 				<GridCard
 					id={"zwi6GR"}
 					background={"rgb(255, 255, 255)"}
-					border={"1px solid rgb(0, 0, 0)"}
+					border={"none"}
 					borderRadius={"12px"}
 					boxShadow={"none"}
 					opacity={"1"}
-					height={"104px"}
+					height={"100%"}
 					className={"layout-element__component layout-element__component--GridCard"}
 				/>
 			</LayoutElement>

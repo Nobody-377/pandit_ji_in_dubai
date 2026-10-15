@@ -295,7 +295,7 @@ export default function Section1() {
 			>
 				<GridTextBox
 					id={"zULVDx"}
-					content={"<h3 dir=\"auto\" style=\"color: rgb(250, 246, 240); --lineHeightMobile: 1.3; --lineHeightDesktop: 1.3; --fontSizeMobile: 16px; --fontSizeDesktop: 14px;\">Years Performing Vedic rituals..</h3>"}
+					content={"<h3 dir=\"auto\" style=\"color: rgb(250, 246, 240); --lineHeightMobile: 1.3; --lineHeightDesktop: 1.3; --fontSizeMobile: 14px; --fontSizeDesktop: 14px;\">Years Performing Vedic rituals..</h3>"}
 					textAlign={"left"}
 					textAlignMobile={"left"}
 					className={"layout-element__component layout-element__component--GridTextBox"}
@@ -320,7 +320,7 @@ export default function Section1() {
 			>
 				<GridTextBox
 					id={"z63dZ7"}
-					content={"<h3 dir=\"auto\" style=\"color: rgb(250, 246, 240); --lineHeightMobile: 1.3; --lineHeightDesktop: 1.3; --fontSizeMobile: 16px; --fontSizeDesktop: 14px;\">Ceremonies across the UAE..</h3>"}
+					content={"<h3 dir=\"auto\" style=\"color: rgb(250, 246, 240); --lineHeightMobile: 1.3; --lineHeightDesktop: 1.3; --fontSizeMobile: 14px; --fontSizeDesktop: 14px;\">Ceremonies across the UAE..</h3>"}
 					textAlign={"left"}
 					textAlignMobile={"left"}
 					className={"layout-element__component layout-element__component--GridTextBox"}
@@ -345,7 +345,7 @@ export default function Section1() {
 			>
 				<GridTextBox
 					id={"zLkrb-"}
-					content={"<h3 dir=\"auto\" style=\"color: rgb(250, 246, 240); --lineHeightMobile: 1.3; --lineHeightDesktop: 1.3; --fontSizeMobile: 16px; --fontSizeDesktop: 14px;\">Available 24/7 on call..</h3>"}
+					content={"<h3 dir=\"auto\" style=\"color: rgb(250, 246, 240); --lineHeightMobile: 1.3; --lineHeightDesktop: 1.3; --fontSizeMobile: 14px; --fontSizeDesktop: 14px;\">Available 24/7 on call..</h3>"}
 					textAlign={"left"}
 					textAlignMobile={"left"}
 					className={"layout-element__component layout-element__component--GridTextBox"}

@@ -113,48 +113,48 @@
 	}
 
 	.page .text-box h1 {
-		font-size: max(var(--fontSizeMobile, 0px), var(--h1-m-font-size, var(--h1-font-size, 28px)), 28px);
+		font-size: var(--fontSizeMobile, var(--h1-m-font-size, var(--h1-font-size, 28px)));
 		line-height: var(--lineHeightMobile, var(--h1-line-height, 1.25));
 	}
 
 	.page .text-box h2 {
-		font-size: max(var(--fontSizeMobile, 0px), var(--h2-m-font-size, var(--h2-font-size, 24px)), 24px);
+		font-size: var(--fontSizeMobile, var(--h2-m-font-size, var(--h2-font-size, 24px)));
 		line-height: var(--lineHeightMobile, var(--h2-line-height, 1.25));
 	}
 
 	.page .text-box h3 {
-		font-size: max(var(--fontSizeMobile, 0px), var(--h3-m-font-size, var(--h3-font-size, 20px)), 18px);
+		font-size: var(--fontSizeMobile, var(--h3-m-font-size, var(--h3-font-size, 20px)));
 		line-height: var(--lineHeightMobile, var(--h3-line-height, 1.3));
 	}
 
 	.page .text-box h4 {
-		font-size: max(var(--fontSizeMobile, 0px), var(--h4-m-font-size, var(--h4-font-size, 18px)), 18px);
+		font-size: var(--fontSizeMobile, var(--h4-m-font-size, var(--h4-font-size, 18px)));
 		line-height: var(--lineHeightMobile, var(--h4-line-height, 1.3));
 	}
 
 	.page .text-box h5 {
-		font-size: max(var(--fontSizeMobile, 0px), var(--h5-m-font-size, var(--h5-font-size, 17px)), 17px);
+		font-size: var(--fontSizeMobile, var(--h5-m-font-size, var(--h5-font-size, 17px)));
 		line-height: var(--lineHeightMobile, var(--h5-line-height, 1.3));
 	}
 
 	.page .text-box h6 {
-		font-size: max(var(--fontSizeMobile, 0px), var(--h6-m-font-size, var(--h6-font-size, 16px)), 16px);
+		font-size: var(--fontSizeMobile, var(--h6-m-font-size, var(--h6-font-size, 16px)));
 		line-height: var(--lineHeightMobile, var(--h6-line-height, 1.3));
 	}
 
 	.page .text-box .body-large {
-		font-size: max(var(--fontSizeMobile, 0px), var(--body-large-m-font-size, 19px));
+		font-size: var(--fontSizeMobile, var(--body-large-m-font-size, 19px));
 		line-height: var(--lineHeightMobile, var(--body-large-line-height, 1.55));
 	}
 
 	.page .text-box .body,
 	.page .text-box p:not(.body-small):not(.body-large) {
-		font-size: max(var(--fontSizeMobile, 0px), var(--body-m-font-size, 17px));
+		font-size: var(--fontSizeMobile, var(--body-m-font-size, 17px));
 		line-height: var(--lineHeightMobile, var(--body-line-height, 1.55));
 	}
 
 	.page .text-box .body-small {
-		font-size: max(var(--fontSizeMobile, 0px), var(--body-small-m-font-size, 15.5px));
+		font-size: var(--fontSizeMobile, var(--body-small-m-font-size, 15.5px));
 		line-height: var(--lineHeightMobile, var(--body-small-line-height, 1.5));
 	}
 
@@ -172,6 +172,6 @@
 	}
 
 	.page .text-box span[style*="--fontSizeMobile"] {
-		font-size: max(var(--fontSizeMobile), 15.5px);
+		font-size: var(--fontSizeMobile);
 	}
 }
