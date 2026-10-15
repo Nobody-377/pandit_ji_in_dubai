@@ -28,14 +28,14 @@ export default function Footer() {
 				"--block-padding-bottom": "16px",
 				"--block-padding-left": "0",
 				"--m-block-padding": "40px 16px 40px 16px",
-				"--m-grid-template-rows": "6.67vw 3.06vw auto 4.17vw auto auto 44.72vw 6.11vw auto auto 0.28vw auto auto 6.67vw auto 34px",
-				"--t-grid-template-rows": "minmax(24px, auto) minmax(11px, auto) minmax(189px, auto) minmax(15px, auto) minmax(1px, auto) minmax(40px, auto) minmax(161px, auto) minmax(22px, auto) minmax(11px, auto) minmax(10px, auto) minmax(1px, auto) minmax(23px, auto) minmax(31px, auto) minmax(24px, auto) minmax(21px, auto) 1fr",
+				"--m-grid-template-rows": "6.67vw 3.06vw auto 4.17vw auto auto 6.67vw 6.11vw auto auto 0.28vw auto auto 6.67vw auto 34px",
+				"--t-grid-template-rows": "minmax(24px, auto) minmax(11px, auto) minmax(52px, auto) minmax(15px, auto) minmax(1px, auto) minmax(12px, auto) minmax(20px, auto) minmax(22px, auto) minmax(11px, auto) minmax(10px, auto) minmax(1px, auto) minmax(23px, auto) minmax(31px, auto) minmax(24px, auto) minmax(21px, auto) 1fr",
 				"--small-desktop-grid-template-rows": "minmax(0.74vw, auto) minmax(0.33vw, auto) minmax(6.05vw, auto) minmax(2.70vw, auto) minmax(1.72vw, auto) minmax(0.25vw, auto) minmax(0.25vw, auto) minmax(1.72vw, auto) minmax(2.70vw, auto) minmax(5.15vw, auto) minmax(0.74vw, auto) minmax(0.33vw, auto) minmax(5.47vw, auto) minmax(1.55vw, auto) minmax(1.72vw, auto) 0.00vw",
 				"--grid-template-rows": "minmax(9px, auto) minmax(4px, auto) minmax(74px, auto) minmax(33px, auto) minmax(21px, auto) minmax(3px, auto) minmax(3px, auto) minmax(21px, auto) minmax(33px, auto) minmax(63px, auto) minmax(9px, auto) minmax(4px, auto) minmax(67px, auto) minmax(19px, auto) minmax(21px, auto) 1fr",
 				"--m-grid-template-columns": "1.83% 15.24% 11.89% 39.02% 8.54% 17.99% 5.49%",
 				"--grid-template-columns": "0.98% 0.16% 0.08% 7.19% 3.19% 7.92% 0.57% 5.80% 4.90% 40.85% 0.25% 0.98% 1.88% 20.51% 0.90% 0.25% 3.59%",
 				"--m-block-min-height": "auto",
-				"--t-block-min-height": "618px",
+				"--t-block-min-height": "auto",
 				"--small-desktop-block-min-height": "auto",
 				"--block-min-height": "384px"
 			}}

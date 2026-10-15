@@ -2,6 +2,7 @@ import React from 'react';
 
 export default function GridCard({
 	id,
+	className,
 	content,
 	background = 'rgb(255, 255, 255)',
 	border = '1px solid rgb(0, 0, 0)',
@@ -29,10 +30,12 @@ export default function GridCard({
 		boxSizing: 'border-box',
 	};
 
+	const combinedClassName = className ? `grid-card ${className}` : 'grid-card';
+
 	if (content) {
 		return (
 			<div
-				className="grid-card"
+				className={combinedClassName}
 				data-element-id={id}
 				style={style}
 				dangerouslySetInnerHTML={{ __html: content }}
@@ -42,7 +45,7 @@ export default function GridCard({
 
 	return (
 		<div
-			className="grid-card"
+			className={combinedClassName}
 			data-element-id={id}
 			style={style}
 		/>

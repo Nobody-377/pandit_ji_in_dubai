@@ -5,6 +5,7 @@ import GridTextBox from '@/components/builder/elements/GridTextBox';
 import GridButton from '@/components/builder/elements/GridButton';
 import GridImage from '@/components/builder/elements/GridImage';
 import GridCard from '@/components/builder/elements/GridCard';
+import BenefitsCard from '@/components/builder/elements/BenefitsCard';
 
 export default function Section1() {
 	return (
@@ -20,16 +21,16 @@ export default function Section1() {
 				"--block-padding-bottom": "16px",
 				"--block-padding-left": "0",
 				"--m-block-padding": "16px",
-				"--m-grid-template-rows": "6.67vw auto 4.72vw auto 2.78vw auto 5.00vw auto 3.89vw auto 8.33vw 31.67vw auto 80.28vw 8.61vw 33.33vw auto auto 1.39vw 23.33vw auto 3.06vw 71px",
-				"--t-grid-template-rows": "minmax(24px, auto) minmax(23px, auto) minmax(17px, auto) minmax(190px, auto) minmax(10px, auto) minmax(158px, auto) minmax(18px, auto) minmax(50px, auto) minmax(14px, auto) minmax(256px, auto) minmax(30px, auto) minmax(114px, auto) minmax(16px, auto) minmax(289px, auto) minmax(31px, auto) minmax(120px, auto) minmax(10px, auto) minmax(45px, auto) minmax(5px, auto) minmax(84px, auto) minmax(45px, auto) minmax(11px, auto) 1fr",
-				"--small-desktop-grid-template-rows": "minmax(6.54vw, auto) minmax(1.96vw, auto) minmax(0.08vw, auto) minmax(2.04vw, auto) minmax(24.02vw, auto) minmax(1.31vw, auto) minmax(1.55vw, auto) minmax(6.13vw, auto) minmax(4.08vw, auto) minmax(3.27vw, auto) minmax(11.03vw, auto) minmax(2.04vw, auto) minmax(10.46vw, auto) minmax(2.61vw, auto) minmax(8.17vw, auto) minmax(3.76vw, auto) minmax(0.08vw, auto) minmax(1.80vw, auto) minmax(0.08vw, auto) minmax(0.08vw, auto) minmax(3.68vw, auto) 5.56vw",
-				"--grid-template-rows": "minmax(80px, auto) minmax(24px, auto) minmax(1px, auto) minmax(25px, auto) minmax(294px, auto) minmax(16px, auto) minmax(19px, auto) minmax(75px, auto) minmax(50px, auto) minmax(40px, auto) minmax(135px, auto) minmax(25px, auto) minmax(128px, auto) minmax(32px, auto) minmax(100px, auto) minmax(46px, auto) minmax(1px, auto) minmax(22px, auto) minmax(1px, auto) minmax(1px, auto) minmax(45px, auto) 1fr",
+				"--m-grid-template-rows": "6.67vw auto 4.72vw auto 2.78vw auto 5.00vw auto 3.89vw auto 8.33vw 31.67vw auto 80.28vw 8.61vw 33.33vw 3.89vw auto 1.39vw auto 48px",
+				"--t-grid-template-rows": "minmax(24px, auto) minmax(23px, auto) minmax(17px, auto) minmax(190px, auto) minmax(10px, auto) minmax(158px, auto) minmax(18px, auto) minmax(50px, auto) minmax(14px, auto) minmax(256px, auto) minmax(30px, auto) minmax(114px, auto) minmax(16px, auto) minmax(289px, auto) minmax(31px, auto) minmax(120px, auto) minmax(16px, auto) minmax(45px, auto) minmax(5px, auto) auto minmax(48px, auto)",
+				"--small-desktop-grid-template-rows": "minmax(6.54vw, auto) minmax(1.96vw, auto) minmax(0.08vw, auto) minmax(2.04vw, auto) minmax(24.02vw, auto) minmax(1.31vw, auto) minmax(1.55vw, auto) minmax(6.13vw, auto) minmax(4.08vw, auto) minmax(3.27vw, auto) minmax(11.03vw, auto) minmax(2.04vw, auto) minmax(10.46vw, auto) minmax(2.61vw, auto) minmax(8.17vw, auto) minmax(3.76vw, auto) minmax(0.08vw, auto) minmax(1.80vw, auto) minmax(0.08vw, auto) minmax(0.08vw, auto) minmax(3.50vw, auto) 0vw",
+				"--grid-template-rows": "minmax(80px, auto) minmax(24px, auto) minmax(1px, auto) minmax(25px, auto) minmax(294px, auto) minmax(16px, auto) minmax(19px, auto) minmax(75px, auto) minmax(50px, auto) minmax(40px, auto) minmax(135px, auto) minmax(25px, auto) minmax(128px, auto) minmax(32px, auto) minmax(100px, auto) minmax(46px, auto) minmax(1px, auto) minmax(22px, auto) minmax(1px, auto) minmax(1px, auto) minmax(48px, auto) 0px",
 				"--m-grid-template-columns": "3.05% 0.30% 13.11% 17.38% 1.52% 36.59% 0.30% 0.61% 23.17% 0.91% 3.05%",
 				"--grid-template-columns": "8.42% 1.55% 6.86% 7.43% 4.82% 3.43% 6.78% 1.80% 9.56% 1.47% 3.43% 5.07% 1.14% 7.92% 1.31% 7.03% 10.54% 2.29% 0.74% 3.19% 5.23%",
 				"--m-block-min-height": "auto",
-				"--t-block-min-height": "1631px",
+				"--t-block-min-height": "auto",
 				"--small-desktop-block-min-height": "auto",
-				"--block-min-height": "1228px"
+				"--block-min-height": "auto"
 			}}
 			background={{
 				color: "rgb(255, 255, 255)",
@@ -245,134 +246,32 @@ export default function Section1() {
 			>
 				<GridTextBox
 					id={"zRp6gF"}
-					content={"<h2 dir=\"auto\" style=\"color: rgb(44, 24, 16); letter-spacing: normal; margin-bottom: 40px;\">     Benefits Of Rudrabhishek Pooja</h2>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
+					content={"<h2 dir=\"auto\" style=\"color: rgb(44, 24, 16); letter-spacing: normal; text-align: center; margin-bottom: 20px;\">Benefits Of Rudrabhishek Pooja</h2>"}
+					textAlign={"center"}
+					textAlignMobile={"center"}
 					className={"layout-element__component layout-element__component--GridTextBox"}
 				/>
 			</LayoutElement>
 			<LayoutElement
-				elementId={"z1RmkP"}
+				elementId={"zRudrabhishekBenefits"}
 				className={"layout-element layout-element--layout transition transition--slide"}
 				style={{
-					"--z-index": 9,
+					"--z-index": 5,
 					"--grid-row": "16/22",
 					"--grid-column": "2/20",
-					"--m-grid-row": "17/23",
+					"--m-grid-row": "20/21",
 					"--m-grid-column": "1/12"
 				}}
 				hasRotationFrame={false}
 				hasEntranceAnimation={true}
 			>
-				<GridCard
-					id={"z1RmkP"}
-					background={"rgb(255, 255, 255)"}
-					border={"1px solid rgb(0, 0, 0)"}
-					borderRadius={"12px"}
-					boxShadow={"none"}
-					opacity={"1"}
-					height={"116px"}
-					className={"layout-element__component layout-element__component--GridCard"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"zZl6jj"}
-				className={"layout-element layout-element--layout transition transition--slide"}
-				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 10,
-					"--grid-row": "17/19",
-					"--grid-column": "6/14",
-					"--m-grid-row": "18/19",
-					"--m-grid-column": "2/5"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridTextBox
-					id={"zZl6jj"}
-					content={"<h6 dir=\"auto\">Lord Shiva's Blessings</h6>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
-					className={"layout-element__component layout-element__component--GridTextBox"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"z9Qy3k"}
-				className={"layout-element layout-element--layout transition transition--slide"}
-				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 11,
-					"--grid-row": "18/20",
-					"--grid-column": "17/19",
-					"--m-grid-row": "21/22",
-					"--m-grid-column": "9/10"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridTextBox
-					id={"z9Qy3k"}
-					content={"<h6 dir=\"auto\">Peace &amp; Positivity</h6>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
-					className={"layout-element__component layout-element__component--GridTextBox"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"zDrjGu"}
-				className={"layout-element layout-element--layout transition transition--slide"}
-				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 12,
-					"--grid-row": "17/21",
-					"--grid-column": "3/5",
-					"--m-grid-row": "18/20",
-					"--m-grid-column": "7/11"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridTextBox
-					id={"zDrjGu"}
-					content={"<h5 dir=\"auto\">Spiritual Growth</h5>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
-					className={"layout-element__component layout-element__component--GridTextBox"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"zDVJ-L"}
-				className={"layout-element layout-element--layout transition transition--slide"}
-				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 13,
-					"--grid-row": "18/20",
-					"--grid-column": "11/15",
-					"--m-grid-row": "21/22",
-					"--m-grid-column": "3/6"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridTextBox
-					id={"zDVJ-L"}
-					content={"<h6 dir=\"auto\">Protection &amp; Wellbeing</h6>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
-					className={"layout-element__component layout-element__component--GridTextBox"}
+				<BenefitsCard
+					topLeft={"Lord Shiva's Blessings"}
+					topRight={"Spiritual Growth"}
+					bottomLeft={"Protection & Wellbeing"}
+					bottomRight={"Peace & Positivity"}
+					imageSrc={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0014.jpg-dtnFK7LOaT2QSB1P.jpeg?width=375&fit=crop"}
+					imageAlt={"Rudrabhishek Shiva Lingam Pooja"}
 				/>
 			</LayoutElement>
 		</BlockLayout>

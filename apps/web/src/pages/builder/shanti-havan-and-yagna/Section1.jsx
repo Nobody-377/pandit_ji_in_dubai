@@ -5,6 +5,7 @@ import GridTextBox from '@/components/builder/elements/GridTextBox';
 import GridCard from '@/components/builder/elements/GridCard';
 import GridImage from '@/components/builder/elements/GridImage';
 import GridButton from '@/components/builder/elements/GridButton';
+import BenefitsCard from '@/components/builder/elements/BenefitsCard';
 
 export default function Section1() {
 	return (
@@ -14,23 +15,22 @@ export default function Section1() {
 			blockClassName={"block block--desktop-first-visible block--mobile-first-visible"}
 			className={"block-layout block-layout--layout"}
 			style={{
-				paddingBottom: "36px",
 				"--block-padding-top": "16px",
 				"--block-padding": "16px 0 16px 0",
 				"--block-padding-right": "0",
-				"--block-padding-bottom": "48px",
+				"--block-padding-bottom": "16px",
 				"--block-padding-left": "0",
-				"--m-block-padding": "16px 16px 48px 16px",
-				"--m-grid-template-rows": "6.67vw auto 7.50vw auto auto 5.56vw auto 3.89vw auto 11.11vw auto 1.94vw auto 25.00vw auto 2.50vw 4.50vw 9.44vw auto 28.89vw 7.50vw auto 8.50vw 50px",
-				"--t-grid-template-rows": "minmax(24px, auto) minmax(23px, auto) minmax(27px, auto) minmax(150px, auto) minmax(156px, auto) minmax(20px, auto) minmax(50px, auto) minmax(14px, auto) minmax(280px, auto) minmax(40px, auto) minmax(106px, auto) minmax(7px, auto) minmax(263px, auto) minmax(90px, auto) minmax(85px, auto) minmax(9px, auto) minmax(6px, auto) minmax(34px, auto) minmax(16px, auto) minmax(104px, auto) minmax(27px, auto) minmax(23px, auto) minmax(4px, auto) 50px",
+				"--m-block-padding": "16px",
+				"--m-grid-template-rows": "6.67vw auto 7.50vw auto auto 5.56vw auto 3.89vw auto 11.11vw auto 1.94vw auto 25.00vw auto 2.50vw auto 48px",
+				"--t-grid-template-rows": "minmax(24px, auto) minmax(23px, auto) minmax(27px, auto) minmax(150px, auto) minmax(156px, auto) minmax(20px, auto) minmax(50px, auto) minmax(14px, auto) minmax(280px, auto) minmax(40px, auto) minmax(106px, auto) minmax(7px, auto) minmax(263px, auto) minmax(90px, auto) minmax(85px, auto) minmax(9px, auto) auto minmax(48px, auto)",
 				"--small-desktop-grid-template-rows": "minmax(5.23vw, auto) minmax(2.04vw, auto) minmax(1.23vw, auto) minmax(24.26vw, auto) minmax(1.88vw, auto) minmax(3.19vw, auto) minmax(5.80vw, auto) minmax(4.08vw, auto) minmax(3.27vw, auto) minmax(11.11vw, auto) minmax(0.49vw, auto) minmax(10.95vw, auto) minmax(7.92vw, auto) minmax(0.25vw, auto) minmax(1.96vw, auto) minmax(2.04vw, auto) minmax(4.25vw, auto) minmax(4.82vw, auto) minmax(26.14vw, auto) 17.89vw",
 				"--grid-template-rows": "minmax(64px, auto) minmax(25px, auto) minmax(15px, auto) minmax(297px, auto) minmax(23px, auto) minmax(39px, auto) minmax(71px, auto) minmax(50px, auto) minmax(40px, auto) minmax(136px, auto) minmax(6px, auto) minmax(134px, auto) minmax(97px, auto) minmax(3px, auto) minmax(24px, auto) minmax(25px, auto) minmax(52px, auto) minmax(59px, auto) minmax(320px, auto) 1fr",
 				"--m-grid-template-columns": "2.74% 1.52% 17.38% 5.18% 2.13% 6.40% 37.50% 1.83% 0.61% 0.61% 16.16% 3.35% 0.30% 4.27%",
 				"--grid-template-columns": "4.74% 0.82% 2.86% 0.41% 1.55% 15.77% 2.21% 0.98% 3.02% 0.08% 3.19% 2.61% 8.33% 4.90% 1.96% 3.43% 2.04% 2.12% 4.00% 3.51% 4.08% 5.72% 12.25% 0.98% 1.06% 1.63% 5.72%",
 				"--m-block-min-height": "auto",
-				"--t-block-min-height": "1609px",
+				"--t-block-min-height": "auto",
 				"--small-desktop-block-min-height": "auto",
-				"--block-min-height": "1699px"
+				"--block-min-height": "auto"
 			}}
 			background={{
 				color: "rgb(255, 255, 255)",
@@ -188,160 +188,25 @@ export default function Section1() {
 				/>
 			</LayoutElement>
 			<LayoutElement
-				elementId={"zjSwtt"}
+				elementId={"zHavanBenefits"}
 				className={"layout-element layout-element--layout transition transition--slide"}
 				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 8,
-					"--grid-row": "16/17",
-					"--grid-column": "6/7",
-					"--m-grid-row": "18/20",
-					"--m-grid-column": "2/7"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridTextBox
-					id={"zjSwtt"}
-					content={"<h5 dir=\"auto\" style=\"color: rgb(140, 43, 29);\">Spiritual Purification</h5>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
-					className={"layout-element__component layout-element__component--GridTextBox"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"zDBY_o"}
-				className={"layout-element layout-element--layout transition transition--slide"}
-				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 9,
-					"--grid-row": "16/17",
-					"--grid-column": "12/15",
-					"--m-grid-row": "21/23",
-					"--m-grid-column": "2/6"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridTextBox
-					id={"zDBY_o"}
-					content={"<h5 dir=\"auto\" style=\"color: rgb(140, 43, 29);\">Peace &amp; Harmony</h5>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
-					className={"layout-element__component layout-element__component--GridTextBox"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"zhUmco"}
-				className={"layout-element layout-element--layout transition transition--slide"}
-				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 10,
-					"--grid-row": "16/17",
-					"--grid-column": "18/22",
-					"--m-grid-row": "21/23",
-					"--m-grid-column": "10/15"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridTextBox
-					id={"zhUmco"}
-					content={"<h5 dir=\"auto\" style=\"color: rgb(140, 43, 29);\">Divine Blessings</h5>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
-					className={"layout-element__component layout-element__component--GridTextBox"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"zuLNPG"}
-				className={"layout-element layout-element--layout transition transition--slide"}
-				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 11,
-					"--grid-row": "16/17",
-					"--grid-column": "23/24",
-					"--m-grid-row": "18/20",
-					"--m-grid-column": "9/13"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridTextBox
-					id={"zuLNPG"}
-					content={"<h5 dir=\"auto\" style=\"color: rgb(140, 43, 29);\">Positive Energy</h5>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
-					className={"layout-element__component layout-element__component--GridTextBox"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"zwi6GR"}
-				className={"layout-element layout-element--layout transition transition--slide"}
-				style={{
-					"--z-index": 1,
-					"--grid-row": "14/18",
+					"--z-index": 5,
+					"--grid-row": "16/20",
 					"--grid-column": "4/25",
-					"--m-grid-row": "17/24",
+					"--m-grid-row": "17/18",
 					"--m-grid-column": "1/15"
 				}}
 				hasRotationFrame={false}
 				hasEntranceAnimation={true}
 			>
-				<GridCard
-					id={"zwi6GR"}
-					background={"rgb(255, 255, 255)"}
-					border={"none"}
-					borderRadius={"12px"}
-					boxShadow={"none"}
-					opacity={"1"}
-					height={"100%"}
-					className={"layout-element__component layout-element__component--GridCard"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"zwipeg"}
-				className={"layout-element layout-element--layout layout-element--desktop-element-hidden transition transition--slide transition--root-hidden"}
-				style={{
-					"--align": "center",
-					"--justify": "center",
-					"--m-element-margin": "0 0 16px 0",
-					"--object-position-y": 82,
-					"--z-index": 12,
-					"--grid-row": "19/20",
-					"--grid-column": "9/21",
-					"--m-grid-row": "19/22",
-					"--m-grid-column": "5/8",
-					"--hidden-element-z-index": 0
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridImage
-					id={"zwipeg"}
-					src={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/cc2udk-urqOJNFHQkAaJ30S.png?width=768&fit=crop"}
-					srcset={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/cc2udk-urqOJNFHQkAaJ30S.png?width=375&fit=crop 375w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/cc2udk-urqOJNFHQkAaJ30S.png?width=768&fit=crop 768w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/cc2udk-urqOJNFHQkAaJ30S.png?width=1024&fit=crop 1024w"}
-					alt={""}
-					objectFit={"cover"}
-					desktopWidth={480}
-					desktopHeight={320}
-					mobileWidth={151}
-					desktopBorderRadius={"160px"}
-					mobileBorderRadius={"66px"}
-					rel={"nofollow"}
-					className={"layout-element__component layout-element__component--GridImage"}
+				<BenefitsCard
+					topLeft={"Spiritual Purification"}
+					topRight={"Positive Energy"}
+					bottomLeft={"Peace & Harmony"}
+					bottomRight={"Divine Blessings"}
+					imageSrc={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/cc2udk-urqOJNFHQkAaJ30S.png?width=768&fit=crop"}
+					imageAlt={"Sacred Havan Ceremony"}
 				/>
 			</LayoutElement>
 			<LayoutElement

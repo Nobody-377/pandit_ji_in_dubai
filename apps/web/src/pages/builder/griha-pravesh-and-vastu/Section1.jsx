@@ -5,6 +5,7 @@ import GridTextBox from '@/components/builder/elements/GridTextBox';
 import GridImage from '@/components/builder/elements/GridImage';
 import GridButton from '@/components/builder/elements/GridButton';
 import GridCard from '@/components/builder/elements/GridCard';
+import BenefitsCard from '@/components/builder/elements/BenefitsCard';
 
 export default function Section1() {
 	return (
@@ -20,16 +21,16 @@ export default function Section1() {
 				"--block-padding-bottom": "16px",
 				"--block-padding-left": "0",
 				"--m-block-padding": "16px",
-				"--m-grid-template-rows": "11.11vw auto 0.28vw 48.06vw auto 32.50vw 3.33vw auto 8.33vw auto 18.61vw 45.28vw auto 64.44vw 18.33vw 46.94vw auto 0.83vw auto 0.83vw 27.78vw auto 4.44vw 130px",
-				"--t-grid-template-rows": "minmax(40px, auto) minmax(18px, auto) minmax(1px, auto) minmax(173px, auto) minmax(17px, auto) minmax(117px, auto) minmax(12px, auto) minmax(50px, auto) minmax(30px, auto) minmax(314px, auto) minmax(67px, auto) minmax(163px, auto) minmax(9px, auto) minmax(232px, auto) minmax(66px, auto) minmax(169px, auto) minmax(1px, auto) minmax(3px, auto) minmax(47px, auto) minmax(3px, auto) minmax(100px, auto) minmax(50px, auto) minmax(16px, auto) 1fr",
-				"--small-desktop-grid-template-rows": "minmax(6.54vw, auto) minmax(2.04vw, auto) minmax(0.74vw, auto) minmax(23.37vw, auto) minmax(1.96vw, auto) minmax(5.80vw, auto) minmax(4.49vw, auto) minmax(4.08vw, auto) minmax(1.96vw, auto) minmax(16.34vw, auto) minmax(2.12vw, auto) minmax(10.95vw, auto) minmax(1.63vw, auto) minmax(16.01vw, auto) minmax(0.33vw, auto) minmax(1.63vw, auto) minmax(2.04vw, auto) minmax(4.49vw, auto) 5.88vw",
-				"--grid-template-rows": "minmax(80px, auto) minmax(25px, auto) minmax(9px, auto) minmax(286px, auto) minmax(24px, auto) minmax(71px, auto) minmax(55px, auto) minmax(50px, auto) minmax(24px, auto) minmax(200px, auto) minmax(26px, auto) minmax(134px, auto) minmax(20px, auto) minmax(196px, auto) minmax(4px, auto) minmax(20px, auto) minmax(25px, auto) minmax(55px, auto) 1fr",
+				"--m-grid-template-rows": "11.11vw auto 0.28vw 48.06vw auto 32.50vw 3.33vw auto 8.33vw auto 18.61vw 45.28vw auto 6.67vw auto 5.56vw auto 48px",
+				"--t-grid-template-rows": "minmax(40px, auto) minmax(18px, auto) minmax(1px, auto) minmax(173px, auto) minmax(17px, auto) minmax(117px, auto) minmax(12px, auto) minmax(50px, auto) minmax(30px, auto) minmax(314px, auto) minmax(67px, auto) minmax(163px, auto) minmax(9px, auto) minmax(24px, auto) minmax(36px, auto) minmax(20px, auto) auto minmax(48px, auto)",
+				"--small-desktop-grid-template-rows": "minmax(6.54vw, auto) minmax(2.04vw, auto) minmax(0.74vw, auto) minmax(23.37vw, auto) minmax(1.96vw, auto) minmax(5.80vw, auto) minmax(4.49vw, auto) minmax(4.08vw, auto) minmax(1.96vw, auto) minmax(16.34vw, auto) minmax(2.12vw, auto) minmax(10.95vw, auto) minmax(1.63vw, auto) minmax(16.01vw, auto) minmax(0.33vw, auto) minmax(1.63vw, auto) minmax(2.04vw, auto) minmax(4.49vw, auto) 0vw",
+				"--grid-template-rows": "minmax(80px, auto) minmax(25px, auto) minmax(9px, auto) minmax(286px, auto) minmax(24px, auto) minmax(71px, auto) minmax(55px, auto) minmax(50px, auto) minmax(24px, auto) minmax(200px, auto) minmax(26px, auto) minmax(134px, auto) minmax(20px, auto) minmax(50px, auto) minmax(4px, auto) minmax(20px, auto) minmax(25px, auto) minmax(55px, auto) minmax(48px, auto)",
 				"--m-grid-template-columns": "3.05% 0.91% 3.05% 23.17% 7.01% 26.83% 9.76% 11.59% 14.63%",
 				"--grid-template-columns": "6.94% 0.98% 0.49% 0.74% 17.57% 1.96% 0.82% 3.68% 0.49% 7.43% 8.42% 1.47% 0.65% 7.27% 2.12% 3.35% 1.96% 8.42% 2.70% 12.99% 0.41% 0.74% 0.74% 7.68%",
 				"--m-block-min-height": "auto",
-				"--t-block-min-height": "1828px",
+				"--t-block-min-height": "auto",
 				"--small-desktop-block-min-height": "auto",
-				"--block-min-height": "1376px"
+				"--block-min-height": "auto"
 			}}
 			background={{
 				color: "rgb(255, 255, 255)",
@@ -187,7 +188,7 @@ export default function Section1() {
 					"--z-index": 7,
 					"--grid-row": "12/13",
 					"--grid-column": "4/22",
-					"--m-grid-row": "13/15",
+					"--m-grid-row": "13/14",
 					"--m-grid-column": "1/10"
 				}}
 				hasRotationFrame={false}
@@ -212,7 +213,7 @@ export default function Section1() {
 					"--z-index": 8,
 					"--grid-row": "14/15",
 					"--grid-column": "3/23",
-					"--m-grid-row": "15/17",
+					"--m-grid-row": "15/16",
 					"--m-grid-column": "1/10"
 				}}
 				hasRotationFrame={false}
@@ -233,18 +234,20 @@ export default function Section1() {
 					"--z-index": 1,
 					"--grid-row": "15/19",
 					"--grid-column": "2/24",
-					"--m-grid-row": "17/24",
+					"--m-grid-row": "17/18",
 					"--m-grid-column": "1/10"
 				}}
 				hasRotationFrame={false}
 				hasEntranceAnimation={true}
 			>
-				<div className="griha-pravesh-benefits-card" data-element-id="zTRRga">
-					<h5 className="griha-pravesh-benefits-card__item">Blessings For New Home</h5>
-					<h5 className="griha-pravesh-benefits-card__item">Spiritual Harmony</h5>
-					<h5 className="griha-pravesh-benefits-card__item">Family Wellbeing</h5>
-					<h5 className="griha-pravesh-benefits-card__item">Positive Energy</h5>
-				</div>
+				<BenefitsCard
+					topLeft={"Blessings For New Home"}
+					topRight={"Spiritual Harmony"}
+					bottomLeft={"Family Wellbeing"}
+					bottomRight={"Positive Energy"}
+					imageSrc={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0012.jpg-0veqAugf2xgtLIbu.jpeg?width=375&fit=crop"}
+					imageAlt={"Griha Pravesh Pooja Ceremony"}
+				/>
 			</LayoutElement>
 			<LayoutElement
 				elementId={"zkUicM"}

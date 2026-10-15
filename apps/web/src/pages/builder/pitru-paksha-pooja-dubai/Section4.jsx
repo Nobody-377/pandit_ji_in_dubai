@@ -26,16 +26,16 @@ export default function Section4() {
 				"--block-padding-bottom": "16px",
 				"--block-padding-left": "0",
 				"--m-block-padding": "16px",
-				"--m-grid-template-rows": "14.44vw auto 10.00vw auto 4.72vw auto 20.00vw 4.44vw auto 3.33vw auto 3.33vw auto auto 3.33vw 4.44vw auto 3.33vw auto 3.33vw auto auto 3.33vw 4.44vw auto 3.33vw auto 3.33vw auto auto 64px",
-				"--t-grid-template-rows": "minmax(52px, auto) minmax(22px, auto) minmax(36px, auto) minmax(90px, auto) minmax(17px, auto) minmax(63px, auto) minmax(72px, auto) minmax(16px, auto) minmax(56px, auto) minmax(12px, auto) minmax(83px, auto) minmax(12px, auto) minmax(123px, auto) minmax(16px, auto) minmax(12px, auto) minmax(16px, auto) minmax(56px, auto) minmax(12px, auto) minmax(83px, auto) minmax(12px, auto) minmax(123px, auto) minmax(16px, auto) minmax(12px, auto) minmax(16px, auto) minmax(56px, auto) minmax(12px, auto) minmax(83px, auto) minmax(12px, auto) minmax(123px, auto) minmax(16px, auto) 1fr",
+				"--m-grid-template-rows": "6.67vw auto 6.67vw auto 4.72vw auto 6.67vw 4.44vw auto 3.33vw auto 3.33vw auto auto 3.33vw 4.44vw auto 3.33vw auto 3.33vw auto auto 3.33vw 4.44vw auto 3.33vw auto 3.33vw auto auto 32px",
+				"--t-grid-template-rows": "minmax(24px, auto) minmax(22px, auto) minmax(24px, auto) minmax(90px, auto) minmax(17px, auto) minmax(63px, auto) minmax(24px, auto) minmax(16px, auto) minmax(56px, auto) minmax(12px, auto) minmax(83px, auto) minmax(12px, auto) minmax(123px, auto) minmax(16px, auto) minmax(12px, auto) minmax(16px, auto) minmax(56px, auto) minmax(12px, auto) minmax(83px, auto) minmax(12px, auto) minmax(123px, auto) minmax(16px, auto) minmax(12px, auto) minmax(16px, auto) minmax(56px, auto) minmax(12px, auto) minmax(83px, auto) minmax(12px, auto) minmax(123px, auto) minmax(16px, auto) 32px",
 				"--small-desktop-grid-template-rows": "minmax(5.88vw, auto) minmax(1.80vw, auto) minmax(2.94vw, auto) minmax(4.90vw, auto) minmax(2.45vw, auto) minmax(1.72vw, auto) minmax(4.00vw, auto) minmax(1.96vw, auto) minmax(4.58vw, auto) minmax(0.98vw, auto) minmax(6.54vw, auto) minmax(2.78vw, auto) minmax(5.15vw, auto) minmax(6.86vw, auto) 5.88vw",
 				"--grid-template-rows": "minmax(72px, auto) minmax(22px, auto) minmax(36px, auto) minmax(60px, auto) minmax(30px, auto) minmax(21px, auto) minmax(49px, auto) minmax(24px, auto) minmax(56px, auto) minmax(12px, auto) minmax(80px, auto) minmax(34px, auto) minmax(63px, auto) minmax(84px, auto) 1fr",
 				"--m-grid-template-columns": "4.88% 36.59% 17.07% 36.59% 4.88%",
 				"--grid-template-columns": "6.54% 1.96% 24.18% 1.96% 0.98% 1.96% 24.18% 1.96% 0.98% 1.96% 24.18% 1.96% 7.19%",
 				"--m-block-min-height": "auto",
-				"--t-block-min-height": "1394px",
+				"--t-block-min-height": "auto",
 				"--small-desktop-block-min-height": "auto",
-				"--block-min-height": "715px"
+				"--block-min-height": "auto"
 			}}
 			background={{
 				color: "#faf6f0",

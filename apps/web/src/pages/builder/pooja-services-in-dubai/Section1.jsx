@@ -27,16 +27,16 @@ export default function Section1() {
 				"--block-padding-bottom": "16px",
 				"--block-padding-left": "0",
 				"--m-block-padding": "16px",
-				"--m-grid-template-rows": "3.89vw auto 4.17vw auto 4.44vw 2.22vw auto 3.89vw auto 1.11vw auto 2.50vw auto auto 4.17vw 4.17vw 17.78vw auto 20.00vw 1.94vw auto 3.06vw auto auto 4.17vw 6.67vw auto auto auto 3.06vw auto auto 4.17vw 6.67vw auto 4.17vw auto 4.17vw auto 3.06vw auto auto 4.17vw 6.67vw auto 4.17vw auto 4.17vw auto 3.06vw auto auto 4.17vw 6.67vw auto 4.17vw auto 4.17vw auto 8.89vw auto auto 4.17vw 6.67vw auto 4.17vw auto 4.17vw auto 8.89vw auto auto 4.17vw 6.67vw auto 4.17vw auto 4.17vw auto 3.06vw auto auto 4.17vw 6.67vw auto 4.17vw auto 4.17vw auto 8.89vw auto auto 4.17vw 6.67vw auto 4.17vw auto 4.17vw auto 3.06vw auto auto 4.17vw 6.67vw auto 4.17vw auto 4.17vw auto 3.06vw auto auto 4.17vw 6.67vw auto 4.17vw auto 4.17vw auto 3.06vw auto auto 4.17vw 6.67vw auto 4.17vw auto 4.17vw auto 5.83vw auto auto 39px",
-				"--t-grid-template-rows": "minmax(14px, auto) minmax(100px, auto) minmax(15px, auto) minmax(105px, auto) minmax(16px, auto) minmax(8px, auto) minmax(72px, auto) minmax(14px, auto) minmax(80px, auto) minmax(4px, auto) minmax(84px, auto) minmax(9px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(15px, auto) minmax(64px, auto) minmax(8px, auto) minmax(72px, auto) minmax(7px, auto) minmax(84px, auto) minmax(11px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(80px, auto) minmax(84px, auto) minmax(11px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(15px, auto) minmax(40px, auto) minmax(15px, auto) minmax(84px, auto) minmax(11px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(15px, auto) minmax(40px, auto) minmax(15px, auto) minmax(84px, auto) minmax(11px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(15px, auto) minmax(40px, auto) minmax(15px, auto) minmax(63px, auto) minmax(32px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(15px, auto) minmax(40px, auto) minmax(15px, auto) minmax(63px, auto) minmax(32px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(15px, auto) minmax(40px, auto) minmax(15px, auto) minmax(84px, auto) minmax(11px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(15px, auto) minmax(40px, auto) minmax(15px, auto) minmax(63px, auto) minmax(32px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(15px, auto) minmax(40px, auto) minmax(15px, auto) minmax(84px, auto) minmax(11px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(15px, auto) minmax(40px, auto) minmax(15px, auto) minmax(84px, auto) minmax(11px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(15px, auto) minmax(40px, auto) minmax(15px, auto) minmax(84px, auto) minmax(11px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(15px, auto) minmax(40px, auto) minmax(15px, auto) minmax(84px, auto) minmax(21px, auto) minmax(53px, auto) minmax(24px, auto) 1fr",
+				"--m-grid-template-rows": "3.89vw auto 4.17vw auto 4.44vw 2.22vw auto 3.89vw auto 1.11vw auto 2.50vw auto auto 4.17vw 4.17vw 17.78vw auto 20.00vw 1.94vw auto 3.06vw auto auto 4.17vw 6.67vw auto auto auto 3.06vw auto auto 4.17vw 6.67vw auto 4.17vw auto 4.17vw auto 3.06vw auto auto 4.17vw 6.67vw auto 4.17vw auto 4.17vw auto 3.06vw auto auto 4.17vw 6.67vw auto 4.17vw auto 4.17vw auto 8.89vw auto auto 4.17vw 6.67vw auto 4.17vw auto 4.17vw auto 8.89vw auto auto 4.17vw 6.67vw auto 4.17vw auto 4.17vw auto 3.06vw auto auto 4.17vw 6.67vw auto 4.17vw auto 4.17vw auto 8.89vw auto auto 4.17vw 6.67vw auto 4.17vw auto 4.17vw auto 3.06vw auto auto 4.17vw 6.67vw auto 4.17vw auto 4.17vw auto 3.06vw auto auto 4.17vw 6.67vw auto 4.17vw auto 4.17vw auto 3.06vw auto auto 4.17vw 6.67vw auto 4.17vw auto 4.17vw auto 5.83vw auto auto 60px",
+				"--t-grid-template-rows": "minmax(14px, auto) minmax(100px, auto) minmax(15px, auto) minmax(105px, auto) minmax(16px, auto) minmax(8px, auto) minmax(72px, auto) minmax(14px, auto) minmax(80px, auto) minmax(4px, auto) minmax(84px, auto) minmax(9px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(15px, auto) minmax(64px, auto) minmax(8px, auto) minmax(72px, auto) minmax(7px, auto) minmax(84px, auto) minmax(11px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(80px, auto) minmax(84px, auto) minmax(11px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(15px, auto) minmax(40px, auto) minmax(15px, auto) minmax(84px, auto) minmax(11px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(15px, auto) minmax(40px, auto) minmax(15px, auto) minmax(84px, auto) minmax(11px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(15px, auto) minmax(40px, auto) minmax(15px, auto) minmax(63px, auto) minmax(32px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(15px, auto) minmax(40px, auto) minmax(15px, auto) minmax(63px, auto) minmax(32px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(15px, auto) minmax(40px, auto) minmax(15px, auto) minmax(84px, auto) minmax(11px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(15px, auto) minmax(40px, auto) minmax(15px, auto) minmax(63px, auto) minmax(32px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(15px, auto) minmax(40px, auto) minmax(15px, auto) minmax(84px, auto) minmax(11px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(15px, auto) minmax(40px, auto) minmax(15px, auto) minmax(84px, auto) minmax(11px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(15px, auto) minmax(40px, auto) minmax(15px, auto) minmax(84px, auto) minmax(21px, auto) minmax(53px, auto) minmax(24px, auto) minmax(15px, auto) minmax(24px, auto) minmax(72px, auto) minmax(15px, auto) minmax(40px, auto) minmax(15px, auto) minmax(84px, auto) minmax(21px, auto) minmax(53px, auto) minmax(24px, auto) 60px",
 				"--small-desktop-grid-template-rows": "minmax(6.54vw, auto) minmax(7.35vw, auto) minmax(2.70vw, auto) minmax(3.43vw, auto) minmax(10.54vw, auto) minmax(0.33vw, auto) minmax(1.96vw, auto) minmax(5.88vw, auto) minmax(0.98vw, auto) minmax(3.27vw, auto) minmax(3.27vw, auto) minmax(2.78vw, auto) minmax(5.15vw, auto) minmax(1.72vw, auto) minmax(1.72vw, auto) minmax(4.33vw, auto) minmax(1.63vw, auto) minmax(0.33vw, auto) minmax(1.96vw, auto) minmax(1.96vw, auto) minmax(5.88vw, auto) minmax(0.98vw, auto) minmax(3.27vw, auto) minmax(6.05vw, auto) minmax(5.15vw, auto) minmax(2.45vw, auto) minmax(1.06vw, auto) minmax(3.27vw, auto) minmax(1.06vw, auto) minmax(1.88vw, auto) minmax(1.96vw, auto) minmax(1.96vw, auto) minmax(5.88vw, auto) minmax(0.98vw, auto) minmax(3.27vw, auto) minmax(2.70vw, auto) minmax(5.15vw, auto) minmax(3.43vw, auto) minmax(4.33vw, auto) minmax(1.96vw, auto) minmax(1.96vw, auto) minmax(1.96vw, auto) minmax(5.88vw, auto) minmax(0.98vw, auto) minmax(3.27vw, auto) minmax(6.05vw, auto) minmax(5.15vw, auto) minmax(1.72vw, auto) minmax(1.72vw, auto) minmax(4.33vw, auto) minmax(1.96vw, auto) minmax(1.96vw, auto) minmax(1.96vw, auto) minmax(5.88vw, auto) minmax(0.98vw, auto) minmax(3.27vw, auto) minmax(2.70vw, auto) minmax(1.72vw, auto) minmax(3.76vw, auto) minmax(4.33vw, auto) minmax(2.12vw, auto) 8.50vw",
-				"--grid-template-rows": "minmax(80px, auto) minmax(90px, auto) minmax(33px, auto) minmax(42px, auto) minmax(129px, auto) minmax(4px, auto) minmax(24px, auto) minmax(72px, auto) minmax(12px, auto) minmax(40px, auto) minmax(40px, auto) minmax(34px, auto) minmax(63px, auto) minmax(21px, auto) minmax(21px, auto) minmax(53px, auto) minmax(20px, auto) minmax(4px, auto) minmax(24px, auto) minmax(24px, auto) minmax(72px, auto) minmax(12px, auto) minmax(40px, auto) minmax(74px, auto) minmax(63px, auto) minmax(30px, auto) minmax(13px, auto) minmax(40px, auto) minmax(13px, auto) minmax(23px, auto) minmax(24px, auto) minmax(24px, auto) minmax(72px, auto) minmax(12px, auto) minmax(40px, auto) minmax(33px, auto) minmax(63px, auto) minmax(42px, auto) minmax(53px, auto) minmax(24px, auto) minmax(24px, auto) minmax(24px, auto) minmax(72px, auto) minmax(12px, auto) minmax(40px, auto) minmax(74px, auto) minmax(63px, auto) minmax(21px, auto) minmax(21px, auto) minmax(53px, auto) minmax(24px, auto) minmax(24px, auto) minmax(24px, auto) minmax(72px, auto) minmax(12px, auto) minmax(40px, auto) minmax(33px, auto) minmax(21px, auto) minmax(46px, auto) minmax(53px, auto) minmax(26px, auto) 1fr",
+				"--grid-template-rows": "minmax(80px, auto) minmax(90px, auto) minmax(33px, auto) minmax(42px, auto) minmax(129px, auto) minmax(4px, auto) minmax(24px, auto) minmax(72px, auto) minmax(12px, auto) minmax(40px, auto) minmax(40px, auto) minmax(34px, auto) minmax(63px, auto) minmax(21px, auto) minmax(21px, auto) minmax(53px, auto) minmax(20px, auto) minmax(4px, auto) minmax(24px, auto) minmax(24px, auto) minmax(72px, auto) minmax(12px, auto) minmax(40px, auto) minmax(74px, auto) minmax(63px, auto) minmax(30px, auto) minmax(13px, auto) minmax(40px, auto) minmax(13px, auto) minmax(23px, auto) minmax(24px, auto) minmax(24px, auto) minmax(72px, auto) minmax(12px, auto) minmax(40px, auto) minmax(33px, auto) minmax(63px, auto) minmax(42px, auto) minmax(53px, auto) minmax(24px, auto) minmax(24px, auto) minmax(24px, auto) minmax(72px, auto) minmax(12px, auto) minmax(40px, auto) minmax(74px, auto) minmax(63px, auto) minmax(21px, auto) minmax(21px, auto) minmax(53px, auto) minmax(24px, auto) minmax(24px, auto) minmax(24px, auto) minmax(72px, auto) minmax(12px, auto) minmax(40px, auto) minmax(33px, auto) minmax(21px, auto) minmax(46px, auto) minmax(53px, auto) minmax(26px, auto) 60px",
 				"--m-grid-template-columns": "3.35% 0.30% 1.22% 2.44% 0.30% 20.73% 43.60% 16.77% 0.30% 3.66% 0.30% 2.13% 4.88%",
 				"--grid-template-columns": "6.54% 1.88% 0.08% 6.21% 11.68% 6.29% 1.96% 0.98% 1.96% 6.21% 11.68% 6.29% 1.96% 0.98% 1.96% 6.21% 11.68% 6.29% 1.96% 1.88% 5.31%",
 				"--m-block-min-height": "auto",
-				"--t-block-min-height": "4893px",
+				"--t-block-min-height": "auto",
 				"--small-desktop-block-min-height": "auto",
-				"--block-min-height": "2480px"
+				"--block-min-height": "auto"
 			}}
 			background={{
 				color: "#e9e4de",
@@ -64,7 +64,7 @@ export default function Section1() {
 					borderRadius={"16px"}
 					boxShadow={"0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1)"}
 					opacity={"1"}
-					height={"404px"}
+					height={"100%"}
 					className={"layout-element__component layout-element__component--GridCard"}
 				/>
 			</LayoutElement>
@@ -88,7 +88,7 @@ export default function Section1() {
 					borderRadius={"16px"}
 					boxShadow={"0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1)"}
 					opacity={"1"}
-					height={"404px"}
+					height={"100%"}
 					className={"layout-element__component layout-element__component--GridCard"}
 				/>
 			</LayoutElement>
@@ -112,7 +112,7 @@ export default function Section1() {
 					borderRadius={"16px"}
 					boxShadow={"0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1)"}
 					opacity={"1"}
-					height={"404px"}
+					height={"100%"}
 					className={"layout-element__component layout-element__component--GridCard"}
 				/>
 			</LayoutElement>
@@ -136,7 +136,7 @@ export default function Section1() {
 					borderRadius={"16px"}
 					boxShadow={"0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1)"}
 					opacity={"1"}
-					height={"404px"}
+					height={"100%"}
 					className={"layout-element__component layout-element__component--GridCard"}
 				/>
 			</LayoutElement>
@@ -160,7 +160,7 @@ export default function Section1() {
 					borderRadius={"16px"}
 					boxShadow={"0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1)"}
 					opacity={"1"}
-					height={"404px"}
+					height={"100%"}
 					className={"layout-element__component layout-element__component--GridCard"}
 				/>
 			</LayoutElement>
@@ -184,7 +184,7 @@ export default function Section1() {
 					borderRadius={"16px"}
 					boxShadow={"0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1)"}
 					opacity={"1"}
-					height={"404px"}
+					height={"100%"}
 					className={"layout-element__component layout-element__component--GridCard"}
 				/>
 			</LayoutElement>
@@ -208,7 +208,7 @@ export default function Section1() {
 					borderRadius={"16px"}
 					boxShadow={"0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1)"}
 					opacity={"1"}
-					height={"363px"}
+					height={"100%"}
 					className={"layout-element__component layout-element__component--GridCard"}
 				/>
 			</LayoutElement>
@@ -232,7 +232,7 @@ export default function Section1() {
 					borderRadius={"16px"}
 					boxShadow={"0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1)"}
 					opacity={"1"}
-					height={"363px"}
+					height={"100%"}
 					className={"layout-element__component layout-element__component--GridCard"}
 				/>
 			</LayoutElement>
@@ -256,7 +256,7 @@ export default function Section1() {
 					borderRadius={"16px"}
 					boxShadow={"0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1)"}
 					opacity={"1"}
-					height={"363px"}
+					height={"100%"}
 					className={"layout-element__component layout-element__component--GridCard"}
 				/>
 			</LayoutElement>
@@ -280,7 +280,7 @@ export default function Section1() {
 					borderRadius={"16px"}
 					boxShadow={"0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1)"}
 					opacity={"1"}
-					height={"404px"}
+					height={"100%"}
 					className={"layout-element__component layout-element__component--GridCard"}
 				/>
 			</LayoutElement>
@@ -304,7 +304,7 @@ export default function Section1() {
 					borderRadius={"16px"}
 					boxShadow={"0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1)"}
 					opacity={"1"}
-					height={"404px"}
+					height={"100%"}
 					className={"layout-element__component layout-element__component--GridCard"}
 				/>
 			</LayoutElement>
@@ -328,7 +328,7 @@ export default function Section1() {
 					borderRadius={"16px"}
 					boxShadow={"0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1)"}
 					opacity={"1"}
-					height={"404px"}
+					height={"100%"}
 					className={"layout-element__component layout-element__component--GridCard"}
 				/>
 			</LayoutElement>
@@ -352,7 +352,7 @@ export default function Section1() {
 					borderRadius={"16px"}
 					boxShadow={"0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1)"}
 					opacity={"1"}
-					height={"327px"}
+					height={"100%"}
 					className={"layout-element__component layout-element__component--GridCard"}
 				/>
 			</LayoutElement>
@@ -385,7 +385,7 @@ export default function Section1() {
 					"--z-index": 15,
 					"--grid-row": "8/9",
 					"--grid-column": "10/13",
-					"--m-grid-row": "17/19",
+					"--m-grid-row": "17/18",
 					"--m-grid-column": "3/10"
 				}}
 				hasRotationFrame={false}
@@ -1150,7 +1150,7 @@ export default function Section1() {
 					"--z-index": 43,
 					"--grid-row": "10/12",
 					"--grid-column": "10/13",
-					"--m-grid-row": "18/20",
+					"--m-grid-row": "19/20",
 					"--m-grid-column": "5/11"
 				}}
 				hasRotationFrame={false}

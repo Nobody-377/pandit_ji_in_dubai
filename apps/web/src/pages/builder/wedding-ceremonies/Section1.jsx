@@ -5,6 +5,7 @@ import GridTextBox from '@/components/builder/elements/GridTextBox';
 import GridCard from '@/components/builder/elements/GridCard';
 import GridImage from '@/components/builder/elements/GridImage';
 import GridButton from '@/components/builder/elements/GridButton';
+import BenefitsCard from '@/components/builder/elements/BenefitsCard';
 
 export default function Section1() {
 	return (
@@ -20,16 +21,16 @@ export default function Section1() {
 				"--block-padding-bottom": "16px",
 				"--block-padding-left": "0",
 				"--m-block-padding": "16px",
-				"--m-grid-template-rows": "6.67vw auto 4.72vw 48.89vw auto 42.78vw 1.11vw auto 8.33vw auto 3.33vw 44.44vw auto 79.17vw 10.56vw auto 2.78vw 3.89vw 12.78vw auto 38.89vw 2.78vw auto 4.44vw auto 17px",
-				"--t-grid-template-rows": "minmax(24px, auto) minmax(23px, auto) minmax(17px, auto) minmax(176px, auto) minmax(2px, auto) minmax(154px, auto) minmax(4px, auto) minmax(50px, auto) minmax(30px, auto) minmax(292px, auto) minmax(12px, auto) minmax(160px, auto) minmax(23px, auto) minmax(285px, auto) minmax(38px, auto) minmax(70px, auto) minmax(10px, auto) minmax(14px, auto) minmax(46px, auto) minmax(4px, auto) minmax(140px, auto) minmax(10px, auto) minmax(40px, auto) minmax(16px, auto) minmax(320px, auto) 1fr",
-				"--small-desktop-grid-template-rows": "minmax(7.76vw, auto) minmax(2.04vw, auto) minmax(0.41vw, auto) minmax(2.86vw, auto) minmax(26.14vw, auto) minmax(2.70vw, auto) minmax(4.98vw, auto) minmax(4.08vw, auto) minmax(3.27vw, auto) minmax(5.80vw, auto) minmax(4.00vw, auto) minmax(16.34vw, auto) minmax(2.29vw, auto) minmax(10.38vw, auto) minmax(1.72vw, auto) minmax(10.46vw, auto) minmax(2.61vw, auto) minmax(2.86vw, auto) minmax(0.16vw, auto) minmax(1.88vw, auto) minmax(0.16vw, auto) minmax(2.78vw, auto) minmax(10.46vw, auto) minmax(26.14vw, auto) 2.94vw",
-				"--grid-template-rows": "minmax(95px, auto) minmax(25px, auto) minmax(5px, auto) minmax(35px, auto) minmax(320px, auto) minmax(33px, auto) minmax(61px, auto) minmax(50px, auto) minmax(40px, auto) minmax(71px, auto) minmax(49px, auto) minmax(200px, auto) minmax(28px, auto) minmax(127px, auto) minmax(21px, auto) minmax(128px, auto) minmax(32px, auto) minmax(35px, auto) minmax(2px, auto) minmax(23px, auto) minmax(2px, auto) minmax(34px, auto) minmax(128px, auto) minmax(320px, auto) 1fr",
+				"--m-grid-template-rows": "6.67vw auto 4.72vw 48.89vw auto 42.78vw 1.11vw auto 8.33vw auto 3.33vw 44.44vw auto 79.17vw 10.56vw auto 2.78vw auto 48px",
+				"--t-grid-template-rows": "minmax(24px, auto) minmax(23px, auto) minmax(17px, auto) minmax(176px, auto) minmax(2px, auto) minmax(154px, auto) minmax(4px, auto) minmax(50px, auto) minmax(30px, auto) minmax(292px, auto) minmax(12px, auto) minmax(160px, auto) minmax(23px, auto) minmax(285px, auto) minmax(38px, auto) minmax(70px, auto) minmax(10px, auto) auto minmax(48px, auto)",
+				"--small-desktop-grid-template-rows": "minmax(7.76vw, auto) minmax(2.04vw, auto) minmax(0.41vw, auto) minmax(2.86vw, auto) minmax(26.14vw, auto) minmax(2.70vw, auto) minmax(4.98vw, auto) minmax(4.08vw, auto) minmax(3.27vw, auto) minmax(5.80vw, auto) minmax(4.00vw, auto) minmax(16.34vw, auto) minmax(2.29vw, auto) minmax(10.38vw, auto) minmax(1.72vw, auto) minmax(10.46vw, auto) minmax(2.61vw, auto) minmax(2.86vw, auto) minmax(0.16vw, auto) minmax(1.88vw, auto) minmax(0.16vw, auto) minmax(2.78vw, auto) minmax(10.46vw, auto) minmax(3.50vw, auto) 0vw",
+				"--grid-template-rows": "minmax(95px, auto) minmax(25px, auto) minmax(5px, auto) minmax(35px, auto) minmax(320px, auto) minmax(33px, auto) minmax(61px, auto) minmax(50px, auto) minmax(40px, auto) minmax(71px, auto) minmax(49px, auto) minmax(200px, auto) minmax(28px, auto) minmax(127px, auto) minmax(21px, auto) minmax(128px, auto) minmax(32px, auto) minmax(35px, auto) minmax(2px, auto) minmax(23px, auto) minmax(2px, auto) minmax(34px, auto) minmax(48px, auto) 0px 0px",
 				"--m-grid-template-columns": "2.74% 0.61% 0.91% 8.84% 9.45% 3.35% 5.79% 42.07% 0.30% 5.18% 1.83% 9.45% 2.44% 2.74% 1.52% 2.74%",
 				"--grid-template-columns": "1.88% 4.41% 0.98% 0.98% 0.16% 0.57% 0.25% 10.87% 7.27% 3.02% 3.27% 6.29% 1.14% 1.80% 0.25% 7.35% 1.88% 5.56% 5.15% 3.27% 8.42% 4.49% 3.10% 7.43% 1.80% 0.08% 1.31% 7.03%",
 				"--m-block-min-height": "auto",
-				"--t-block-min-height": "1977px",
+				"--t-block-min-height": "auto",
 				"--small-desktop-block-min-height": "auto",
-				"--block-min-height": "1900px"
+				"--block-min-height": "auto"
 			}}
 			background={{
 				color: "rgb(255, 255, 255)",
@@ -187,159 +188,25 @@ export default function Section1() {
 				/>
 			</LayoutElement>
 			<LayoutElement
-				elementId={"zXduuz"}
+				elementId={"zWeddingBenefits"}
 				className={"layout-element layout-element--layout transition transition--slide"}
 				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 8,
-					"--grid-row": "19/21",
-					"--grid-column": "8/9",
-					"--m-grid-row": "19/21",
-					"--m-grid-column": "2/6"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridTextBox
-					id={"zXduuz"}
-					content={"<h5 dir=\"auto\" style=\"color: rgb(140, 43, 29);\">Sacred Union</h5>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
-					className={"layout-element__component layout-element__component--GridTextBox"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"zR0BTH"}
-				className={"layout-element layout-element--layout transition transition--slide"}
-				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 9,
-					"--grid-row": "20/22",
-					"--grid-column": "23/25",
-					"--m-grid-row": "22/24",
-					"--m-grid-column": "12/17"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridTextBox
-					id={"zR0BTH"}
-					content={"<h5 dir=\"auto\" style=\"color: rgb(140, 43, 29);\">Vedic Rituals</h5>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
-					className={"layout-element__component layout-element__component--GridTextBox"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"zNUD33"}
-				className={"layout-element layout-element--layout transition transition--slide"}
-				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 10,
-					"--grid-row": "20/22",
-					"--grid-column": "17/21",
-					"--m-grid-row": "22/24",
-					"--m-grid-column": "3/8"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridTextBox
-					id={"zNUD33"}
-					content={"<h5 dir=\"auto\" style=\"color: rgb(140, 43, 29);\">Family Traditions</h5>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
-					className={"layout-element__component layout-element__component--GridTextBox"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"zLa8oO"}
-				className={"layout-element layout-element--layout transition transition--slide"}
-				style={{
-					"--text": "left",
-					"--align": "flex-start",
-					"--justify": "flex-start",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 11,
-					"--grid-row": "20/22",
-					"--grid-column": "10/15",
-					"--m-grid-row": "19/21",
-					"--m-grid-column": "9/16"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridTextBox
-					id={"zLa8oO"}
-					content={"<h5 dir=\"auto\" style=\"color: rgb(140, 43, 29);\">Divine Blessings</h5>"}
-					textAlign={"left"}
-					textAlignMobile={"left"}
-					className={"layout-element__component layout-element__component--GridTextBox"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"zXYx1o"}
-				className={"layout-element layout-element--layout transition transition--slide"}
-				style={{
-					"--z-index": 1,
+					"--z-index": 5,
 					"--grid-row": "18/23",
 					"--grid-column": "5/27",
-					"--m-grid-row": "18/24",
+					"--m-grid-row": "18/19",
 					"--m-grid-column": "1/17"
 				}}
 				hasRotationFrame={false}
 				hasEntranceAnimation={true}
 			>
-				<GridCard
-					id={"zXYx1o"}
-					background={"rgb(255, 255, 255)"}
-					border={"1px solid rgb(0, 0, 0)"}
-					borderRadius={"12px"}
-					boxShadow={"none"}
-					opacity={"1"}
-					height={"96px"}
-					className={"layout-element__component layout-element__component--GridCard"}
-				/>
-			</LayoutElement>
-			<LayoutElement
-				elementId={"zJesIN"}
-				className={"layout-element layout-element--layout layout-element--desktop-element-hidden transition transition--slide transition--root-hidden"}
-				style={{
-					"--align": "center",
-					"--justify": "center",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 12,
-					"--grid-row": "24/25",
-					"--grid-column": "18/26",
-					"--m-grid-row": "20/23",
-					"--m-grid-column": "7/10",
-					"--hidden-element-z-index": 0
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridImage
-					id={"zJesIN"}
-					src={"https://images.unsplash.com/photo-1708963738411-74ab1cd5eafb?auto=format&fit=crop&w=480"}
-					srcset={"https://images.unsplash.com/photo-1708963738411-74ab1cd5eafb?auto=format&fit=crop&w=375 375w, https://images.unsplash.com/photo-1708963738411-74ab1cd5eafb?auto=format&fit=crop&w=768 768w, https://images.unsplash.com/photo-1708963738411-74ab1cd5eafb?auto=format&fit=crop&w=1024 1024w"}
-					alt={"a close up of a person getting henna on another person's hand"}
-					objectFit={"cover"}
-					desktopWidth={480}
-					desktopHeight={320}
-					mobileWidth={158}
-					desktopBorderRadius={"77px"}
-					mobileBorderRadius={"77px"}
-					rel={"nofollow"}
-					className={"layout-element__component layout-element__component--GridImage"}
+				<BenefitsCard
+					topLeft={"Sacred Union"}
+					topRight={"Divine Blessings"}
+					bottomLeft={"Family Traditions"}
+					bottomRight={"Vedic Rituals"}
+					imageSrc={"https://images.unsplash.com/photo-1708963738411-74ab1cd5eafb?auto=format&fit=crop&w=480"}
+					imageAlt={"Traditional Hindu Wedding Ceremony"}
 				/>
 			</LayoutElement>
 			<LayoutElement
@@ -352,7 +219,7 @@ export default function Section1() {
 					"--z-index": 13,
 					"--grid-row": "5/6",
 					"--grid-column": "16/24",
-					"--m-grid-row": "25/26",
+					"--m-grid-row": "1/2",
 					"--m-grid-column": "1/17",
 					"--m-hidden-element-z-index": 0
 				}}

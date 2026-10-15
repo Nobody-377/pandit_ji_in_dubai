@@ -26,16 +26,16 @@ export default function Section1() {
 				"--block-padding-bottom": "16px",
 				"--block-padding-left": "0",
 				"--m-block-padding": "16px",
-				"--m-grid-template-rows": "6.67vw auto 3.89vw auto 4.17vw auto 15.28vw auto 81px",
-				"--t-grid-template-rows": "minmax(24px, auto) minmax(22px, auto) minmax(14px, auto) minmax(300px, auto) minmax(15px, auto) minmax(210px, auto) minmax(55px, auto) minmax(48px, auto) 1fr",
+				"--m-grid-template-rows": "6.67vw auto 3.89vw auto 4.17vw auto 8.00vw auto 24px",
+				"--t-grid-template-rows": "minmax(24px, auto) minmax(22px, auto) minmax(14px, auto) minmax(300px, auto) minmax(15px, auto) minmax(210px, auto) minmax(28px, auto) minmax(48px, auto) 24px",
 				"--small-desktop-grid-template-rows": "minmax(8.50vw, auto) minmax(1.80vw, auto) minmax(2.94vw, auto) minmax(51.47vw, auto) minmax(7.19vw, auto) minmax(4.33vw, auto) minmax(3.59vw, auto) minmax(6.94vw, auto) minmax(5.15vw, auto) 13.40vw",
 				"--grid-template-rows": "minmax(104px, auto) minmax(22px, auto) minmax(36px, auto) minmax(630px, auto) minmax(88px, auto) minmax(53px, auto) minmax(44px, auto) minmax(85px, auto) minmax(63px, auto) 1fr",
 				"--m-grid-template-columns": "7.32% 42.68% 1.83% 40.85% 7.32%",
 				"--grid-template-columns": "6.21% 0.33% 26.14% 15.36% 1.96% 50.00%",
 				"--m-block-min-height": "auto",
-				"--t-block-min-height": "769px",
+				"--t-block-min-height": "auto",
 				"--small-desktop-block-min-height": "auto",
-				"--block-min-height": "1289px"
+				"--block-min-height": "auto"
 			}}
 			background={{
 				color: "#faf6f0",
