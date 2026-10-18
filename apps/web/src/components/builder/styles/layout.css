@@ -3101,3 +3101,16 @@
 		font-size: 15px;
 	}
 }
+
+/* Responsive GridGallery Carousel overrides for BlockLayout integration */
+.block:has(.grid-gallery-carousel),
+.page .block-layout--layout:has(.grid-gallery-carousel) {
+	min-height: auto !important;
+}
+
+.page .block-layout--layout:has(.grid-gallery-carousel) .layout-element:has(.grid-gallery-carousel) {
+	grid-column: 1 / -1 !important;
+	width: 100% !important;
+	max-width: 100% !important;
+	margin: 0 !important;
+}
