@@ -5,11 +5,12 @@
  */
 
 const DB_NAME = 'panditji_site_storage';
-const DB_VERSION = 3;
+const DB_VERSION = 4;
 const STORE_PHOTOS = 'section_photos';
 const STORE_POPUP = 'popup_settings';
 const STORE_REVIEWS = 'customer_reviews';
 const STORE_SERVICES = 'pooja_services';
+const STORE_CREDENTIALS = 'admin_credentials';
 
 function getDb() {
 	return new Promise((resolve, reject) => {
@@ -37,6 +38,10 @@ function getDb() {
 			if (!db.objectStoreNames.contains(STORE_SERVICES)) {
 				// single key 'all_services'
 				db.createObjectStore(STORE_SERVICES);
+			}
+			if (!db.objectStoreNames.contains(STORE_CREDENTIALS)) {
+				// single key 'active'
+				db.createObjectStore(STORE_CREDENTIALS);
 			}
 		};
 
@@ -301,6 +306,101 @@ export const localPhotoDb = {
 				req.onerror = () => reject(req.error);
 			} catch (err) {
 				reject(err);
+			}
+		});
+	},
+
+	/**
+	 * Retrieve custom admin credentials if configured.
+	 */
+	async getAdminCredentials() {
+		const db = await getDb();
+		if (!db) {
+			try {
+				const raw = localStorage.getItem('pj_admin_custom_credentials');
+				return raw ? JSON.parse(raw) : null;
+			} catch {
+				return null;
+			}
+		}
+
+		return new Promise((resolve) => {
+			try {
+				const tx = db.transaction(STORE_CREDENTIALS, 'readonly');
+				const store = tx.objectStore(STORE_CREDENTIALS);
+				const req = store.get('active');
+				req.onsuccess = () => {
+					if (req.result) {
+						resolve(req.result);
+					} else {
+						try {
+							const raw = localStorage.getItem('pj_admin_custom_credentials');
+							resolve(raw ? JSON.parse(raw) : null);
+						} catch {
+							resolve(null);
+						}
+					}
+				};
+				req.onerror = () => {
+					try {
+						const raw = localStorage.getItem('pj_admin_custom_credentials');
+						resolve(raw ? JSON.parse(raw) : null);
+					} catch {
+						resolve(null);
+					}
+				};
+			} catch {
+				resolve(null);
+			}
+		});
+	},
+
+	/**
+	 * Save updated admin credentials.
+	 */
+	async saveAdminCredentials(creds) {
+		const db = await getDb();
+		try {
+			localStorage.setItem('pj_admin_custom_credentials', JSON.stringify(creds));
+		} catch (e) {
+			console.warn('localStorage save admin credentials failed:', e);
+		}
+
+		if (!db) return creds;
+
+		return new Promise((resolve, reject) => {
+			try {
+				const tx = db.transaction(STORE_CREDENTIALS, 'readwrite');
+				const store = tx.objectStore(STORE_CREDENTIALS);
+				const req = store.put(creds, 'active');
+				req.onsuccess = () => resolve(creds);
+				req.onerror = () => reject(req.error);
+			} catch (err) {
+				resolve(creds);
+			}
+		});
+	},
+
+	/**
+	 * Reset admin credentials back to default.
+	 */
+	async resetAdminCredentials() {
+		try {
+			localStorage.removeItem('pj_admin_custom_credentials');
+		} catch (_) {}
+
+		const db = await getDb();
+		if (!db) return;
+
+		return new Promise((resolve) => {
+			try {
+				const tx = db.transaction(STORE_CREDENTIALS, 'readwrite');
+				const store = tx.objectStore(STORE_CREDENTIALS);
+				const req = store.delete('active');
+				req.onsuccess = () => resolve();
+				req.onerror = () => resolve();
+			} catch {
+				resolve();
 			}
 		});
 	}

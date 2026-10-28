@@ -37,13 +37,16 @@ import {
 	Calendar,
 	Search,
 	BookOpen,
-	Tag
+	Tag,
+	Lock,
+	ShieldCheck,
+	Key
 } from 'lucide-react';
 
 export default function AdminDashboard() {
-	const { adminUser, logout } = useAdminAuth();
+	const { adminUser, logout, credentialsInfo, changeCredentials, resetCredentials } = useAdminAuth();
 
-	// Primary module tab: 'photos' | 'popup' | 'reviews' | 'services'
+	// Primary module tab: 'photos' | 'popup' | 'reviews' | 'services' | 'security'
 	const [activeModule, setActiveModule] = useState('photos');
 
 	// =========================================================================
@@ -130,6 +133,18 @@ export default function AdminDashboard() {
 	const [serviceButtonText, setServiceButtonText] = useState('Book This Pooja');
 	const [serviceFile, setServiceFile] = useState(null);
 	const [servicePreview, setServicePreview] = useState('');
+
+	// =========================================================================
+	// ADMIN CREDENTIALS & SECURITY STATE
+	// =========================================================================
+	const [securityCurrentPassword, setSecurityCurrentPassword] = useState('');
+	const [securityNewEmail, setSecurityNewEmail] = useState('');
+	const [securityNewPassword, setSecurityNewPassword] = useState('');
+	const [securityConfirmPassword, setSecurityConfirmPassword] = useState('');
+	const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+	const [showNewPassword, setShowNewPassword] = useState(false);
+	const [securitySubmitting, setSecuritySubmitting] = useState(false);
+	const [securityStatus, setSecurityStatus] = useState({ type: '', text: '' });
 
 	// Close any open modal on Escape key
 	useEffect(() => {
@@ -768,6 +783,104 @@ export default function AdminDashboard() {
 		setTimeout(() => setCopiedSql(false), 2000);
 	};
 
+	// Keep security email in sync
+	useEffect(() => {
+		if (activeModule === 'security') {
+			setSecurityNewEmail(adminUser?.email || credentialsInfo?.email || '');
+			setSecurityCurrentPassword('');
+			setSecurityNewPassword('');
+			setSecurityConfirmPassword('');
+			setSecurityStatus({ type: '', text: '' });
+		}
+	}, [activeModule, adminUser, credentialsInfo]);
+
+	const handleUpdateSecurityCredentials = async (e) => {
+		e.preventDefault();
+		setSecurityStatus({ type: '', text: '' });
+
+		if (!securityCurrentPassword) {
+			setSecurityStatus({
+				type: 'error',
+				text: 'Please enter your current password to authorize changes.',
+			});
+			return;
+		}
+
+		if (securityNewPassword) {
+			if (securityNewPassword.length < 6) {
+				setSecurityStatus({
+					type: 'error',
+					text: 'New password must be at least 6 characters long.',
+				});
+				return;
+			}
+			if (securityNewPassword !== securityConfirmPassword) {
+				setSecurityStatus({
+					type: 'error',
+					text: 'New password and confirmation password do not match.',
+				});
+				return;
+			}
+		}
+
+		if (!securityNewEmail || !securityNewEmail.trim()) {
+			setSecurityStatus({
+				type: 'error',
+				text: 'Email address cannot be empty.',
+			});
+			return;
+		}
+
+		try {
+			setSecuritySubmitting(true);
+			const res = await changeCredentials({
+				currentPassword: securityCurrentPassword,
+				newEmail: securityNewEmail.trim(),
+				newPassword: securityNewPassword.trim() || undefined,
+			});
+
+			setSecurityStatus({
+				type: 'success',
+				text: `Admin credentials updated successfully! Your active login email is now "${res.email}". Please use your new credentials for future logins.`,
+			});
+			setSecurityCurrentPassword('');
+			setSecurityNewPassword('');
+			setSecurityConfirmPassword('');
+		} catch (err) {
+			console.error('Update credentials failed:', err);
+			setSecurityStatus({
+				type: 'error',
+				text: err.message || 'Failed to update credentials. Please check your current password.',
+			});
+		} finally {
+			setSecuritySubmitting(false);
+		}
+	};
+
+	const handleResetSecurityCredentials = async () => {
+		const enteredCurrent = window.prompt(
+			'Enter your current password to reset login credentials back to the factory default (vishaldevmorari487@gmail.com):'
+		);
+		if (!enteredCurrent) return;
+
+		try {
+			setSecuritySubmitting(true);
+			const res = await resetCredentials(enteredCurrent);
+			setSecurityStatus({
+				type: 'success',
+				text: `Credentials successfully reset to factory default (${res.email}).`,
+			});
+			setSecurityNewEmail(res.email);
+			setSecurityCurrentPassword('');
+			setSecurityNewPassword('');
+			setSecurityConfirmPassword('');
+		} catch (err) {
+			alert(`Reset failed: ${err.message}`);
+		} finally {
+			setSecuritySubmitting(false);
+		}
+	};
+
 	return (
 		<div className="min-h-screen bg-[#FAF6F0] text-[#2B1A14] flex flex-col font-['Mukta',sans-serif] text-base leading-relaxed">
 			{/* Top Bar (Matches website navigation background #F2EBDD) */}
@@ -812,10 +925,19 @@ export default function AdminDashboard() {
 
 					{/* Admin Info & Logout */}
 					{adminUser && (
-						<div className="hidden sm:flex items-center gap-3 pl-3 border-l border-[#E2D7C8]">
-							<span className="text-[#2B1A14] text-xs sm:text-sm font-bold max-w-[180px] truncate font-['Poppins',sans-serif]" title={adminUser.email}>
-								{adminUser.email}
-							</span>
+						<div className="hidden sm:flex items-center gap-2 pl-3 border-l border-[#E2D7C8]">
+							<button
+								onClick={() => setActiveModule('security')}
+								className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border transition text-xs sm:text-sm font-bold font-['Poppins',sans-serif] ${
+									activeModule === 'security'
+										? 'bg-[#8C2B1D] text-white border-[#8C2B1D] shadow-xs'
+										: 'bg-white border-[#E2D7C8] text-[#2B1A14] hover:text-[#8C2B1D] hover:bg-[#F2EBDD]'
+								}`}
+								title="Change Login Email & Password"
+							>
+								<ShieldCheck className={`w-4 h-4 ${activeModule === 'security' ? 'text-[#E5B361]' : 'text-[#8C2B1D]'}`} />
+								<span className="max-w-[170px] truncate">{adminUser.email}</span>
+							</button>
 							<button
 								onClick={logout}
 								title="Sign Out"
@@ -930,6 +1052,31 @@ export default function AdminDashboard() {
 								}`}
 							>
 								{services.length}
+							</span>
+						</button>
+
+						<button
+							onClick={() => setActiveModule('security')}
+							className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm sm:text-base font-bold transition font-['Poppins',sans-serif] ${
+								activeModule === 'security'
+									? 'bg-[#8C2B1D] text-white shadow-md shadow-[#8C2B1D]/20'
+									: 'text-[#2B1A14] hover:bg-[#EFE5D8]'
+							}`}
+						>
+							<div className="flex items-center gap-3">
+								<ShieldCheck className={`w-5 h-5 ${activeModule === 'security' ? 'text-[#FAF6F0]' : 'text-[#8C2B1D]'}`} />
+								<span>Login & Security</span>
+							</div>
+							<span
+								className={`text-[11px] px-2 py-0.5 rounded-full font-bold font-['Poppins',sans-serif] ${
+									activeModule === 'security'
+										? 'bg-black/20 text-[#FAF6F0]'
+										: credentialsInfo?.isCustom
+										? 'bg-amber-100 text-amber-800 border border-amber-300'
+										: 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+								}`}
+							>
+								{credentialsInfo?.isCustom ? 'Custom' : 'Active'}
 							</span>
 						</button>
 					</div>
@@ -1049,7 +1196,7 @@ export default function AdminDashboard() {
 								</p>
 							</div>
 						</div>
-					) : (
+					) : activeModule === 'services' ? (
 						/* Services Module Sidebar: Quick Filters & Info */
 						<div className="p-5 flex-1 text-sm text-[#2B1A14]/80 space-y-4">
 							<div className="p-4 bg-white rounded-xl border border-[#E5DCCF] shadow-2xs">
@@ -1106,6 +1253,44 @@ export default function AdminDashboard() {
 								<p className="text-[#8C2B1D] font-bold text-sm mb-1.5 font-['Poppins',sans-serif]">Instant Website Update</p>
 								<p className="text-xs sm:text-sm leading-relaxed text-[#2B1A14]/80">
 									Adding a new pooja service creates a new box on the website immediately. Removing or hiding a box removes it from the catalog in real time.
+								</p>
+							</div>
+						</div>
+					) : (
+						/* Security Module Sidebar */
+						<div className="p-5 flex-1 text-sm text-[#2B1A14]/80 space-y-4">
+							<div className="p-4 bg-white rounded-xl border border-[#E5DCCF] shadow-2xs">
+								<p className="text-[#8C2B1D] font-bold text-sm mb-2 font-['Poppins',sans-serif] flex items-center gap-1.5">
+									<Lock className="w-4 h-4 text-[#C4923C]" />
+									<span>Security & Credentials</span>
+								</p>
+								<p className="text-xs sm:text-sm leading-relaxed text-[#2B1A14]/80">
+									Manage the administrator email address and master password required to access this portal.
+								</p>
+							</div>
+
+							<div className="p-4 bg-white rounded-xl border border-[#E5DCCF] shadow-2xs">
+								<p className="text-[#8C2B1D] font-bold text-sm mb-1.5 font-['Poppins',sans-serif]">Account Status</p>
+								<div className="mt-2 space-y-2 text-xs font-['Poppins',sans-serif]">
+									<div className="flex justify-between py-1 border-b border-[#F2EBDD]">
+										<span className="text-[#2B1A14]/60">Mode:</span>
+										<span className="font-bold text-[#8C2B1D]">
+											{credentialsInfo?.isCustom ? 'Custom Admin Login' : 'Factory Default'}
+										</span>
+									</div>
+									<div className="flex justify-between py-1">
+										<span className="text-[#2B1A14]/60">Privilege:</span>
+										<span className="font-bold text-emerald-800">Super Administrator</span>
+									</div>
+								</div>
+							</div>
+
+							<div className="p-4 bg-amber-50/70 rounded-xl border border-amber-200 shadow-2xs">
+								<p className="text-amber-900 font-bold text-xs uppercase tracking-wider mb-1 font-['Poppins',sans-serif]">
+									Security Best Practice
+								</p>
+								<p className="text-xs leading-relaxed text-amber-950/80">
+									Choose a strong password with at least 6 characters. Any changes apply immediately for your next login.
 								</p>
 							</div>
 						</div>
@@ -1944,6 +2129,233 @@ export default function AdminDashboard() {
 									})}
 								</div>
 							)}
+						</div>
+					) : activeModule === 'security' ? (
+						/* ========================================================================= */
+						/* MODULE 5: ADMIN LOGIN & SECURITY SETTINGS */
+						/* ========================================================================= */
+						<div className="p-8 sm:p-10 max-w-5xl">
+							{/* Header */}
+							<div className="mb-7 pb-5 border-b border-[#E5DCCF]">
+								<div className="flex items-center gap-2 text-xs sm:text-sm text-[#C4923C] font-bold tracking-wider uppercase mb-1.5 font-['Poppins',sans-serif]">
+									<ShieldCheck className="w-4 h-4 text-[#8C2B1D]" />
+									<span>Administrator Access Control</span>
+								</div>
+								<h2 className="text-2xl sm:text-3xl font-bold text-[#8C2B1D] font-['Marcellus',serif]">
+									Admin Login & Security
+								</h2>
+								<p className="text-sm sm:text-base text-[#2B1A14]/70 mt-1">
+									Change the administrator email address and master password used to log into this portal.
+								</p>
+							</div>
+
+							{/* Status Message */}
+							{securityStatus.text && (
+								<div
+									className={`mb-6 p-4 rounded-2xl border text-sm sm:text-base flex items-start gap-3 transition ${
+										securityStatus.type === 'error'
+											? 'bg-red-50 border-red-200 text-red-800'
+											: 'bg-emerald-50 border-emerald-300 text-emerald-900'
+									}`}
+								>
+									{securityStatus.type === 'error' ? (
+										<AlertTriangle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+									) : (
+										<CheckCircle className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+									)}
+									<div className="flex-1">
+										<p className="font-semibold">{securityStatus.text}</p>
+									</div>
+									<button
+										onClick={() => setSecurityStatus({ type: '', text: '' })}
+										className="p-1 text-[#2B1A14]/50 hover:text-[#2B1A14]"
+									>
+										<X className="w-4 h-4" />
+									</button>
+								</div>
+							)}
+
+							<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+								{/* Main Credentials Form (2 cols) */}
+								<div className="lg:col-span-2 bg-white border border-[#E5DCCF] rounded-3xl p-6 sm:p-8 shadow-sm">
+									<div className="flex items-center justify-between pb-4 mb-6 border-b border-[#F2EBDD]">
+										<div className="flex items-center gap-2.5">
+											<Key className="w-5 h-5 text-[#8C2B1D]" />
+											<h3 className="text-lg sm:text-xl font-bold text-[#8C2B1D] font-['Marcellus',serif]">
+												Update Login Credentials
+											</h3>
+										</div>
+										<span className="text-xs bg-[#FAF6F0] text-[#8C2B1D] border border-[#E5DCCF] px-3 py-1 rounded-full font-bold font-['Poppins',sans-serif]">
+											Identity Verification
+										</span>
+									</div>
+
+									<form onSubmit={handleUpdateSecurityCredentials} className="space-y-6">
+										{/* Current Password Field */}
+										<div className="p-4 bg-[#FAF6F0] rounded-2xl border border-[#E2D7C8]">
+											<label className="flex items-center justify-between text-xs sm:text-sm font-bold uppercase text-[#2B1A14] mb-1.5 font-['Poppins',sans-serif]">
+												<span className="flex items-center gap-1.5">
+													<span>Current Password</span>
+													<span className="text-red-600 font-bold">*</span>
+												</span>
+												<span className="text-xs font-normal normal-case text-[#2B1A14]/60">
+													Required for verification
+												</span>
+											</label>
+											<div className="relative">
+												<Lock className="w-4 h-4 text-[#2B1A14]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
+												<input
+													type={showCurrentPassword ? 'text' : 'password'}
+													value={securityCurrentPassword}
+													onChange={(e) => setSecurityCurrentPassword(e.target.value)}
+													placeholder="Enter your current password"
+													required
+													className="w-full bg-white border border-[#E2D7C8] focus:border-[#8C2B1D] text-[#2B1A14] rounded-xl pl-10 pr-12 py-3 text-sm sm:text-base outline-none transition font-['Mukta',sans-serif]"
+												/>
+												<button
+													type="button"
+													onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+													className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#2B1A14]/50 hover:text-[#2B1A14] p-1"
+													title={showCurrentPassword ? 'Hide password' : 'Show password'}
+												>
+													{showCurrentPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+												</button>
+											</div>
+										</div>
+
+										<div className="border-t border-[#F2EBDD] pt-4 space-y-4">
+											{/* New Admin Email */}
+											<div>
+												<label className="block text-xs sm:text-sm font-bold uppercase text-[#2B1A14] mb-1.5 font-['Poppins',sans-serif]">
+													Administrator Login Email
+												</label>
+												<input
+													type="email"
+													value={securityNewEmail}
+													onChange={(e) => setSecurityNewEmail(e.target.value)}
+													placeholder="admin@example.com"
+													required
+													className="w-full bg-[#FAF6F0] border border-[#E2D7C8] focus:border-[#8C2B1D] text-[#2B1A14] rounded-xl px-4 py-3 text-sm sm:text-base outline-none transition font-['Mukta',sans-serif]"
+												/>
+												<p className="text-xs text-[#2B1A14]/60 mt-1 font-['Poppins',sans-serif]">
+													Enter the new email address you want to use to log into this admin panel.
+												</p>
+											</div>
+
+											{/* New Password */}
+											<div>
+												<label className="flex items-center justify-between text-xs sm:text-sm font-bold uppercase text-[#2B1A14] mb-1.5 font-['Poppins',sans-serif]">
+													<span>New Password</span>
+													<span className="text-xs font-normal normal-case text-[#2B1A14]/60">
+														(Leave blank to keep unchanged)
+													</span>
+												</label>
+												<div className="relative">
+													<Lock className="w-4 h-4 text-[#2B1A14]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
+													<input
+														type={showNewPassword ? 'text' : 'password'}
+														value={securityNewPassword}
+														onChange={(e) => setSecurityNewPassword(e.target.value)}
+														placeholder="Enter new password (min. 6 characters)"
+														className="w-full bg-[#FAF6F0] border border-[#E2D7C8] focus:border-[#8C2B1D] text-[#2B1A14] rounded-xl pl-10 pr-12 py-3 text-sm sm:text-base outline-none transition font-['Mukta',sans-serif]"
+													/>
+													<button
+														type="button"
+														onClick={() => setShowNewPassword(!showNewPassword)}
+														className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#2B1A14]/50 hover:text-[#2B1A14] p-1"
+														title={showNewPassword ? 'Hide password' : 'Show password'}
+													>
+														{showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+													</button>
+												</div>
+											</div>
+
+											{/* Confirm New Password */}
+											{securityNewPassword && (
+												<div>
+													<label className="block text-xs sm:text-sm font-bold uppercase text-[#2B1A14] mb-1.5 font-['Poppins',sans-serif]">
+														Confirm New Password
+													</label>
+													<div className="relative">
+														<Lock className="w-4 h-4 text-[#2B1A14]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
+														<input
+															type={showNewPassword ? 'text' : 'password'}
+															value={securityConfirmPassword}
+															onChange={(e) => setSecurityConfirmPassword(e.target.value)}
+															placeholder="Re-type your new password"
+															required={Boolean(securityNewPassword)}
+															className="w-full bg-[#FAF6F0] border border-[#E2D7C8] focus:border-[#8C2B1D] text-[#2B1A14] rounded-xl pl-10 pr-12 py-3 text-sm sm:text-base outline-none transition font-['Mukta',sans-serif]"
+														/>
+													</div>
+												</div>
+											)}
+										</div>
+
+										{/* Submit Action */}
+										<div className="pt-4 border-t border-[#F2EBDD] flex items-center justify-end gap-3">
+											<button
+												type="submit"
+												disabled={securitySubmitting}
+												className="px-6 py-3 rounded-xl bg-[#8C2B1D] hover:bg-[#a33222] text-white font-bold text-sm sm:text-base transition shadow-md shadow-[#8C2B1D]/20 disabled:opacity-50 flex items-center gap-2 font-['Poppins',sans-serif]"
+											>
+												<ShieldCheck className="w-4 h-4 text-[#E5B361]" />
+												<span>{securitySubmitting ? 'Updating Credentials...' : 'Save New Credentials'}</span>
+											</button>
+										</div>
+									</form>
+								</div>
+
+								{/* Side Info & Reset Cards (1 col) */}
+								<div className="space-y-6">
+									{/* Account Info */}
+									<div className="bg-white border border-[#E5DCCF] rounded-3xl p-6 shadow-sm">
+										<h4 className="text-base font-bold text-[#8C2B1D] font-['Marcellus',serif] mb-4 flex items-center gap-2">
+											<Sparkles className="w-4 h-4 text-[#C4923C]" />
+											<span>Current Account Info</span>
+										</h4>
+										<div className="space-y-3 text-xs sm:text-sm font-['Poppins',sans-serif]">
+											<div className="p-3 bg-[#FAF6F0] rounded-xl border border-[#E2D7C8]">
+												<span className="text-[#2B1A14]/60 block text-xs">Active Login Email</span>
+												<span className="font-bold text-[#8C2B1D] text-sm break-all">
+													{adminUser?.email || credentialsInfo?.email}
+												</span>
+											</div>
+											<div className="p-3 bg-[#FAF6F0] rounded-xl border border-[#E2D7C8]">
+												<span className="text-[#2B1A14]/60 block text-xs">Role</span>
+												<span className="font-bold text-emerald-800 text-sm">
+													Super Administrator
+												</span>
+											</div>
+											<div className="p-3 bg-[#FAF6F0] rounded-xl border border-[#E2D7C8]">
+												<span className="text-[#2B1A14]/60 block text-xs">Credentials Configuration</span>
+												<span className="font-bold text-[#2B1A14] text-sm">
+													{credentialsInfo?.isCustom ? 'Custom Configured' : 'Factory Default'}
+												</span>
+											</div>
+										</div>
+									</div>
+
+									{/* Reset to Factory Default Zone */}
+									<div className="bg-white border border-red-200 rounded-3xl p-6 shadow-sm">
+										<h4 className="text-base font-bold text-red-900 font-['Marcellus',serif] mb-2 flex items-center gap-2">
+											<RotateCcw className="w-4 h-4 text-red-700" />
+											<span>Factory Default Reset</span>
+										</h4>
+										<p className="text-xs text-[#2B1A14]/70 leading-relaxed mb-4 font-['Poppins',sans-serif]">
+											Revert administrator login email and password back to the factory initial default (<strong className="text-[#8C2B1D]">vishaldevmorari487@gmail.com</strong>).
+										</p>
+										<button
+											type="button"
+											onClick={handleResetSecurityCredentials}
+											disabled={securitySubmitting}
+											className="w-full py-2.5 px-4 rounded-xl border border-red-300 text-red-700 hover:bg-red-50 font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 font-['Poppins',sans-serif]"
+										>
+											<RotateCcw className="w-3.5 h-3.5" />
+											<span>Reset to Factory Default</span>
+										</button>
+									</div>
+								</div>
+							</div>
 						</div>
 					) : (
 						/* ========================================================================= */
