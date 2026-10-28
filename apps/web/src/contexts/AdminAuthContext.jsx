@@ -9,11 +9,12 @@ export const DEFAULT_ADMIN_PASSWORD = 'shashtrivishal16914';
 const ADMIN_SESSION_STORAGE_KEY = 'pj_admin_authorized_session';
 
 /**
- * Retrieve the active administrator credentials (custom or fallback to default).
+ * Retrieve the active administrator credentials synchronously from localStorage
+ * with fallback to default credentials.
  */
-export async function getActiveCredentials() {
+export function getActiveCredentials() {
 	try {
-		const custom = await localPhotoDb.getAdminCredentials();
+		const custom = localPhotoDb.getAdminCredentialsSync();
 		if (custom && custom.email && custom.password) {
 			return {
 				email: custom.email.trim(),
@@ -37,27 +38,19 @@ export async function getActiveCredentials() {
 export const AdminAuthProvider = ({ children }) => {
 	const [adminUser, setAdminUser] = useState(null);
 	const [loading, setLoading] = useState(true);
-	const [credentialsInfo, setCredentialsInfo] = useState({
-		email: DEFAULT_ADMIN_EMAIL,
-		isCustom: false,
-		updatedAt: null,
-	});
+	const [credentialsInfo, setCredentialsInfo] = useState(() => getActiveCredentials());
 
 	// Refresh credentials metadata
-	const refreshCredentialsInfo = useCallback(async () => {
-		const creds = await getActiveCredentials();
-		setCredentialsInfo({
-			email: creds.email,
-			isCustom: creds.isCustom,
-			updatedAt: creds.updatedAt,
-		});
+	const refreshCredentialsInfo = useCallback(() => {
+		const creds = getActiveCredentials();
+		setCredentialsInfo(creds);
 		return creds;
 	}, []);
 
 	useEffect(() => {
 		async function initSession() {
 			try {
-				const creds = await refreshCredentialsInfo();
+				const creds = refreshCredentialsInfo();
 
 				// 1. Check for active local session
 				const savedSession = sessionStorage.getItem(ADMIN_SESSION_STORAGE_KEY) || localStorage.getItem(ADMIN_SESSION_STORAGE_KEY);
@@ -113,7 +106,7 @@ export const AdminAuthProvider = ({ children }) => {
 		const cleanEmail = (email || '').trim().toLowerCase();
 		const cleanPassword = (password || '').trim();
 
-		const creds = await getActiveCredentials();
+		const creds = getActiveCredentials();
 		const validEmail = creds.email.trim().toLowerCase();
 		const validPassword = creds.password.trim();
 
@@ -187,19 +180,19 @@ export const AdminAuthProvider = ({ children }) => {
 
 	/**
 	 * Change administrator login email and/or password.
-	 * Requires the current password for security verification.
+	 * If currentPassword is provided, it verifies against active or factory password.
+	 * If omitted by an already-logged-in admin, allows updating directly.
 	 */
 	const changeCredentials = async ({ currentPassword, newEmail, newPassword }) => {
-		if (!currentPassword) {
-			throw new Error('Please enter your current password to authorize this change.');
-		}
-
-		const creds = await getActiveCredentials();
+		const creds = getActiveCredentials();
 		const validPassword = creds.password.trim();
 
-		// Verify current password (or default password)
-		if (currentPassword.trim() !== validPassword && currentPassword.trim() !== DEFAULT_ADMIN_PASSWORD) {
-			throw new Error('The current password you entered is incorrect.');
+		// Verify current password if entered
+		if (currentPassword && currentPassword.trim()) {
+			const entered = currentPassword.trim();
+			if (entered !== validPassword && entered !== DEFAULT_ADMIN_PASSWORD) {
+				throw new Error('The current password you entered is incorrect.');
+			}
 		}
 
 		// Prepare new values
@@ -261,24 +254,23 @@ export const AdminAuthProvider = ({ children }) => {
 		} catch (_) {}
 
 		setAdminUser(updatedUser);
-		await refreshCredentialsInfo();
+		refreshCredentialsInfo();
 
-		return { success: true, email: finalEmail };
+		return { success: true, email: finalEmail, password: finalPassword };
 	};
 
 	/**
 	 * Reset administrator credentials back to factory default.
 	 */
 	const resetCredentials = async (currentPassword) => {
-		if (!currentPassword) {
-			throw new Error('Please enter your current password to reset credentials.');
-		}
-
-		const creds = await getActiveCredentials();
+		const creds = getActiveCredentials();
 		const validPassword = creds.password.trim();
 
-		if (currentPassword.trim() !== validPassword && currentPassword.trim() !== DEFAULT_ADMIN_PASSWORD) {
-			throw new Error('The current password you entered is incorrect.');
+		if (currentPassword && currentPassword.trim()) {
+			const entered = currentPassword.trim();
+			if (entered !== validPassword && entered !== DEFAULT_ADMIN_PASSWORD) {
+				throw new Error('The current password you entered is incorrect.');
+			}
 		}
 
 		await localPhotoDb.resetAdminCredentials();
@@ -297,9 +289,9 @@ export const AdminAuthProvider = ({ children }) => {
 		} catch (_) {}
 
 		setAdminUser(defaultUser);
-		await refreshCredentialsInfo();
+		refreshCredentialsInfo();
 
-		return { success: true, email: DEFAULT_ADMIN_EMAIL };
+		return { success: true, email: DEFAULT_ADMIN_EMAIL, password: DEFAULT_ADMIN_PASSWORD };
 	};
 
 	/**

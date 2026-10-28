@@ -311,46 +311,42 @@ export const localPhotoDb = {
 	},
 
 	/**
+	 * Retrieve custom admin credentials synchronously from localStorage.
+	 */
+	getAdminCredentialsSync() {
+		try {
+			const raw = localStorage.getItem('pj_admin_custom_credentials');
+			return raw ? JSON.parse(raw) : null;
+		} catch {
+			return null;
+		}
+	},
+
+	/**
 	 * Retrieve custom admin credentials if configured.
 	 */
 	async getAdminCredentials() {
-		const db = await getDb();
-		if (!db) {
-			try {
-				const raw = localStorage.getItem('pj_admin_custom_credentials');
-				return raw ? JSON.parse(raw) : null;
-			} catch {
-				return null;
-			}
+		const local = this.getAdminCredentialsSync();
+		if (local && local.email && local.password) {
+			return local;
 		}
+
+		const db = await getDb();
+		if (!db) return local;
 
 		return new Promise((resolve) => {
 			try {
+				if (!db.objectStoreNames.contains(STORE_CREDENTIALS)) {
+					resolve(this.getAdminCredentialsSync());
+					return;
+				}
 				const tx = db.transaction(STORE_CREDENTIALS, 'readonly');
 				const store = tx.objectStore(STORE_CREDENTIALS);
 				const req = store.get('active');
-				req.onsuccess = () => {
-					if (req.result) {
-						resolve(req.result);
-					} else {
-						try {
-							const raw = localStorage.getItem('pj_admin_custom_credentials');
-							resolve(raw ? JSON.parse(raw) : null);
-						} catch {
-							resolve(null);
-						}
-					}
-				};
-				req.onerror = () => {
-					try {
-						const raw = localStorage.getItem('pj_admin_custom_credentials');
-						resolve(raw ? JSON.parse(raw) : null);
-					} catch {
-						resolve(null);
-					}
-				};
+				req.onsuccess = () => resolve(req.result || this.getAdminCredentialsSync());
+				req.onerror = () => resolve(this.getAdminCredentialsSync());
 			} catch {
-				resolve(null);
+				resolve(this.getAdminCredentialsSync());
 			}
 		});
 	},
@@ -359,23 +355,25 @@ export const localPhotoDb = {
 	 * Save updated admin credentials.
 	 */
 	async saveAdminCredentials(creds) {
-		const db = await getDb();
 		try {
 			localStorage.setItem('pj_admin_custom_credentials', JSON.stringify(creds));
 		} catch (e) {
 			console.warn('localStorage save admin credentials failed:', e);
 		}
 
-		if (!db) return creds;
+		const db = await getDb();
+		if (!db || !db.objectStoreNames.contains(STORE_CREDENTIALS)) {
+			return creds;
+		}
 
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			try {
 				const tx = db.transaction(STORE_CREDENTIALS, 'readwrite');
 				const store = tx.objectStore(STORE_CREDENTIALS);
 				const req = store.put(creds, 'active');
 				req.onsuccess = () => resolve(creds);
-				req.onerror = () => reject(req.error);
-			} catch (err) {
+				req.onerror = () => resolve(creds);
+			} catch {
 				resolve(creds);
 			}
 		});
@@ -390,7 +388,7 @@ export const localPhotoDb = {
 		} catch (_) {}
 
 		const db = await getDb();
-		if (!db) return;
+		if (!db || !db.objectStoreNames.contains(STORE_CREDENTIALS)) return;
 
 		return new Promise((resolve) => {
 			try {

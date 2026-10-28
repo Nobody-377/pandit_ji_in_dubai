@@ -143,6 +143,7 @@ export default function AdminDashboard() {
 	const [securityConfirmPassword, setSecurityConfirmPassword] = useState('');
 	const [showCurrentPassword, setShowCurrentPassword] = useState(false);
 	const [showNewPassword, setShowNewPassword] = useState(false);
+	const [showRevealedPassword, setShowRevealedPassword] = useState(false);
 	const [securitySubmitting, setSecuritySubmitting] = useState(false);
 	const [securityStatus, setSecurityStatus] = useState({ type: '', text: '' });
 
@@ -783,28 +784,19 @@ export default function AdminDashboard() {
 		setTimeout(() => setCopiedSql(false), 2000);
 	};
 
-	// Keep security email in sync
+	// Keep security email in sync when opening the security tab
 	useEffect(() => {
 		if (activeModule === 'security') {
 			setSecurityNewEmail(adminUser?.email || credentialsInfo?.email || '');
 			setSecurityCurrentPassword('');
 			setSecurityNewPassword('');
 			setSecurityConfirmPassword('');
-			setSecurityStatus({ type: '', text: '' });
 		}
-	}, [activeModule, adminUser, credentialsInfo]);
+	}, [activeModule]);
 
 	const handleUpdateSecurityCredentials = async (e) => {
 		e.preventDefault();
 		setSecurityStatus({ type: '', text: '' });
-
-		if (!securityCurrentPassword) {
-			setSecurityStatus({
-				type: 'error',
-				text: 'Please enter your current password to authorize changes.',
-			});
-			return;
-		}
 
 		if (securityNewPassword) {
 			if (securityNewPassword.length < 6) {
@@ -814,7 +806,7 @@ export default function AdminDashboard() {
 				});
 				return;
 			}
-			if (securityNewPassword !== securityConfirmPassword) {
+			if (securityConfirmPassword && securityNewPassword !== securityConfirmPassword) {
 				setSecurityStatus({
 					type: 'error',
 					text: 'New password and confirmation password do not match.',
@@ -823,10 +815,10 @@ export default function AdminDashboard() {
 			}
 		}
 
-		if (!securityNewEmail || !securityNewEmail.trim()) {
+		if (!securityNewPassword && securityNewEmail === (adminUser?.email || credentialsInfo?.email)) {
 			setSecurityStatus({
 				type: 'error',
-				text: 'Email address cannot be empty.',
+				text: 'Please enter a new password or a different email address to update.',
 			});
 			return;
 		}
@@ -834,14 +826,18 @@ export default function AdminDashboard() {
 		try {
 			setSecuritySubmitting(true);
 			const res = await changeCredentials({
-				currentPassword: securityCurrentPassword,
+				currentPassword: securityCurrentPassword.trim() || undefined,
 				newEmail: securityNewEmail.trim(),
 				newPassword: securityNewPassword.trim() || undefined,
 			});
 
 			setSecurityStatus({
 				type: 'success',
-				text: `Admin credentials updated successfully! Your active login email is now "${res.email}". Please use your new credentials for future logins.`,
+				text: `Login credentials successfully updated! Your active login is now "${res.email}". Use your new credentials on your next login.`,
+			});
+			setStatusMessage({
+				type: 'success',
+				text: 'Admin login credentials updated successfully!',
 			});
 			setSecurityCurrentPassword('');
 			setSecurityNewPassword('');
@@ -861,7 +857,25 @@ export default function AdminDashboard() {
 		const enteredCurrent = window.prompt(
 			'Enter your current password to reset login credentials back to the factory default (vishaldevmorari487@gmail.com):'
 		);
-		if (!enteredCurrent) return;
+		if (enteredCurrent === null) return; // User pressed cancel
+
+		try {
+			setSecuritySubmitting(true);
+			const res = await resetCredentials(enteredCurrent);
+			setSecurityStatus({
+				type: 'success',
+				text: `Credentials successfully reset to factory default (${res.email}).`,
+			});
+			setSecurityNewEmail(res.email);
+			setSecurityCurrentPassword('');
+			setSecurityNewPassword('');
+			setSecurityConfirmPassword('');
+		} catch (err) {
+			alert(`Reset failed: ${err.message}`);
+		} finally {
+			setSecuritySubmitting(false);
+		}
+	};
 
 		try {
 			setSecuritySubmitting(true);
@@ -2191,15 +2205,15 @@ export default function AdminDashboard() {
 									</div>
 
 									<form onSubmit={handleUpdateSecurityCredentials} className="space-y-6">
-										{/* Current Password Field */}
+										{/* Current Password Field (Optional Verification) */}
 										<div className="p-4 bg-[#FAF6F0] rounded-2xl border border-[#E2D7C8]">
 											<label className="flex items-center justify-between text-xs sm:text-sm font-bold uppercase text-[#2B1A14] mb-1.5 font-['Poppins',sans-serif]">
 												<span className="flex items-center gap-1.5">
 													<span>Current Password</span>
-													<span className="text-red-600 font-bold">*</span>
+													<span className="text-[#2B1A14]/50 font-normal text-xs">(Optional verification)</span>
 												</span>
 												<span className="text-xs font-normal normal-case text-[#2B1A14]/60">
-													Required for verification
+													Already authenticated as admin
 												</span>
 											</label>
 											<div className="relative">
@@ -2208,8 +2222,7 @@ export default function AdminDashboard() {
 													type={showCurrentPassword ? 'text' : 'password'}
 													value={securityCurrentPassword}
 													onChange={(e) => setSecurityCurrentPassword(e.target.value)}
-													placeholder="Enter your current password"
-													required
+													placeholder="Leave blank to change directly, or enter current password"
 													className="w-full bg-white border border-[#E2D7C8] focus:border-[#8C2B1D] text-[#2B1A14] rounded-xl pl-10 pr-12 py-3 text-sm sm:text-base outline-none transition font-['Mukta',sans-serif]"
 												/>
 												<button
@@ -2238,7 +2251,7 @@ export default function AdminDashboard() {
 													className="w-full bg-[#FAF6F0] border border-[#E2D7C8] focus:border-[#8C2B1D] text-[#2B1A14] rounded-xl px-4 py-3 text-sm sm:text-base outline-none transition font-['Mukta',sans-serif]"
 												/>
 												<p className="text-xs text-[#2B1A14]/60 mt-1 font-['Poppins',sans-serif]">
-													Enter the new email address you want to use to log into this admin panel.
+													Enter the email address you want to use to log into this admin panel.
 												</p>
 											</div>
 
@@ -2271,24 +2284,21 @@ export default function AdminDashboard() {
 											</div>
 
 											{/* Confirm New Password */}
-											{securityNewPassword && (
-												<div>
-													<label className="block text-xs sm:text-sm font-bold uppercase text-[#2B1A14] mb-1.5 font-['Poppins',sans-serif]">
-														Confirm New Password
-													</label>
-													<div className="relative">
-														<Lock className="w-4 h-4 text-[#2B1A14]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
-														<input
-															type={showNewPassword ? 'text' : 'password'}
-															value={securityConfirmPassword}
-															onChange={(e) => setSecurityConfirmPassword(e.target.value)}
-															placeholder="Re-type your new password"
-															required={Boolean(securityNewPassword)}
-															className="w-full bg-[#FAF6F0] border border-[#E2D7C8] focus:border-[#8C2B1D] text-[#2B1A14] rounded-xl pl-10 pr-12 py-3 text-sm sm:text-base outline-none transition font-['Mukta',sans-serif]"
-														/>
-													</div>
+											<div>
+												<label className="block text-xs sm:text-sm font-bold uppercase text-[#2B1A14] mb-1.5 font-['Poppins',sans-serif]">
+													Confirm New Password
+												</label>
+												<div className="relative">
+													<Lock className="w-4 h-4 text-[#2B1A14]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
+													<input
+														type={showNewPassword ? 'text' : 'password'}
+														value={securityConfirmPassword}
+														onChange={(e) => setSecurityConfirmPassword(e.target.value)}
+														placeholder="Confirm new password"
+														className="w-full bg-[#FAF6F0] border border-[#E2D7C8] focus:border-[#8C2B1D] text-[#2B1A14] rounded-xl pl-10 pr-12 py-3 text-sm sm:text-base outline-none transition font-['Mukta',sans-serif]"
+													/>
 												</div>
-											)}
+											</div>
 										</div>
 
 										{/* Submit Action */}
@@ -2299,7 +2309,7 @@ export default function AdminDashboard() {
 												className="px-6 py-3 rounded-xl bg-[#8C2B1D] hover:bg-[#a33222] text-white font-bold text-sm sm:text-base transition shadow-md shadow-[#8C2B1D]/20 disabled:opacity-50 flex items-center gap-2 font-['Poppins',sans-serif]"
 											>
 												<ShieldCheck className="w-4 h-4 text-[#E5B361]" />
-												<span>{securitySubmitting ? 'Updating Credentials...' : 'Save New Credentials'}</span>
+												<span>{securitySubmitting ? 'Saving Changes...' : 'Save & Apply New Credentials'}</span>
 											</button>
 										</div>
 									</form>
@@ -2319,6 +2329,22 @@ export default function AdminDashboard() {
 												<span className="font-bold text-[#8C2B1D] text-sm break-all">
 													{adminUser?.email || credentialsInfo?.email}
 												</span>
+											</div>
+											<div className="p-3 bg-[#FAF6F0] rounded-xl border border-[#E2D7C8]">
+												<span className="text-[#2B1A14]/60 block text-xs">Active Login Password</span>
+												<div className="flex items-center justify-between mt-1">
+													<span className="font-mono font-bold text-sm text-[#8C2B1D]">
+														{showRevealedPassword ? (credentialsInfo?.password || 'shashtrivishal16914') : '••••••••••••••••'}
+													</span>
+													<button
+														type="button"
+														onClick={() => setShowRevealedPassword(!showRevealedPassword)}
+														className="text-xs text-[#8C2B1D] hover:underline font-bold flex items-center gap-1 font-['Poppins',sans-serif]"
+													>
+														{showRevealedPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+														<span>{showRevealedPassword ? 'Hide' : 'Reveal'}</span>
+													</button>
+												</div>
 											</div>
 											<div className="p-3 bg-[#FAF6F0] rounded-xl border border-[#E2D7C8]">
 												<span className="text-[#2B1A14]/60 block text-xs">Role</span>
