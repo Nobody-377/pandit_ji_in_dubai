@@ -6,8 +6,30 @@ import GridCard from '@/components/builder/elements/GridCard';
 import GridImage from '@/components/builder/elements/GridImage';
 import GridButton from '@/components/builder/elements/GridButton';
 import BenefitsCard from '@/components/builder/elements/BenefitsCard';
+import { useSectionPhotos } from '@/hooks/useSectionPhotos';
+
+const defaultWedding1 = [
+	{
+		src: "https://cdn.zyrosite.com/cdn-builder-placeholders/asset-manager/amenities.jpg",
+		alt: "Vedic Wedding Ceremony Mandap",
+		title: "Wedding Mandap"
+	}
+];
+
+const defaultWedding2 = [
+	{
+		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/bjsvd5-Pm2XA7u3Bhsxt41k.png?width=768&fit=crop",
+		alt: "Sacred Fire Rituals",
+		title: "Sacred Fire Rituals"
+	}
+];
 
 export default function Section1() {
+	const { photos: photos1 } = useSectionPhotos('wedding-ceremonies', 'wedding_feature_1', defaultWedding1);
+	const activePhoto1 = photos1 && photos1.length > 0 ? photos1[0] : null;
+
+	const { photos: photos2 } = useSectionPhotos('wedding-ceremonies', 'wedding_feature_2', defaultWedding2);
+	const activePhoto2 = photos2 && photos2.length > 0 ? photos2[0] : null;
 	return (
 		<BlockLayout
 			blockId={"zgi5mv"}
@@ -209,37 +231,39 @@ export default function Section1() {
 					imageAlt={"Traditional Hindu Wedding Ceremony"}
 				/>
 			</LayoutElement>
-			<LayoutElement
-				elementId={"zGT0m_"}
-				className={"layout-element layout-element--layout layout-element--mobile-element-hidden transition transition--slide transition--root-hidden"}
-				style={{
-					"--align": "center",
-					"--justify": "center",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 13,
-					"--grid-row": "5/6",
-					"--grid-column": "16/24",
-					"--m-grid-row": "1/2",
-					"--m-grid-column": "1/17",
-					"--m-hidden-element-z-index": 0
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridImage
-					id={"zGT0m_"}
-					src={"https://cdn.zyrosite.com/cdn-builder-placeholders/asset-manager/amenities.jpg"}
-					alt={"Bright living room with modern inventory"}
-					objectFit={"cover"}
-					desktopWidth={480}
-					desktopHeight={320}
-					mobileWidth={328}
-					desktopBorderRadius={0}
-					mobileBorderRadius={0}
-					rel={"nofollow"}
-					className={"layout-element__component layout-element__component--GridImage"}
-				/>
-			</LayoutElement>
+			{activePhoto1 && (
+				<LayoutElement
+					elementId={"zGT0m_"}
+					className={"layout-element layout-element--layout layout-element--mobile-element-hidden transition transition--slide transition--root-hidden"}
+					style={{
+						"--align": "center",
+						"--justify": "center",
+						"--m-element-margin": "0 0 16px 0",
+						"--z-index": 13,
+						"--grid-row": "5/6",
+						"--grid-column": "16/24",
+						"--m-grid-row": "1/2",
+						"--m-grid-column": "1/17",
+						"--m-hidden-element-z-index": 0
+					}}
+					hasRotationFrame={false}
+					hasEntranceAnimation={true}
+				>
+					<GridImage
+						id={"zGT0m_"}
+						src={activePhoto1.src}
+						alt={activePhoto1.alt || "Vedic Wedding Ceremony Mandap"}
+						objectFit={"cover"}
+						desktopWidth={480}
+						desktopHeight={320}
+						mobileWidth={328}
+						desktopBorderRadius={0}
+						mobileBorderRadius={0}
+						rel={"nofollow"}
+						className={"layout-element__component layout-element__component--GridImage"}
+					/>
+				</LayoutElement>
+			)}
 			<LayoutElement
 				elementId={"zJiNk9"}
 				className={"layout-element layout-element--layout transition transition--slide"}
@@ -274,38 +298,39 @@ export default function Section1() {
 					className={"layout-element__component layout-element__component--GridButton"}
 				/>
 			</LayoutElement>
-			<LayoutElement
-				elementId={"zKbmue"}
-				className={"layout-element layout-element--layout layout-element--desktop-element-hidden transition transition--slide transition--root-hidden"}
-				style={{
-					"--align": "center",
-					"--justify": "center",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 15,
-					"--grid-row": "24/25",
-					"--grid-column": "2/14",
-					"--m-grid-row": "10/11",
-					"--m-grid-column": "1/17",
-					"--hidden-element-z-index": 0
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridImage
-					id={"zKbmue"}
-					src={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/bjsvd5-Pm2XA7u3Bhsxt41k.png?width=768&fit=crop"}
-					srcset={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/bjsvd5-Pm2XA7u3Bhsxt41k.png?width=375&fit=crop 375w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/bjsvd5-Pm2XA7u3Bhsxt41k.png?width=768&fit=crop 768w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/bjsvd5-Pm2XA7u3Bhsxt41k.png?width=1024&fit=crop 1024w"}
-					alt={""}
-					objectFit={"cover"}
-					desktopWidth={480}
-					desktopHeight={320}
-					mobileWidth={328}
-					desktopBorderRadius={0}
-					mobileBorderRadius={0}
-					rel={"nofollow"}
-					className={"layout-element__component layout-element__component--GridImage"}
-				/>
-			</LayoutElement>
+			{activePhoto2 && (
+				<LayoutElement
+					elementId={"zKbmue"}
+					className={"layout-element layout-element--layout layout-element--desktop-element-hidden transition transition--slide transition--root-hidden"}
+					style={{
+						"--align": "center",
+						"--justify": "center",
+						"--m-element-margin": "0 0 16px 0",
+						"--z-index": 15,
+						"--grid-row": "24/25",
+						"--grid-column": "2/14",
+						"--m-grid-row": "10/11",
+						"--m-grid-column": "1/17",
+						"--hidden-element-z-index": 0
+					}}
+					hasRotationFrame={false}
+					hasEntranceAnimation={true}
+				>
+					<GridImage
+						id={"zKbmue"}
+						src={activePhoto2.src}
+						alt={activePhoto2.alt || "Sacred Fire Rituals"}
+						objectFit={"cover"}
+						desktopWidth={480}
+						desktopHeight={320}
+						mobileWidth={328}
+						desktopBorderRadius={0}
+						mobileBorderRadius={0}
+						rel={"nofollow"}
+						className={"layout-element__component layout-element__component--GridImage"}
+					/>
+				</LayoutElement>
+			)}
 		</BlockLayout>
 	);
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import GridGallery from '@/components/builder/elements/GridGallery';
+import useSectionPhotos from '@/hooks/useSectionPhotos';
 import './Section6.css';
 
 const galleryImages = [
@@ -38,6 +39,8 @@ const galleryImages = [
 ];
 
 export default function Section6() {
+	const { photos } = useSectionPhotos('home', 'home_gallery', galleryImages);
+
 	return (
 		<section
 			id="vW1W8G"
@@ -61,7 +64,7 @@ export default function Section6() {
 				</div>
 				<GridGallery
 					id="zRpA_V"
-					images={galleryImages}
+					images={photos}
 					layout="carousel"
 				/>
 			</div>

@@ -4,8 +4,19 @@ import LayoutElement from '@/components/builder/layout/LayoutElement';
 import GridTextBox from '@/components/builder/elements/GridTextBox';
 import GridImage from '@/components/builder/elements/GridImage';
 import GridButton from '@/components/builder/elements/GridButton';
+import { useSectionPhotos } from '@/hooks/useSectionPhotos';
+
+const defaultCarPhoto = [
+	{
+		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/generated/generated-2VtWj9NpLbLZZmNI.png?width=768&fit=crop",
+		alt: "Car and Vehicle Pooja Dubai",
+		title: "Vehicle Pooja"
+	}
+];
 
 export default function Section1() {
+	const { photos } = useSectionPhotos('car-pooja-in-dubai-vehicle-pooja-in-dubai', 'carpooja_feature', defaultCarPhoto);
+	const activePhoto = photos && photos.length > 0 ? photos[0] : null;
 	return (
 		<BlockLayout
 			blockId={"zgdZup"}
@@ -135,37 +146,38 @@ export default function Section1() {
 					className={"layout-element__component layout-element__component--GridTextBox"}
 				/>
 			</LayoutElement>
-			<LayoutElement
-				elementId={"z8EI1L"}
-				className={"layout-element layout-element--layout transition transition--slide transition--root-hidden"}
-				style={{
-					"--align": "center",
-					"--justify": "center",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 5,
-					"--grid-row": "2/7",
-					"--grid-column": "7/10",
-					"--m-grid-row": "8/9",
-					"--m-grid-column": "1/4"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridImage
-					id={"z8EI1L"}
-					src={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/generated/generated-2VtWj9NpLbLZZmNI.png?width=768&fit=crop"}
-					srcset={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/generated/generated-2VtWj9NpLbLZZmNI.png?width=375&fit=crop 375w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/generated/generated-2VtWj9NpLbLZZmNI.png?width=768&fit=crop 768w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/generated/generated-2VtWj9NpLbLZZmNI.png?width=1024&fit=crop 1024w"}
-					alt={""}
-					objectFit={"cover"}
-					desktopWidth={455}
-					desktopHeight={320}
-					mobileWidth={328}
-					desktopBorderRadius={0}
-					mobileBorderRadius={0}
-					rel={"nofollow"}
-					className={"layout-element__component layout-element__component--GridImage"}
-				/>
-			</LayoutElement>
+			{activePhoto && (
+				<LayoutElement
+					elementId={"z8EI1L"}
+					className={"layout-element layout-element--layout transition transition--slide transition--root-hidden"}
+					style={{
+						"--align": "center",
+						"--justify": "center",
+						"--m-element-margin": "0 0 16px 0",
+						"--z-index": 5,
+						"--grid-row": "2/7",
+						"--grid-column": "7/10",
+						"--m-grid-row": "8/9",
+						"--m-grid-column": "1/4"
+					}}
+					hasRotationFrame={false}
+					hasEntranceAnimation={true}
+				>
+					<GridImage
+						id={"z8EI1L"}
+						src={activePhoto.src}
+						alt={activePhoto.alt || "Car and Vehicle Pooja Dubai"}
+						objectFit={"cover"}
+						desktopWidth={455}
+						desktopHeight={320}
+						mobileWidth={328}
+						desktopBorderRadius={0}
+						mobileBorderRadius={0}
+						rel={"nofollow"}
+						className={"layout-element__component layout-element__component--GridImage"}
+					/>
+				</LayoutElement>
+			)}
 			<LayoutElement
 				elementId={"zX8F9e"}
 				className={"layout-element layout-element--layout transition transition--slide"}

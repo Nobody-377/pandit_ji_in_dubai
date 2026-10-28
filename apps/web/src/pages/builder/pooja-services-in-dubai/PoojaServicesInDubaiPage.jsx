@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import Page from '@/components/builder/Page';
 import Header from '@/pages/builder/shared/Header';
 import Footer from '@/pages/builder/shared/Footer';
-import Section1 from './Section1';
+import PoojaServicesCatalog from '@/components/services/PoojaServicesCatalog';
 
 export default function PoojaServicesInDubaiPage() {
 	return (
@@ -187,7 +187,7 @@ export default function PoojaServicesInDubaiPage() {
 			>
 				<Header />
 				<div className="page__blocks">
-					<Section1 />
+					<PoojaServicesCatalog />
 					<Footer />
 				</div>
 			</Page>

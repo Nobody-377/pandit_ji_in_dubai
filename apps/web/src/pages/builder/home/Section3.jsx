@@ -5,8 +5,19 @@ import GridImage from '@/components/builder/elements/GridImage';
 import GridTextBox from '@/components/builder/elements/GridTextBox';
 import GridButton from '@/components/builder/elements/GridButton';
 import GridCard from '@/components/builder/elements/GridCard';
+import { useSectionPhotos } from '@/hooks/useSectionPhotos';
+
+const defaultAboutPhoto = [
+	{
+		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/1786093528068-GtztxnybZC7umoSY.png?width=768&fit=crop",
+		alt: "About Pandit Ji Dubai",
+		title: "About Pandit Ji"
+	}
+];
 
 export default function Section3() {
+	const { photos } = useSectionPhotos('home', 'home_about_feature', defaultAboutPhoto);
+	const activePhoto = photos[0] || defaultAboutPhoto[0];
 	return (
 		<BlockLayout
 			blockId={"OpOJDd"}
@@ -56,9 +67,8 @@ export default function Section3() {
 			>
 				<GridImage
 					id={"6DdynI"}
-					src={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/1786093528068-GtztxnybZC7umoSY.png?width=768&fit=crop"}
-					srcset={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/1786093528068-GtztxnybZC7umoSY.png?width=375&fit=crop 375w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/1786093528068-GtztxnybZC7umoSY.png?width=768&fit=crop 768w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/1786093528068-GtztxnybZC7umoSY.png?width=1024&fit=crop 1024w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/1786093528068-GtztxnybZC7umoSY.png?width=1440&fit=crop 1440w"}
-					alt={""}
+					src={activePhoto.src}
+					alt={activePhoto.alt || "Pandit Ji in Dubai"}
 					objectFit={"cover"}
 					desktopWidth={564}
 					desktopHeight={624}

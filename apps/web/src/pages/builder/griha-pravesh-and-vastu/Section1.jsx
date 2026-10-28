@@ -6,8 +6,19 @@ import GridImage from '@/components/builder/elements/GridImage';
 import GridButton from '@/components/builder/elements/GridButton';
 import GridCard from '@/components/builder/elements/GridCard';
 import BenefitsCard from '@/components/builder/elements/BenefitsCard';
+import { useSectionPhotos } from '@/hooks/useSectionPhotos';
+
+const defaultGrihaPhoto = [
+	{
+		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0012.jpg-0veqAugf2xgtLIbu.jpeg?width=768&fit=crop",
+		alt: "Griha Pravesh Ceremony in UAE",
+		title: "Griha Pravesh Ceremony"
+	}
+];
 
 export default function Section1() {
+	const { photos } = useSectionPhotos('griha-pravesh-and-vastu', 'grihapravesh_feature', defaultGrihaPhoto);
+	const activePhoto = photos && photos.length > 0 ? photos[0] : null;
 	return (
 		<BlockLayout
 			blockId={"zrV_Oh"}
@@ -87,37 +98,38 @@ export default function Section1() {
 					className={"layout-element__component layout-element__component--GridTextBox"}
 				/>
 			</LayoutElement>
-			<LayoutElement
-				elementId={"zJON0N"}
-				className={"layout-element layout-element--layout transition transition--slide transition--root-hidden"}
-				style={{
-					"--align": "center",
-					"--justify": "center",
-					"--m-element-margin": "0 0 16px 0",
-					"--z-index": 4,
-					"--grid-row": "2/5",
-					"--grid-column": "14/22",
-					"--m-grid-row": "10/11",
-					"--m-grid-column": "1/10"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridImage
-					id={"zJON0N"}
-					src={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0012.jpg-0veqAugf2xgtLIbu.jpeg?width=768&fit=crop"}
-					srcset={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0012.jpg-0veqAugf2xgtLIbu.jpeg?width=375&fit=crop 375w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0012.jpg-0veqAugf2xgtLIbu.jpeg?width=768&fit=crop 768w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0012.jpg-0veqAugf2xgtLIbu.jpeg?width=1024&fit=crop 1024w"}
-					alt={""}
-					objectFit={"cover"}
-					desktopWidth={480}
-					desktopHeight={320}
-					mobileWidth={328}
-					desktopBorderRadius={0}
-					mobileBorderRadius={0}
-					rel={"nofollow"}
-					className={"layout-element__component layout-element__component--GridImage"}
-				/>
-			</LayoutElement>
+			{activePhoto && (
+				<LayoutElement
+					elementId={"zJON0N"}
+					className={"layout-element layout-element--layout transition transition--slide transition--root-hidden"}
+					style={{
+						"--align": "center",
+						"--justify": "center",
+						"--m-element-margin": "0 0 16px 0",
+						"--z-index": 4,
+						"--grid-row": "2/5",
+						"--grid-column": "14/22",
+						"--m-grid-row": "10/11",
+						"--m-grid-column": "1/10"
+					}}
+					hasRotationFrame={false}
+					hasEntranceAnimation={true}
+				>
+					<GridImage
+						id={"zJON0N"}
+						src={activePhoto.src}
+						alt={activePhoto.alt || "Griha Pravesh Ceremony in UAE"}
+						objectFit={"cover"}
+						desktopWidth={480}
+						desktopHeight={320}
+						mobileWidth={328}
+						desktopBorderRadius={0}
+						mobileBorderRadius={0}
+						rel={"nofollow"}
+						className={"layout-element__component layout-element__component--GridImage"}
+					/>
+				</LayoutElement>
+			)}
 			<LayoutElement
 				elementId={"zSDfK-"}
 				className={"layout-element layout-element--layout transition transition--slide"}

@@ -4,8 +4,19 @@ import LayoutElement from '@/components/builder/layout/LayoutElement';
 import GridImage from '@/components/builder/elements/GridImage';
 import GridButton from '@/components/builder/elements/GridButton';
 import GridTextBox from '@/components/builder/elements/GridTextBox';
+import { useSectionPhotos } from '@/hooks/useSectionPhotos';
+
+const defaultPitruPhoto = [
+	{
+		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/vczdfl-K9nbyFiOC3NqnzYB.png?width=768&fit=crop",
+		alt: "Pitru Paksha Pooja Dubai",
+		title: "Pitru Paksha Ritual"
+	}
+];
 
 export default function Section1() {
+	const { photos } = useSectionPhotos('pitru-paksha-pooja-dubai', 'pitrupaksha_feature', defaultPitruPhoto);
+	const activePhoto = photos && photos.length > 0 ? photos[0] : null;
 	return (
 		<BlockLayout
 			blockId={"kKHUoE"}
@@ -43,34 +54,35 @@ export default function Section1() {
 				isTransparent: false
 			}}
 		>
-			<LayoutElement
-				elementId={"v4au3m"}
-				className={"layout-element layout-element--layout transition transition--blur transition--root-hidden"}
-				style={{
-					"--z-index": 1,
-					"--grid-row": "2/8",
-					"--grid-column": "6/7",
-					"--m-grid-row": "6/7",
-					"--m-grid-column": "4/6",
-					"--user-animation-delay": "0.1s"
-				}}
-				hasRotationFrame={false}
-				hasEntranceAnimation={true}
-			>
-				<GridImage
-					id={"v4au3m"}
-					src={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/vczdfl-K9nbyFiOC3NqnzYB.png?width=768&fit=crop"}
-					srcset={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/vczdfl-K9nbyFiOC3NqnzYB.png?width=375&fit=crop 375w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/vczdfl-K9nbyFiOC3NqnzYB.png?width=768&fit=crop 768w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/vczdfl-K9nbyFiOC3NqnzYB.png?width=1440&fit=crop 1440w"}
-					alt={"Warm atmospheric photo of a brass pooja lamp lit with fresh yellow marigold flowers and sacred copper vessel arranged for a traditional Vedic ceremony on a clean woven mat"}
-					objectFit={"cover"}
-					desktopWidth={612}
-					desktopHeight={873}
-					mobileWidth={158}
-					desktopBorderRadius={"8px"}
-					mobileBorderRadius={"8px"}
-					className={"layout-element__component layout-element__component--GridImage"}
-				/>
-			</LayoutElement>
+			{activePhoto && (
+				<LayoutElement
+					elementId={"v4au3m"}
+					className={"layout-element layout-element--layout transition transition--blur transition--root-hidden"}
+					style={{
+						"--z-index": 1,
+						"--grid-row": "2/8",
+						"--grid-column": "6/7",
+						"--m-grid-row": "6/7",
+						"--m-grid-column": "4/6",
+						"--user-animation-delay": "0.1s"
+					}}
+					hasRotationFrame={false}
+					hasEntranceAnimation={true}
+				>
+					<GridImage
+						id={"v4au3m"}
+						src={activePhoto.src}
+						alt={activePhoto.alt || "Pitru Paksha Pooja Dubai"}
+						objectFit={"cover"}
+						desktopWidth={612}
+						desktopHeight={873}
+						mobileWidth={158}
+						desktopBorderRadius={"8px"}
+						mobileBorderRadius={"8px"}
+						className={"layout-element__component layout-element__component--GridImage"}
+					/>
+				</LayoutElement>
+			)}
 			<LayoutElement
 				elementId={"I7WyiG"}
 				className={"layout-element layout-element--layout transition transition--fade hover--lift"}

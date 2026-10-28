@@ -9,6 +9,8 @@ import Section3 from './Section3';
 import Section4 from './Section4';
 import Section5 from './Section5';
 import Section6 from './Section6';
+import ReviewsSection from './ReviewsSection';
+import PoojaServicesCatalog from '@/components/services/PoojaServicesCatalog';
 
 export default function HomePage() {
 	return (
@@ -196,8 +198,14 @@ export default function HomePage() {
 					<Section2 />
 					<Section3 />
 					<Section4 />
+					<PoojaServicesCatalog
+						customOnly={true}
+						title="Special & Additional Pooja Services"
+						subtitle="Newly added auspicious rituals and ceremonies available for booking in Dubai & UAE."
+					/>
 					<Section5 />
 					<Section6 />
+					<ReviewsSection />
 					<Footer />
 				</div>
 			</Page>
