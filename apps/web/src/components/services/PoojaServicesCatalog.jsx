@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ExternalLink, Sparkles, MessageCircle, Calendar, ArrowRight, Search, ShieldCheck } from 'lucide-react';
 import poojaService from '@/services/poojaService';
+import localPhotoDb from '@/services/localPhotoDb';
 
 export default function PoojaServicesCatalog({
 	showHeader = true,
@@ -8,26 +9,68 @@ export default function PoojaServicesCatalog({
 	subtitle = "Book authentic rituals and ceremonies conducted strictly according to Hindu Vedic Shastras by Shastri Shree Vishal Bhai.",
 	customOnly = false
 }) {
-	const [services, setServices] = useState([]);
-	const [loading, setLoading] = useState(true);
+	const [services, setServices] = useState(() => {
+		return localPhotoDb.getPoojaServicesSync() || [];
+	});
+	const [loading, setLoading] = useState(false);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [selectedBadge, setSelectedBadge] = useState('all');
 
-	const loadServices = async () => {
+	const loadServices = useCallback(async () => {
 		try {
-			setLoading(true);
 			const data = await poojaService.fetchServices(true);
 			setServices(data || []);
 		} catch (err) {
 			console.error('Failed to load pooja services:', err);
-		} finally {
-			setLoading(false);
 		}
-	};
+	}, []);
 
 	useEffect(() => {
 		loadServices();
-	}, []);
+
+		const handleDataUpdate = (event) => {
+			const detail = event?.detail;
+			if (!detail || detail.type === 'services' || detail.type === 'photos') {
+				loadServices();
+			}
+		};
+
+		const handleStorage = (e) => {
+			if (!e.key || e.key === 'pj_pooja_services' || e.key === 'pj_last_sync_timestamp') {
+				loadServices();
+			}
+		};
+
+		const handleFocus = () => {
+			loadServices();
+		};
+
+		window.addEventListener('pj_site_data_updated', handleDataUpdate);
+		window.addEventListener('storage', handleStorage);
+		window.addEventListener('focus', handleFocus);
+
+		let channel = null;
+		try {
+			if ('BroadcastChannel' in window) {
+				channel = new BroadcastChannel('pj_sync_channel');
+				channel.onmessage = (msg) => {
+					const data = msg?.data;
+					if (!data || data.type === 'services' || data.type === 'photos') {
+						loadServices();
+					}
+				};
+			}
+		} catch (_) {}
+
+		return () => {
+			window.removeEventListener('pj_site_data_updated', handleDataUpdate);
+			window.removeEventListener('storage', handleStorage);
+			window.removeEventListener('focus', handleFocus);
+			if (channel) {
+				try { channel.close(); } catch (_) {}
+			}
+		};
+	}, [loadServices]);
 
 	// Filtered services
 	const filteredServices = services.filter((s) => {

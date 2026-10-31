@@ -4,8 +4,20 @@ import LayoutElement from '@/components/builder/layout/LayoutElement';
 import GridCard from '@/components/builder/elements/GridCard';
 import GridTextBox from '@/components/builder/elements/GridTextBox';
 import GridImage from '@/components/builder/elements/GridImage';
+import { useSectionPhotos } from '@/hooks/useSectionPhotos';
+
+const defaultPortrait = [
+	{
+		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/1786093528068-GtztxnybZC7umoSY.png?width=768&fit=crop",
+		alt: "Shastri Shree Vishal Bhai",
+		title: "Shastri Shree Vishal Bhai"
+	}
+];
 
 export default function Section2() {
+	const { photos } = useSectionPhotos('authentic-vedic-pooja-dubai', 'authentic_feature', defaultPortrait);
+	const activePhoto = photos && photos.length > 0 ? photos[0] : defaultPortrait[0];
+
 	return (
 		<BlockLayout
 			blockId={"6qc9U6"}
@@ -123,9 +135,8 @@ export default function Section2() {
 			>
 				<GridImage
 					id={"zcz3IV"}
-					src={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/1786093528068-GtztxnybZC7umoSY.png?width=768&fit=crop"}
-					srcset={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/1786093528068-GtztxnybZC7umoSY.png?width=375&fit=crop 375w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/1786093528068-GtztxnybZC7umoSY.png?width=768&fit=crop 768w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/1786093528068-GtztxnybZC7umoSY.png?width=1024&fit=crop 1024w"}
-					alt={""}
+					src={activePhoto.src}
+					alt={activePhoto.alt || "Shastri Shree Vishal Bhai"}
 					objectFit={"cover"}
 					desktopWidth={480}
 					desktopHeight={480}

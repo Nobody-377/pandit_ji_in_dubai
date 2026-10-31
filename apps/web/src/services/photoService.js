@@ -152,7 +152,8 @@ export const photoService = {
 		};
 
 		const current = (await localPhotoDb.getSectionPhotos(pageId, sectionId)) || existingPhotos || [];
-		const updatedList = [...current, newPhoto];
+		const isSingle = (current.length <= 1) && sectionId !== 'home_gallery' && sectionId !== 'authentic_gallery';
+		const updatedList = isSingle ? [newPhoto] : [...current, newPhoto];
 		await localPhotoDb.saveSectionPhotos(pageId, sectionId, updatedList);
 
 		return newPhoto;
@@ -263,7 +264,7 @@ export const photoService = {
 		const baseList = (await localPhotoDb.getSectionPhotos(pageId, sectionId)) || allPhotos || [];
 		let found = false;
 		const updatedList = baseList.map((p) => {
-			if ((targetPhoto.id && p.id === targetPhoto.id) || p.src === targetPhoto.src) {
+			if ((targetPhoto.id && p.id === targetPhoto.id) || (p.src && targetPhoto.src && p.src === targetPhoto.src)) {
 				found = true;
 				return updatedPhoto;
 			}
@@ -271,7 +272,12 @@ export const photoService = {
 		});
 
 		if (!found) {
-			updatedList.push(updatedPhoto);
+			const isSingle = baseList.length <= 1 && sectionId !== 'home_gallery' && sectionId !== 'authentic_gallery';
+			if (isSingle) {
+				updatedList[0] = updatedPhoto;
+			} else {
+				updatedList.push(updatedPhoto);
+			}
 		}
 
 		await localPhotoDb.saveSectionPhotos(pageId, sectionId, updatedList);

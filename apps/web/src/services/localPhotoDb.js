@@ -1,60 +1,130 @@
 /**
- * Local IndexedDB persistent storage for photos and popup settings.
- * Ensures zero-configuration offline persistence so all admin panel changes
- * persist permanently across reloads and sessions even before Supabase is connected.
+ * Local Dual Persistent Storage (localStorage + IndexedDB) for Pandit Ji in Dubai.
+ * Ensures zero-configuration offline persistence so all admin panel changes (photos,
+ * pooja services, popup settings, reviews, credentials) persist permanently and update
+ * in real-time across browser tabs and reloads.
  */
 
 const DB_NAME = 'panditji_site_storage';
-const DB_VERSION = 4;
+const DB_VERSION = 5;
 const STORE_PHOTOS = 'section_photos';
 const STORE_POPUP = 'popup_settings';
 const STORE_REVIEWS = 'customer_reviews';
 const STORE_SERVICES = 'pooja_services';
 const STORE_CREDENTIALS = 'admin_credentials';
 
+let dbInstance = null;
+let dbOpenPromise = null;
+
+/**
+ * Open or retrieve the persistent IndexedDB instance safely with timeout and block handling.
+ */
 function getDb() {
-	return new Promise((resolve, reject) => {
-		if (typeof window === 'undefined' || !window.indexedDB) {
-			resolve(null);
-			return;
+	if (typeof window === 'undefined' || !window.indexedDB) {
+		return Promise.resolve(null);
+	}
+	if (dbInstance) {
+		return Promise.resolve(dbInstance);
+	}
+	if (dbOpenPromise) {
+		return dbOpenPromise;
+	}
+
+	dbOpenPromise = new Promise((resolve) => {
+		let isResolved = false;
+		const finish = (result) => {
+			if (!isResolved) {
+				isResolved = true;
+				dbInstance = result;
+				resolve(result);
+			}
+		};
+
+		// Safety timeout: Never hang a component render if IndexedDB takes too long
+		const timeoutId = setTimeout(() => {
+			console.warn('IndexedDB connection timed out (1.5s), operating with localStorage.');
+			finish(null);
+		}, 1500);
+
+		try {
+			const request = window.indexedDB.open(DB_NAME, DB_VERSION);
+
+			request.onblocked = () => {
+				console.warn('IndexedDB version upgrade blocked by another open tab.');
+				clearTimeout(timeoutId);
+				finish(null);
+			};
+
+			request.onupgradeneeded = (event) => {
+				const db = event.target.result;
+				const stores = [STORE_PHOTOS, STORE_POPUP, STORE_REVIEWS, STORE_SERVICES, STORE_CREDENTIALS];
+				stores.forEach((name) => {
+					if (!db.objectStoreNames.contains(name)) {
+						db.createObjectStore(name);
+					}
+				});
+			};
+
+			request.onsuccess = () => {
+				clearTimeout(timeoutId);
+				const db = request.result;
+				db.onversionchange = () => {
+					try {
+						db.close();
+					} catch (_) {}
+					dbInstance = null;
+					dbOpenPromise = null;
+				};
+				finish(db);
+			};
+
+			request.onerror = () => {
+				clearTimeout(timeoutId);
+				console.warn('IndexedDB failed to open:', request.error);
+				finish(null);
+			};
+		} catch (err) {
+			clearTimeout(timeoutId);
+			console.warn('IndexedDB exception on open:', err);
+			finish(null);
 		}
-
-		const request = window.indexedDB.open(DB_NAME, DB_VERSION);
-
-		request.onupgradeneeded = (event) => {
-			const db = event.target.result;
-			if (!db.objectStoreNames.contains(STORE_PHOTOS)) {
-				// key: `${pageId}::${sectionId}`
-				db.createObjectStore(STORE_PHOTOS);
-			}
-			if (!db.objectStoreNames.contains(STORE_POPUP)) {
-				// single key 'active'
-				db.createObjectStore(STORE_POPUP);
-			}
-			if (!db.objectStoreNames.contains(STORE_REVIEWS)) {
-				// single key 'all_reviews'
-				db.createObjectStore(STORE_REVIEWS);
-			}
-			if (!db.objectStoreNames.contains(STORE_SERVICES)) {
-				// single key 'all_services'
-				db.createObjectStore(STORE_SERVICES);
-			}
-			if (!db.objectStoreNames.contains(STORE_CREDENTIALS)) {
-				// single key 'active'
-				db.createObjectStore(STORE_CREDENTIALS);
-			}
-		};
-
-		request.onsuccess = () => resolve(request.result);
-		request.onerror = () => {
-			console.warn('IndexedDB failed to open:', request.error);
-			resolve(null);
-		};
 	});
+
+	return dbOpenPromise;
 }
 
 /**
- * Convert a File object to an optimized Data URL (with optional canvas compression).
+ * Broadcast storage changes to all open tabs and active React components immediately.
+ */
+export function broadcastDataChange(type, details = {}) {
+	if (typeof window === 'undefined') return;
+
+	// 1. Storage timestamp to trigger cross-tab 'storage' event
+	try {
+		localStorage.setItem('pj_last_sync_timestamp', `${Date.now()}_${Math.random()}`);
+	} catch (_) {}
+
+	// 2. CustomEvent for immediate reactivity within the same window
+	try {
+		window.dispatchEvent(
+			new CustomEvent('pj_site_data_updated', {
+				detail: { type, ...details },
+			})
+		);
+	} catch (_) {}
+
+	// 3. BroadcastChannel for cross-tab communication
+	try {
+		if ('BroadcastChannel' in window) {
+			const channel = new BroadcastChannel('pj_sync_channel');
+			channel.postMessage({ type, ...details, timestamp: Date.now() });
+			channel.close();
+		}
+	} catch (_) {}
+}
+
+/**
+ * Convert a File object to an optimized Data URL (with canvas compression for fast loading).
  */
 export async function fileToDataUrl(file, maxWidth = 1600, quality = 0.88) {
 	return new Promise((resolve, reject) => {
@@ -92,228 +162,354 @@ export async function fileToDataUrl(file, maxWidth = 1600, quality = 0.88) {
 }
 
 export const localPhotoDb = {
-	async getSectionPhotos(pageId, sectionId) {
-		const db = await getDb();
-		if (!db) {
-			// Fallback to localStorage
-			try {
-				const raw = localStorage.getItem(`pj_photos_${pageId}_${sectionId}`);
-				return raw ? JSON.parse(raw) : null;
-			} catch {
-				return null;
-			}
+	// =========================================================================
+	// SECTION PHOTOS
+	// =========================================================================
+
+	/**
+	 * Synchronously read section photos from localStorage.
+	 */
+	getSectionPhotosSync(pageId, sectionId) {
+		if (typeof window === 'undefined') return null;
+		try {
+			const raw = localStorage.getItem(`pj_photos_${pageId}_${sectionId}`);
+			if (!raw) return null;
+			const parsed = JSON.parse(raw);
+			return Array.isArray(parsed) ? parsed : null;
+		} catch {
+			return null;
 		}
+	},
+
+	/**
+	 * Asynchronously read section photos from IndexedDB with instant fallback to localStorage.
+	 */
+	async getSectionPhotos(pageId, sectionId) {
+		const syncVal = this.getSectionPhotosSync(pageId, sectionId);
+		const db = await getDb();
+		if (!db) return syncVal;
 
 		return new Promise((resolve) => {
 			try {
+				if (!db.objectStoreNames.contains(STORE_PHOTOS)) {
+					resolve(syncVal);
+					return;
+				}
 				const tx = db.transaction(STORE_PHOTOS, 'readonly');
 				const store = tx.objectStore(STORE_PHOTOS);
 				const req = store.get(`${pageId}::${sectionId}`);
-				req.onsuccess = () => resolve(req.result || null);
-				req.onerror = () => resolve(null);
+				req.onsuccess = () => {
+					if (req.result && Array.isArray(req.result)) {
+						// Mirror to localStorage for synchronous instant access
+						try {
+							localStorage.setItem(`pj_photos_${pageId}_${sectionId}`, JSON.stringify(req.result));
+						} catch (_) {}
+						resolve(req.result);
+					} else {
+						resolve(syncVal);
+					}
+				};
+				req.onerror = () => resolve(syncVal);
 			} catch {
-				resolve(null);
-			}
-		});
-	},
-
-	async saveSectionPhotos(pageId, sectionId, photos) {
-		const key = `${pageId}::${sectionId}`;
-		const db = await getDb();
-
-		if (!db) {
-			try {
-				localStorage.setItem(`pj_photos_${pageId}_${sectionId}`, JSON.stringify(photos));
-			} catch (e) {
-				console.warn('localStorage save failed:', e);
-			}
-			return photos;
-		}
-
-		return new Promise((resolve, reject) => {
-			try {
-				const tx = db.transaction(STORE_PHOTOS, 'readwrite');
-				const store = tx.objectStore(STORE_PHOTOS);
-				const req = store.put(photos, key);
-				req.onsuccess = () => resolve(photos);
-				req.onerror = () => reject(req.error);
-			} catch (err) {
-				reject(err);
-			}
-		});
-	},
-
-	async removeSectionOverride(pageId, sectionId) {
-		const key = `${pageId}::${sectionId}`;
-		const db = await getDb();
-		if (!db) {
-			try {
-				localStorage.removeItem(`pj_photos_${pageId}_${sectionId}`);
-			} catch (_) {}
-			return;
-		}
-
-		return new Promise((resolve) => {
-			try {
-				const tx = db.transaction(STORE_PHOTOS, 'readwrite');
-				const store = tx.objectStore(STORE_PHOTOS);
-				store.delete(key);
-				tx.oncomplete = () => resolve();
-				tx.onerror = () => resolve();
-			} catch (_) {
-				resolve();
-			}
-		});
-	},
-
-	async getPopupSettings() {
-		const db = await getDb();
-		if (!db) {
-			try {
-				const raw = localStorage.getItem('pj_local_popup_settings');
-				return raw ? JSON.parse(raw) : null;
-			} catch {
-				return null;
-			}
-		}
-
-		return new Promise((resolve) => {
-			try {
-				const tx = db.transaction(STORE_POPUP, 'readonly');
-				const store = tx.objectStore(STORE_POPUP);
-				const req = store.get('active');
-				req.onsuccess = () => resolve(req.result || null);
-				req.onerror = () => resolve(null);
-			} catch {
-				resolve(null);
-			}
-		});
-	},
-
-	async savePopupSettings(settings) {
-		const db = await getDb();
-		if (!db) {
-			try {
-				localStorage.setItem('pj_local_popup_settings', JSON.stringify(settings));
-			} catch (e) {
-				console.warn('localStorage save failed:', e);
-			}
-			return settings;
-		}
-
-		return new Promise((resolve, reject) => {
-			try {
-				const tx = db.transaction(STORE_POPUP, 'readwrite');
-				const store = tx.objectStore(STORE_POPUP);
-				const req = store.put(settings, 'active');
-				req.onsuccess = () => resolve(settings);
-				req.onerror = () => reject(req.error);
-			} catch (err) {
-				reject(err);
-			}
-		});
-	},
-
-	async getReviews() {
-		const db = await getDb();
-		if (!db) {
-			try {
-				const raw = localStorage.getItem('pj_customer_reviews');
-				return raw ? JSON.parse(raw) : null;
-			} catch {
-				return null;
-			}
-		}
-
-		return new Promise((resolve) => {
-			try {
-				const tx = db.transaction(STORE_REVIEWS, 'readonly');
-				const store = tx.objectStore(STORE_REVIEWS);
-				const req = store.get('all_reviews');
-				req.onsuccess = () => resolve(req.result || null);
-				req.onerror = () => resolve(null);
-			} catch {
-				resolve(null);
-			}
-		});
-	},
-
-	async saveReviews(reviews) {
-		const db = await getDb();
-		if (!db) {
-			try {
-				localStorage.setItem('pj_customer_reviews', JSON.stringify(reviews));
-			} catch (e) {
-				console.warn('localStorage save reviews failed:', e);
-			}
-			return reviews;
-		}
-
-		return new Promise((resolve, reject) => {
-			try {
-				const tx = db.transaction(STORE_REVIEWS, 'readwrite');
-				const store = tx.objectStore(STORE_REVIEWS);
-				const req = store.put(reviews, 'all_reviews');
-				req.onsuccess = () => resolve(reviews);
-				req.onerror = () => reject(req.error);
-			} catch (err) {
-				reject(err);
-			}
-		});
-	},
-
-	async getPoojaServices() {
-		const db = await getDb();
-		if (!db) {
-			try {
-				const raw = localStorage.getItem('pj_pooja_services');
-				return raw ? JSON.parse(raw) : null;
-			} catch {
-				return null;
-			}
-		}
-
-		return new Promise((resolve) => {
-			try {
-				const tx = db.transaction(STORE_SERVICES, 'readonly');
-				const store = tx.objectStore(STORE_SERVICES);
-				const req = store.get('all_services');
-				req.onsuccess = () => resolve(req.result || null);
-				req.onerror = () => resolve(null);
-			} catch {
-				resolve(null);
-			}
-		});
-	},
-
-	async savePoojaServices(services) {
-		const db = await getDb();
-		if (!db) {
-			try {
-				localStorage.setItem('pj_pooja_services', JSON.stringify(services));
-			} catch (e) {
-				console.warn('localStorage save services failed:', e);
-			}
-			return services;
-		}
-
-		return new Promise((resolve, reject) => {
-			try {
-				const tx = db.transaction(STORE_SERVICES, 'readwrite');
-				const store = tx.objectStore(STORE_SERVICES);
-				const req = store.put(services, 'all_services');
-				req.onsuccess = () => resolve(services);
-				req.onerror = () => reject(req.error);
-			} catch (err) {
-				reject(err);
+				resolve(syncVal);
 			}
 		});
 	},
 
 	/**
-	 * Retrieve custom admin credentials synchronously from localStorage.
+	 * Dual-write section photos to both localStorage and IndexedDB.
 	 */
+	async saveSectionPhotos(pageId, sectionId, photos) {
+		const key = `${pageId}::${sectionId}`;
+
+		// 1. Immediate synchronous localStorage write
+		try {
+			localStorage.setItem(`pj_photos_${pageId}_${sectionId}`, JSON.stringify(photos));
+		} catch (e) {
+			console.warn('localStorage save photos warning:', e);
+		}
+
+		// 2. Asynchronous IndexedDB write for permanent persistence
+		const db = await getDb();
+		if (db && db.objectStoreNames.contains(STORE_PHOTOS)) {
+			await new Promise((resolve) => {
+				try {
+					const tx = db.transaction(STORE_PHOTOS, 'readwrite');
+					const store = tx.objectStore(STORE_PHOTOS);
+					const req = store.put(photos, key);
+					req.onsuccess = () => resolve(photos);
+					req.onerror = () => resolve(photos);
+				} catch {
+					resolve(photos);
+				}
+			});
+		}
+
+		// 3. Broadcast real-time change to all listeners
+		broadcastDataChange('photos', { pageId, sectionId });
+		return photos;
+	},
+
+	/**
+	 * Remove a section override (restoring site default photos).
+	 */
+	async removeSectionOverride(pageId, sectionId) {
+		const key = `${pageId}::${sectionId}`;
+		try {
+			localStorage.removeItem(`pj_photos_${pageId}_${sectionId}`);
+		} catch (_) {}
+
+		const db = await getDb();
+		if (db && db.objectStoreNames.contains(STORE_PHOTOS)) {
+			await new Promise((resolve) => {
+				try {
+					const tx = db.transaction(STORE_PHOTOS, 'readwrite');
+					const store = tx.objectStore(STORE_PHOTOS);
+					store.delete(key);
+					tx.oncomplete = () => resolve();
+					tx.onerror = () => resolve();
+				} catch (_) {
+					resolve();
+				}
+			});
+		}
+
+		broadcastDataChange('photos', { pageId, sectionId });
+	},
+
+	// =========================================================================
+	// POOJA SERVICES
+	// =========================================================================
+
+	/**
+	 * Synchronously read pooja services from localStorage.
+	 */
+	getPoojaServicesSync() {
+		if (typeof window === 'undefined') return null;
+		try {
+			const raw = localStorage.getItem('pj_pooja_services');
+			if (!raw) return null;
+			const parsed = JSON.parse(raw);
+			return Array.isArray(parsed) && parsed.length > 0 ? parsed : null;
+		} catch {
+			return null;
+		}
+	},
+
+	/**
+	 * Asynchronously read pooja services from IndexedDB with fallback to localStorage.
+	 */
+	async getPoojaServices() {
+		const syncVal = this.getPoojaServicesSync();
+		const db = await getDb();
+		if (!db) return syncVal;
+
+		return new Promise((resolve) => {
+			try {
+				if (!db.objectStoreNames.contains(STORE_SERVICES)) {
+					resolve(syncVal);
+					return;
+				}
+				const tx = db.transaction(STORE_SERVICES, 'readonly');
+				const store = tx.objectStore(STORE_SERVICES);
+				const req = store.get('all_services');
+				req.onsuccess = () => {
+					if (req.result && Array.isArray(req.result) && req.result.length > 0) {
+						try {
+							localStorage.setItem('pj_pooja_services', JSON.stringify(req.result));
+						} catch (_) {}
+						resolve(req.result);
+					} else {
+						resolve(syncVal);
+					}
+				};
+				req.onerror = () => resolve(syncVal);
+			} catch {
+				resolve(syncVal);
+			}
+		});
+	},
+
+	/**
+	 * Dual-write pooja services to both localStorage and IndexedDB.
+	 */
+	async savePoojaServices(services) {
+		// 1. Immediate synchronous localStorage write
+		try {
+			localStorage.setItem('pj_pooja_services', JSON.stringify(services));
+		} catch (e) {
+			console.warn('localStorage save services warning:', e);
+		}
+
+		// 2. Asynchronous IndexedDB write
+		const db = await getDb();
+		if (db && db.objectStoreNames.contains(STORE_SERVICES)) {
+			await new Promise((resolve) => {
+				try {
+					const tx = db.transaction(STORE_SERVICES, 'readwrite');
+					const store = tx.objectStore(STORE_SERVICES);
+					const req = store.put(services, 'all_services');
+					req.onsuccess = () => resolve(services);
+					req.onerror = () => resolve(services);
+				} catch {
+					resolve(services);
+				}
+			});
+		}
+
+		// 3. Broadcast real-time change to all listeners
+		broadcastDataChange('services');
+		return services;
+	},
+
+	// =========================================================================
+	// POPUP NOTIFICATIONS
+	// =========================================================================
+
+	getPopupSettingsSync() {
+		if (typeof window === 'undefined') return null;
+		try {
+			const raw = localStorage.getItem('pj_local_popup_settings');
+			return raw ? JSON.parse(raw) : null;
+		} catch {
+			return null;
+		}
+	},
+
+	async getPopupSettings() {
+		const syncVal = this.getPopupSettingsSync();
+		const db = await getDb();
+		if (!db) return syncVal;
+
+		return new Promise((resolve) => {
+			try {
+				if (!db.objectStoreNames.contains(STORE_POPUP)) {
+					resolve(syncVal);
+					return;
+				}
+				const tx = db.transaction(STORE_POPUP, 'readonly');
+				const store = tx.objectStore(STORE_POPUP);
+				const req = store.get('active');
+				req.onsuccess = () => {
+					if (req.result) {
+						try {
+							localStorage.setItem('pj_local_popup_settings', JSON.stringify(req.result));
+						} catch (_) {}
+						resolve(req.result);
+					} else {
+						resolve(syncVal);
+					}
+				};
+				req.onerror = () => resolve(syncVal);
+			} catch {
+				resolve(syncVal);
+			}
+		});
+	},
+
+	async savePopupSettings(settings) {
+		try {
+			localStorage.setItem('pj_local_popup_settings', JSON.stringify(settings));
+		} catch (e) {
+			console.warn('localStorage save popup warning:', e);
+		}
+
+		const db = await getDb();
+		if (db && db.objectStoreNames.contains(STORE_POPUP)) {
+			await new Promise((resolve) => {
+				try {
+					const tx = db.transaction(STORE_POPUP, 'readwrite');
+					const store = tx.objectStore(STORE_POPUP);
+					const req = store.put(settings, 'active');
+					req.onsuccess = () => resolve(settings);
+					req.onerror = () => resolve(settings);
+				} catch {
+					resolve(settings);
+				}
+			});
+		}
+
+		broadcastDataChange('popup');
+		return settings;
+	},
+
+	// =========================================================================
+	// REVIEWS
+	// =========================================================================
+
+	getReviewsSync() {
+		if (typeof window === 'undefined') return null;
+		try {
+			const raw = localStorage.getItem('pj_customer_reviews');
+			return raw ? JSON.parse(raw) : null;
+		} catch {
+			return null;
+		}
+	},
+
+	async getReviews() {
+		const syncVal = this.getReviewsSync();
+		const db = await getDb();
+		if (!db) return syncVal;
+
+		return new Promise((resolve) => {
+			try {
+				if (!db.objectStoreNames.contains(STORE_REVIEWS)) {
+					resolve(syncVal);
+					return;
+				}
+				const tx = db.transaction(STORE_REVIEWS, 'readonly');
+				const store = tx.objectStore(STORE_REVIEWS);
+				const req = store.get('all_reviews');
+				req.onsuccess = () => {
+					if (req.result && Array.isArray(req.result)) {
+						try {
+							localStorage.setItem('pj_customer_reviews', JSON.stringify(req.result));
+						} catch (_) {}
+						resolve(req.result);
+					} else {
+						resolve(syncVal);
+					}
+				};
+				req.onerror = () => resolve(syncVal);
+			} catch {
+				resolve(syncVal);
+			}
+		});
+	},
+
+	async saveReviews(reviews) {
+		try {
+			localStorage.setItem('pj_customer_reviews', JSON.stringify(reviews));
+		} catch (e) {
+			console.warn('localStorage save reviews warning:', e);
+		}
+
+		const db = await getDb();
+		if (db && db.objectStoreNames.contains(STORE_REVIEWS)) {
+			await new Promise((resolve) => {
+				try {
+					const tx = db.transaction(STORE_REVIEWS, 'readwrite');
+					const store = tx.objectStore(STORE_REVIEWS);
+					const req = store.put(reviews, 'all_reviews');
+					req.onsuccess = () => resolve(reviews);
+					req.onerror = () => resolve(reviews);
+				} catch {
+					resolve(reviews);
+				}
+			});
+		}
+
+		broadcastDataChange('reviews');
+		return reviews;
+	},
+
+	// =========================================================================
+	// ADMIN CREDENTIALS
+	// =========================================================================
+
 	getAdminCredentialsSync() {
+		if (typeof window === 'undefined') return null;
 		try {
 			const raw = localStorage.getItem('pj_admin_custom_credentials');
 			return raw ? JSON.parse(raw) : null;
@@ -322,9 +518,6 @@ export const localPhotoDb = {
 		}
 	},
 
-	/**
-	 * Retrieve custom admin credentials if configured.
-	 */
 	async getAdminCredentials() {
 		const local = this.getAdminCredentialsSync();
 		if (local && local.email && local.password) {
@@ -337,72 +530,68 @@ export const localPhotoDb = {
 		return new Promise((resolve) => {
 			try {
 				if (!db.objectStoreNames.contains(STORE_CREDENTIALS)) {
-					resolve(this.getAdminCredentialsSync());
+					resolve(local);
 					return;
 				}
 				const tx = db.transaction(STORE_CREDENTIALS, 'readonly');
 				const store = tx.objectStore(STORE_CREDENTIALS);
 				const req = store.get('active');
-				req.onsuccess = () => resolve(req.result || this.getAdminCredentialsSync());
-				req.onerror = () => resolve(this.getAdminCredentialsSync());
+				req.onsuccess = () => resolve(req.result || local);
+				req.onerror = () => resolve(local);
 			} catch {
-				resolve(this.getAdminCredentialsSync());
+				resolve(local);
 			}
 		});
 	},
 
-	/**
-	 * Save updated admin credentials.
-	 */
 	async saveAdminCredentials(creds) {
 		try {
 			localStorage.setItem('pj_admin_custom_credentials', JSON.stringify(creds));
 		} catch (e) {
-			console.warn('localStorage save admin credentials failed:', e);
+			console.warn('localStorage save admin credentials warning:', e);
 		}
 
 		const db = await getDb();
-		if (!db || !db.objectStoreNames.contains(STORE_CREDENTIALS)) {
-			return creds;
+		if (db && db.objectStoreNames.contains(STORE_CREDENTIALS)) {
+			await new Promise((resolve) => {
+				try {
+					const tx = db.transaction(STORE_CREDENTIALS, 'readwrite');
+					const store = tx.objectStore(STORE_CREDENTIALS);
+					const req = store.put(creds, 'active');
+					req.onsuccess = () => resolve(creds);
+					req.onerror = () => resolve(creds);
+				} catch {
+					resolve(creds);
+				}
+			});
 		}
 
-		return new Promise((resolve) => {
-			try {
-				const tx = db.transaction(STORE_CREDENTIALS, 'readwrite');
-				const store = tx.objectStore(STORE_CREDENTIALS);
-				const req = store.put(creds, 'active');
-				req.onsuccess = () => resolve(creds);
-				req.onerror = () => resolve(creds);
-			} catch {
-				resolve(creds);
-			}
-		});
+		broadcastDataChange('credentials');
+		return creds;
 	},
 
-	/**
-	 * Reset admin credentials back to default.
-	 */
 	async resetAdminCredentials() {
 		try {
 			localStorage.removeItem('pj_admin_custom_credentials');
 		} catch (_) {}
 
 		const db = await getDb();
-		if (!db || !db.objectStoreNames.contains(STORE_CREDENTIALS)) return;
+		if (db && db.objectStoreNames.contains(STORE_CREDENTIALS)) {
+			await new Promise((resolve) => {
+				try {
+					const tx = db.transaction(STORE_CREDENTIALS, 'readwrite');
+					const store = tx.objectStore(STORE_CREDENTIALS);
+					const req = store.delete('active');
+					req.onsuccess = () => resolve();
+					req.onerror = () => resolve();
+				} catch {
+					resolve();
+				}
+			});
+		}
 
-		return new Promise((resolve) => {
-			try {
-				const tx = db.transaction(STORE_CREDENTIALS, 'readwrite');
-				const store = tx.objectStore(STORE_CREDENTIALS);
-				const req = store.delete('active');
-				req.onsuccess = () => resolve();
-				req.onerror = () => resolve();
-			} catch {
-				resolve();
-			}
-		});
-	}
+		broadcastDataChange('credentials');
+	},
 };
 
 export default localPhotoDb;
-

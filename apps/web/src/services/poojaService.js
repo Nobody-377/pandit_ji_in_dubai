@@ -136,16 +136,14 @@ async function syncWithSectionPhotosAndDefaults(services) {
 			const def = defaultMap.get(srv.id);
 			let nextUrl = srv.imageUrl;
 
-			// 1. Check if mapped to a live page section photo in local storage
+			// 1. If service image is missing, adopt from mapped section photo
 			const mapping = SERVICE_SECTION_MAP[srv.id];
-			if (mapping) {
+			if (mapping && !nextUrl) {
 				try {
 					const sectionPhotos = await localPhotoDb.getSectionPhotos(mapping.pageId, mapping.sectionId);
 					if (sectionPhotos && Array.isArray(sectionPhotos) && sectionPhotos.length > 0 && sectionPhotos[0]?.src) {
-						if (sectionPhotos[0].src !== nextUrl) {
-							nextUrl = sectionPhotos[0].src;
-							changed = true;
-						}
+						nextUrl = sectionPhotos[0].src;
+						changed = true;
 					}
 				} catch (e) {
 					console.warn('Error syncing section photo for', srv.id, e);
