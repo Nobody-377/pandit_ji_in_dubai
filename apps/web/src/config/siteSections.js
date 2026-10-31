@@ -132,8 +132,8 @@ export const SITE_SECTIONS = [
 		sections: [
 			{
 				sectionId: 'wedding_feature_1',
-				title: 'Wedding Mandap (Feature 1)',
-				description: 'Top feature photo for Vedic Vivah / Wedding rituals.',
+				title: 'Wedding Ceremony Hero Image (Desktop & Mobile)',
+				description: 'Primary hero image for wedding ceremonies displayed across desktop and mobile screens.',
 				type: 'single',
 				defaults: [
 					{
@@ -145,8 +145,8 @@ export const SITE_SECTIONS = [
 			},
 			{
 				sectionId: 'wedding_feature_2',
-				title: 'Seven Vows & Sacred Fire (Feature 2)',
-				description: 'Secondary highlight photo for wedding rituals.',
+				title: 'Sacred Fire & Wedding Benefits Image',
+				description: 'Sacred fire ritual photo and wedding benefits card highlight.',
 				type: 'single',
 				defaults: [
 					{
@@ -205,14 +205,27 @@ export const SITE_SECTIONS = [
 		sections: [
 			{
 				sectionId: 'shantihavan_feature',
-				title: 'Havan Kund & Yagna Photo',
-				description: 'Feature photo for Maha Mrityunjaya, Gayatri & Shanti Yagnas.',
+				title: 'Havan Kund & Yagna Hero Image',
+				description: 'Primary hero feature photo for Maha Mrityunjaya, Gayatri & Shanti Yagnas.',
 				type: 'single',
 				defaults: [
 					{
 						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/generated/generated-FPqXfKUnedc9mRXi.png?width=768&fit=crop',
 						alt: 'Shanti Havan and Yagna',
 						title: 'Havan Kund & Yagna'
+					}
+				]
+			},
+			{
+				sectionId: 'shantihavan_benefits',
+				title: 'Benefits of Havan Card Image',
+				description: 'Feature photo displayed inside the Benefits of Havan card.',
+				type: 'single',
+				defaults: [
+					{
+						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/cc2udk-urqOJNFHQkAaJ30S.png?width=768&fit=crop',
+						alt: 'Sacred Havan Ceremony',
+						title: 'Sacred Havan Ceremony'
 					}
 				]
 			}

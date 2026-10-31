@@ -26,10 +26,17 @@ const defaultWedding2 = [
 
 export default function Section1() {
 	const { photos: photos1 } = useSectionPhotos('wedding-ceremonies', 'wedding_feature_1', defaultWedding1);
-	const activePhoto1 = photos1 && photos1.length > 0 ? photos1[0] : null;
-
 	const { photos: photos2 } = useSectionPhotos('wedding-ceremonies', 'wedding_feature_2', defaultWedding2);
-	const activePhoto2 = photos2 && photos2.length > 0 ? photos2[0] : null;
+
+	// Detect if user configured a custom photo for either slot
+	const custom1 = (photos1 && photos1.length > 0 && photos1[0]?.src && photos1[0].src !== defaultWedding1[0].src) ? photos1[0] : null;
+	const custom2 = (photos2 && photos2.length > 0 && photos2[0]?.src && photos2[0].src !== defaultWedding2[0].src) ? photos2[0] : null;
+
+	// The primary wedding hero image (used on both desktop zGT0m_ and mobile zKbmue)
+	const primaryWeddingPhoto = custom1 || custom2 || (photos1 && photos1[0]) || (photos2 && photos2[0]) || defaultWedding1[0];
+
+	// The secondary / benefits card photo
+	const secondaryWeddingPhoto = (custom1 && custom2) ? custom2 : (photos2 && photos2[0] ? photos2[0] : defaultWedding2[0]);
 	return (
 		<BlockLayout
 			blockId={"zgi5mv"}
@@ -227,43 +234,41 @@ export default function Section1() {
 					topRight={"Divine Blessings"}
 					bottomLeft={"Family Traditions"}
 					bottomRight={"Vedic Rituals"}
-					imageSrc={"https://images.unsplash.com/photo-1708963738411-74ab1cd5eafb?auto=format&fit=crop&w=480"}
-					imageAlt={"Traditional Hindu Wedding Ceremony"}
+					imageSrc={secondaryWeddingPhoto.src}
+					imageAlt={secondaryWeddingPhoto.alt || "Traditional Hindu Wedding Ceremony"}
 				/>
 			</LayoutElement>
-			{activePhoto1 && (
-				<LayoutElement
-					elementId={"zGT0m_"}
-					className={"layout-element layout-element--layout layout-element--mobile-element-hidden transition transition--slide transition--root-hidden"}
-					style={{
-						"--align": "center",
-						"--justify": "center",
-						"--m-element-margin": "0 0 16px 0",
-						"--z-index": 13,
-						"--grid-row": "5/6",
-						"--grid-column": "16/24",
-						"--m-grid-row": "1/2",
-						"--m-grid-column": "1/17",
-						"--m-hidden-element-z-index": 0
-					}}
-					hasRotationFrame={false}
-					hasEntranceAnimation={true}
-				>
-					<GridImage
-						id={"zGT0m_"}
-						src={activePhoto1.src}
-						alt={activePhoto1.alt || "Vedic Wedding Ceremony Mandap"}
-						objectFit={"cover"}
-						desktopWidth={480}
-						desktopHeight={320}
-						mobileWidth={328}
-						desktopBorderRadius={0}
-						mobileBorderRadius={0}
-						rel={"nofollow"}
-						className={"layout-element__component layout-element__component--GridImage"}
-					/>
-				</LayoutElement>
-			)}
+			<LayoutElement
+				elementId={"zGT0m_"}
+				className={"layout-element layout-element--layout layout-element--mobile-element-hidden transition transition--slide"}
+				style={{
+					"--align": "center",
+					"--justify": "center",
+					"--m-element-margin": "0 0 16px 0",
+					"--z-index": 13,
+					"--grid-row": "5/6",
+					"--grid-column": "16/24",
+					"--m-grid-row": "1/2",
+					"--m-grid-column": "1/17",
+					"--m-hidden-element-z-index": 0
+				}}
+				hasRotationFrame={false}
+				hasEntranceAnimation={true}
+			>
+				<GridImage
+					id={"zGT0m_"}
+					src={primaryWeddingPhoto.src}
+					alt={primaryWeddingPhoto.alt || "Vedic Wedding Ceremony Mandap"}
+					objectFit={"cover"}
+					desktopWidth={480}
+					desktopHeight={320}
+					mobileWidth={328}
+					desktopBorderRadius={0}
+					mobileBorderRadius={0}
+					rel={"nofollow"}
+					className={"layout-element__component layout-element__component--GridImage"}
+				/>
+			</LayoutElement>
 			<LayoutElement
 				elementId={"zJiNk9"}
 				className={"layout-element layout-element--layout transition transition--slide"}
@@ -298,39 +303,37 @@ export default function Section1() {
 					className={"layout-element__component layout-element__component--GridButton"}
 				/>
 			</LayoutElement>
-			{activePhoto2 && (
-				<LayoutElement
-					elementId={"zKbmue"}
-					className={"layout-element layout-element--layout layout-element--desktop-element-hidden transition transition--slide transition--root-hidden"}
-					style={{
-						"--align": "center",
-						"--justify": "center",
-						"--m-element-margin": "0 0 16px 0",
-						"--z-index": 15,
-						"--grid-row": "24/25",
-						"--grid-column": "2/14",
-						"--m-grid-row": "10/11",
-						"--m-grid-column": "1/17",
-						"--hidden-element-z-index": 0
-					}}
-					hasRotationFrame={false}
-					hasEntranceAnimation={true}
-				>
-					<GridImage
-						id={"zKbmue"}
-						src={activePhoto2.src}
-						alt={activePhoto2.alt || "Sacred Fire Rituals"}
-						objectFit={"cover"}
-						desktopWidth={480}
-						desktopHeight={320}
-						mobileWidth={328}
-						desktopBorderRadius={0}
-						mobileBorderRadius={0}
-						rel={"nofollow"}
-						className={"layout-element__component layout-element__component--GridImage"}
-					/>
-				</LayoutElement>
-			)}
+			<LayoutElement
+				elementId={"zKbmue"}
+				className={"layout-element layout-element--layout layout-element--desktop-element-hidden transition transition--slide"}
+				style={{
+					"--align": "center",
+					"--justify": "center",
+					"--m-element-margin": "0 0 16px 0",
+					"--z-index": 15,
+					"--grid-row": "24/25",
+					"--grid-column": "2/14",
+					"--m-grid-row": "10/11",
+					"--m-grid-column": "1/17",
+					"--hidden-element-z-index": 0
+				}}
+				hasRotationFrame={false}
+				hasEntranceAnimation={true}
+			>
+				<GridImage
+					id={"zKbmue"}
+					src={primaryWeddingPhoto.src}
+					alt={primaryWeddingPhoto.alt || "Sacred Fire Rituals"}
+					objectFit={"cover"}
+					desktopWidth={480}
+					desktopHeight={320}
+					mobileWidth={328}
+					desktopBorderRadius={0}
+					mobileBorderRadius={0}
+					rel={"nofollow"}
+					className={"layout-element__component layout-element__component--GridImage"}
+				/>
+			</LayoutElement>
 		</BlockLayout>
 	);
 }

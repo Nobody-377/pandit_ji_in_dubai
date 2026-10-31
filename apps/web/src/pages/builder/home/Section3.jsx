@@ -51,7 +51,7 @@ export default function Section3() {
 		>
 			<LayoutElement
 				elementId={"6DdynI"}
-				className={"layout-element layout-element--layout transition transition--fade transition--root-hidden"}
+				className={"layout-element layout-element--layout transition transition--fade"}
 				style={{
 					"--align": "center",
 					"--justify": "center",

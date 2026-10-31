@@ -16,9 +16,20 @@ const defaultHavanPhoto = [
 	}
 ];
 
+const defaultBenefitsPhoto = [
+	{
+		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/cc2udk-urqOJNFHQkAaJ30S.png?width=768&fit=crop",
+		alt: "Sacred Havan Ceremony",
+		title: "Sacred Havan Ceremony"
+	}
+];
+
 export default function Section1() {
-	const { photos } = useSectionPhotos('shanti-havan-and-yagna', 'shantihavan_feature', defaultHavanPhoto);
-	const activePhoto = photos && photos.length > 0 ? photos[0] : null;
+	const { photos: havanPhotos } = useSectionPhotos('shanti-havan-and-yagna', 'shantihavan_feature', defaultHavanPhoto);
+	const activeHavanPhoto = (havanPhotos && havanPhotos.length > 0) ? havanPhotos[0] : defaultHavanPhoto[0];
+
+	const { photos: benefitsPhotos } = useSectionPhotos('shanti-havan-and-yagna', 'shantihavan_benefits', defaultBenefitsPhoto);
+	const activeBenefitsPhoto = (benefitsPhotos && benefitsPhotos.length > 0) ? benefitsPhotos[0] : defaultBenefitsPhoto[0];
 	return (
 		<BlockLayout
 			blockId={"zYZmVT"}
@@ -216,42 +227,40 @@ export default function Section1() {
 					topRight={"Positive Energy"}
 					bottomLeft={"Peace & Harmony"}
 					bottomRight={"Divine Blessings"}
-					imageSrc={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/cc2udk-urqOJNFHQkAaJ30S.png?width=768&fit=crop"}
-					imageAlt={"Sacred Havan Ceremony"}
+					imageSrc={activeBenefitsPhoto.src}
+					imageAlt={activeBenefitsPhoto.alt || "Sacred Havan Ceremony"}
 				/>
 			</LayoutElement>
-			{activePhoto && (
-				<LayoutElement
-					elementId={"zeQjbf"}
-					className={"layout-element layout-element--layout transition transition--slide transition--root-hidden"}
-					style={{
-						"--align": "center",
-						"--justify": "center",
-						"--m-element-margin": "0 0 16px 0",
-						"--z-index": 13,
-						"--grid-row": "4/6",
-						"--grid-column": "16/26",
-						"--m-grid-row": "9/10",
-						"--m-grid-column": "1/15"
-					}}
-					hasRotationFrame={false}
-					hasEntranceAnimation={true}
-				>
-					<GridImage
-						id={"zeQjbf"}
-						src={activePhoto.src}
-						alt={activePhoto.alt || "Shanti Havan and Yagna"}
-						objectFit={"cover"}
-						desktopWidth={480}
-						desktopHeight={320}
-						mobileWidth={328}
-						desktopBorderRadius={0}
-						mobileBorderRadius={0}
-						rel={"nofollow"}
-						className={"layout-element__component layout-element__component--GridImage"}
-					/>
-				</LayoutElement>
-			)}
+			<LayoutElement
+				elementId={"zeQjbf"}
+				className={"layout-element layout-element--layout transition transition--slide"}
+				style={{
+					"--align": "center",
+					"--justify": "center",
+					"--m-element-margin": "0 0 16px 0",
+					"--z-index": 13,
+					"--grid-row": "4/6",
+					"--grid-column": "16/26",
+					"--m-grid-row": "9/10",
+					"--m-grid-column": "1/15"
+				}}
+				hasRotationFrame={false}
+				hasEntranceAnimation={true}
+			>
+				<GridImage
+					id={"zeQjbf"}
+					src={activeHavanPhoto.src}
+					alt={activeHavanPhoto.alt || "Shanti Havan and Yagna"}
+					objectFit={"cover"}
+					desktopWidth={480}
+					desktopHeight={320}
+					mobileWidth={328}
+					desktopBorderRadius={0}
+					mobileBorderRadius={0}
+					rel={"nofollow"}
+					className={"layout-element__component layout-element__component--GridImage"}
+				/>
+			</LayoutElement>
 			<LayoutElement
 				elementId={"zYPWMm"}
 				className={"layout-element layout-element--layout transition transition--slide"}

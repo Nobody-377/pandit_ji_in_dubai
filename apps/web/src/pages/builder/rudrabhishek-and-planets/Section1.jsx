@@ -160,7 +160,7 @@ export default function Section1() {
 			{activePhoto && (
 				<LayoutElement
 					elementId={"zjhi0g"}
-					className={"layout-element layout-element--layout transition transition--slide transition--root-hidden"}
+					className={"layout-element layout-element--layout transition transition--slide"}
 					style={{
 						"--align": "center",
 						"--justify": "center",

@@ -7,13 +7,19 @@ import localPhotoDb, { fileToDataUrl } from '@/services/localPhotoDb';
  * pages and the pooja service cards in both the website and admin panel.
  */
 export const SERVICE_SECTION_MAP = {
-	srv_griha_pravesh: { pageId: 'griha-pravesh-and-vastu', sectionId: 'grihapravesh_feature' },
-	srv_wedding: { pageId: 'wedding-ceremonies', sectionId: 'wedding_feature_2' },
-	srv_shanti_havan: { pageId: 'shanti-havan-and-yagna', sectionId: 'shantihavan_feature' },
-	srv_satyanarayan: { pageId: 'satyanarayan-and-festivals', sectionId: 'satyanarayan_feature' },
-	srv_rudrabhishek: { pageId: 'rudrabhishek-and-planets', sectionId: 'rudrabhishek_feature' },
-	srv_car_pooja: { pageId: 'car-pooja-in-dubai-vehicle-pooja-in-dubai', sectionId: 'carpooja_feature' },
-	srv_pitru_paksha: { pageId: 'pitru-paksha-pooja-dubai', sectionId: 'pitrupaksha_feature' },
+	srv_griha_pravesh: [{ pageId: 'griha-pravesh-and-vastu', sectionId: 'grihapravesh_feature' }],
+	srv_wedding: [
+		{ pageId: 'wedding-ceremonies', sectionId: 'wedding_feature_1' },
+		{ pageId: 'wedding-ceremonies', sectionId: 'wedding_feature_2' }
+	],
+	srv_shanti_havan: [
+		{ pageId: 'shanti-havan-and-yagna', sectionId: 'shantihavan_feature' },
+		{ pageId: 'shanti-havan-and-yagna', sectionId: 'shantihavan_benefits' }
+	],
+	srv_satyanarayan: [{ pageId: 'satyanarayan-and-festivals', sectionId: 'satyanarayan_feature' }],
+	srv_rudrabhishek: [{ pageId: 'rudrabhishek-and-planets', sectionId: 'rudrabhishek_feature' }],
+	srv_car_pooja: [{ pageId: 'car-pooja-in-dubai-vehicle-pooja-in-dubai', sectionId: 'carpooja_feature' }],
+	srv_pitru_paksha: [{ pageId: 'pitru-paksha-pooja-dubai', sectionId: 'pitrupaksha_feature' }],
 };
 
 export const DEFAULT_POOJA_SERVICES = [
@@ -137,16 +143,20 @@ async function syncWithSectionPhotosAndDefaults(services) {
 			let nextUrl = srv.imageUrl;
 
 			// 1. If service image is missing, adopt from mapped section photo
-			const mapping = SERVICE_SECTION_MAP[srv.id];
-			if (mapping && !nextUrl) {
-				try {
-					const sectionPhotos = await localPhotoDb.getSectionPhotos(mapping.pageId, mapping.sectionId);
-					if (sectionPhotos && Array.isArray(sectionPhotos) && sectionPhotos.length > 0 && sectionPhotos[0]?.src) {
-						nextUrl = sectionPhotos[0].src;
-						changed = true;
+			const mappings = SERVICE_SECTION_MAP[srv.id];
+			if (mappings && !nextUrl) {
+				const mapList = Array.isArray(mappings) ? mappings : [mappings];
+				for (const m of mapList) {
+					try {
+						const sectionPhotos = await localPhotoDb.getSectionPhotos(m.pageId, m.sectionId);
+						if (sectionPhotos && Array.isArray(sectionPhotos) && sectionPhotos.length > 0 && sectionPhotos[0]?.src) {
+							nextUrl = sectionPhotos[sectionPhotos.length - 1].src;
+							changed = true;
+							break;
+						}
+					} catch (e) {
+						console.warn('Error syncing section photo for', srv.id, e);
 					}
-				} catch (e) {
-					console.warn('Error syncing section photo for', srv.id, e);
 				}
 			}
 
@@ -163,6 +173,28 @@ async function syncWithSectionPhotosAndDefaults(services) {
 				if (isMismatched) {
 					nextUrl = def.imageUrl;
 					changed = true;
+				}
+			}
+
+			// 3. Mirror customized service image to mapped section photos
+			if (nextUrl && def && nextUrl !== def.imageUrl && mappings) {
+				const mapList = Array.isArray(mappings) ? mappings : [mappings];
+				for (const m of mapList) {
+					try {
+						const existingSec = await localPhotoDb.getSectionPhotos(m.pageId, m.sectionId);
+						const active = existingSec?.[existingSec.length - 1];
+						if (!active || active.src !== nextUrl) {
+							await localPhotoDb.saveSectionPhotos(m.pageId, m.sectionId, [
+								{
+									src: nextUrl,
+									title: srv.title || active?.title || '',
+									alt: srv.title || active?.alt || '',
+									sortOrder: 0,
+									source: 'synced_from_service',
+								}
+							]);
+						}
+					} catch (_) {}
 				}
 			}
 
@@ -371,24 +403,31 @@ export const poojaService = {
 
 		await localPhotoDb.savePoojaServices(updated);
 
-		// Mirror to corresponding section photo so the pooja landing page updates too!
+		// Mirror to corresponding section photos so the pooja landing page updates too!
 		if (finalImageUrl && SERVICE_SECTION_MAP[id]) {
-			const { pageId, sectionId } = SERVICE_SECTION_MAP[id];
-			try {
-				const currentSectionPhotos = await localPhotoDb.getSectionPhotos(pageId, sectionId);
-				const firstPhoto = currentSectionPhotos?.[0] || {};
-				const updatedSectionPhotos = [
-					{
-						...firstPhoto,
-						src: finalImageUrl,
-						title: updates.title || firstPhoto.title || '',
-						alt: updates.title || firstPhoto.alt || '',
-					},
-					...(currentSectionPhotos && currentSectionPhotos.length > 1 ? currentSectionPhotos.slice(1) : []),
-				];
-				await localPhotoDb.saveSectionPhotos(pageId, sectionId, updatedSectionPhotos);
-			} catch (e) {
-				console.warn('Could not mirror photo to section:', e);
+			const mappings = Array.isArray(SERVICE_SECTION_MAP[id])
+				? SERVICE_SECTION_MAP[id]
+				: [SERVICE_SECTION_MAP[id]];
+
+			for (const mapping of mappings) {
+				const { pageId, sectionId } = mapping;
+				try {
+					const currentSectionPhotos = await localPhotoDb.getSectionPhotos(pageId, sectionId);
+					const firstPhoto = currentSectionPhotos?.[0] || {};
+					const updatedSectionPhotos = [
+						{
+							...firstPhoto,
+							src: finalImageUrl,
+							title: updates.title || firstPhoto.title || '',
+							alt: updates.title || firstPhoto.alt || '',
+							sortOrder: 0,
+							source: 'synced_from_service',
+						},
+					];
+					await localPhotoDb.saveSectionPhotos(pageId, sectionId, updatedSectionPhotos);
+				} catch (e) {
+					console.warn('Could not mirror photo to section:', pageId, sectionId, e);
+				}
 			}
 		}
 
@@ -412,9 +451,10 @@ export const poojaService = {
 	 * Sync a specific service when its corresponding section photo was updated in the Photos module.
 	 */
 	async syncSectionToService(pageId, sectionId, newPhotoUrl) {
-		const serviceEntry = Object.entries(SERVICE_SECTION_MAP).find(
-			([, mapping]) => mapping.pageId === pageId && mapping.sectionId === sectionId
-		);
+		const serviceEntry = Object.entries(SERVICE_SECTION_MAP).find(([, mappings]) => {
+			const arr = Array.isArray(mappings) ? mappings : [mappings];
+			return arr.some((m) => m.pageId === pageId && m.sectionId === sectionId);
+		});
 		if (!serviceEntry) return null;
 		const [serviceId] = serviceEntry;
 

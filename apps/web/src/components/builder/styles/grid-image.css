@@ -12,6 +12,8 @@
 	mask-image: var(--grid-image-mask, none);
 	mask-size: 100% 100%;
 	mask-repeat: no-repeat;
+	opacity: 1 !important;
+	visibility: visible !important;
 }
 
 .grid-image__image {
@@ -23,6 +25,13 @@
 	max-width: none;
 	object-fit: var(--grid-image-object-fit, cover);
 	object-position: center;
+	opacity: 1 !important;
+	visibility: visible !important;
+}
+
+[data-animation-role="image"] {
+	opacity: 1 !important;
+	visibility: visible !important;
 }
 
 @media screen and (max-width: 920px) {

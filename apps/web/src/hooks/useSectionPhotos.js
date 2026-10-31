@@ -9,11 +9,25 @@ import localPhotoDb from '@/services/localPhotoDb';
  * - Listens in real-time across browser tabs, windows, and focus events.
  * - Gracefully falls back to default photos if no overrides exist.
  */
+function sanitizePhotos(list, defaultList, isSingle) {
+	if (!list || !Array.isArray(list) || list.length === 0) {
+		return defaultList;
+	}
+	if (isSingle) {
+		// Pick the most recent entry if multiple exist in a single-photo slot
+		const latest = list[list.length - 1];
+		return [latest];
+	}
+	return list;
+}
+
 export function useSectionPhotos(pageId, sectionId, defaultPhotos = []) {
+	const isSingle = sectionId !== 'home_gallery' && sectionId !== 'authentic_gallery';
+
 	// Initialize immediately from synchronous storage if available
 	const [photos, setPhotos] = useState(() => {
 		const cached = localPhotoDb.getSectionPhotosSync(pageId, sectionId);
-		return cached && Array.isArray(cached) && cached.length > 0 ? cached : defaultPhotos;
+		return sanitizePhotos(cached, defaultPhotos, isSingle);
 	});
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
@@ -29,7 +43,7 @@ export function useSectionPhotos(pageId, sectionId, defaultPhotos = []) {
 			const livePhotos = await photoService.fetchSectionPhotos(pageId, sectionId);
 
 			if (livePhotos !== null && Array.isArray(livePhotos) && livePhotos.length > 0) {
-				setPhotos(livePhotos);
+				setPhotos(sanitizePhotos(livePhotos, defaultPhotosRef.current, isSingle));
 				setIsLive(true);
 			} else {
 				setPhotos(defaultPhotosRef.current);
@@ -40,10 +54,10 @@ export function useSectionPhotos(pageId, sectionId, defaultPhotos = []) {
 			console.warn(`Falling back to default photos for ${pageId}/${sectionId}:`, err);
 			setError(err);
 			const fallback = localPhotoDb.getSectionPhotosSync(pageId, sectionId) || defaultPhotosRef.current;
-			setPhotos(fallback);
+			setPhotos(sanitizePhotos(fallback, defaultPhotosRef.current, isSingle));
 			setIsLive(false);
 		}
-	}, [pageId, sectionId]);
+	}, [pageId, sectionId, isSingle]);
 
 	useEffect(() => {
 		loadPhotos();

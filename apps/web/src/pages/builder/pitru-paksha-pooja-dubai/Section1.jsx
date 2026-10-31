@@ -57,7 +57,7 @@ export default function Section1() {
 			{activePhoto && (
 				<LayoutElement
 					elementId={"v4au3m"}
-					className={"layout-element layout-element--layout transition transition--blur transition--root-hidden"}
+					className={"layout-element layout-element--layout transition transition--blur"}
 					style={{
 						"--z-index": 1,
 						"--grid-row": "2/8",

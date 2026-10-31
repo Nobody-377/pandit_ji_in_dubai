@@ -109,7 +109,7 @@ export default function Section3() {
 			</LayoutElement>
 			<LayoutElement
 				elementId={"zwrmEo"}
-				className={"layout-element layout-element--layout transition transition--slide transition--root-hidden"}
+				className={"layout-element layout-element--layout transition transition--slide"}
 				style={{
 					"--m-element-margin": "0 0 16px 0",
 					"--z-index": 2,

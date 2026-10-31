@@ -129,8 +129,10 @@ export const photoService = {
 
 			// Also cache locally for instant offline access
 			try {
+				const isSingle = sectionId !== 'home_gallery' && sectionId !== 'authentic_gallery';
 				const current = await localPhotoDb.getSectionPhotos(pageId, sectionId) || existingPhotos || [];
-				await localPhotoDb.saveSectionPhotos(pageId, sectionId, [...current, created]);
+				const list = isSingle ? [created] : [...current, created];
+				await localPhotoDb.saveSectionPhotos(pageId, sectionId, list);
 			} catch (_) {}
 
 			return created;
@@ -152,7 +154,7 @@ export const photoService = {
 		};
 
 		const current = (await localPhotoDb.getSectionPhotos(pageId, sectionId)) || existingPhotos || [];
-		const isSingle = (current.length <= 1) && sectionId !== 'home_gallery' && sectionId !== 'authentic_gallery';
+		const isSingle = sectionId !== 'home_gallery' && sectionId !== 'authentic_gallery';
 		const updatedList = isSingle ? [newPhoto] : [...current, newPhoto];
 		await localPhotoDb.saveSectionPhotos(pageId, sectionId, updatedList);
 
@@ -262,8 +264,9 @@ export const photoService = {
 
 		// Update the list of photos for this section
 		const baseList = (await localPhotoDb.getSectionPhotos(pageId, sectionId)) || allPhotos || [];
+		const isSingle = sectionId !== 'home_gallery' && sectionId !== 'authentic_gallery';
 		let found = false;
-		const updatedList = baseList.map((p) => {
+		let updatedList = baseList.map((p) => {
 			if ((targetPhoto.id && p.id === targetPhoto.id) || (p.src && targetPhoto.src && p.src === targetPhoto.src)) {
 				found = true;
 				return updatedPhoto;
@@ -271,13 +274,10 @@ export const photoService = {
 			return p;
 		});
 
-		if (!found) {
-			const isSingle = baseList.length <= 1 && sectionId !== 'home_gallery' && sectionId !== 'authentic_gallery';
-			if (isSingle) {
-				updatedList[0] = updatedPhoto;
-			} else {
-				updatedList.push(updatedPhoto);
-			}
+		if (isSingle) {
+			updatedList = [updatedPhoto];
+		} else if (!found) {
+			updatedList.push(updatedPhoto);
 		}
 
 		await localPhotoDb.saveSectionPhotos(pageId, sectionId, updatedList);

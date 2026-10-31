@@ -1,5 +1,7 @@
 import React, {
 	useState,
+	useEffect,
+	useRef,
 } from 'react';
 import SmartLink from '../SmartLink.jsx';
 import '../styles/grid-image.css';
@@ -22,7 +24,14 @@ export default function GridImage({
 	target = '_self',
 	rel,
 }) {
-	const [isLoaded, setIsLoaded] = useState(false);
+	const [isLoaded, setIsLoaded] = useState(true);
+	const imgRef = useRef(null);
+
+	useEffect(() => {
+		if (imgRef.current && imgRef.current.complete) {
+			setIsLoaded(true);
+		}
+	}, [src]);
 
 	const style = {
 		'--grid-image-border-radius': typeof desktopBorderRadius === 'number'
@@ -43,6 +52,7 @@ export default function GridImage({
 
 	const image = src ? (
 		<img
+			ref={imgRef}
 			className="grid-image__image"
 			src={src}
 			srcSet={srcset || undefined}
