@@ -877,24 +877,6 @@ export default function AdminDashboard() {
 		}
 	};
 
-		try {
-			setSecuritySubmitting(true);
-			const res = await resetCredentials(enteredCurrent);
-			setSecurityStatus({
-				type: 'success',
-				text: `Credentials successfully reset to factory default (${res.email}).`,
-			});
-			setSecurityNewEmail(res.email);
-			setSecurityCurrentPassword('');
-			setSecurityNewPassword('');
-			setSecurityConfirmPassword('');
-		} catch (err) {
-			alert(`Reset failed: ${err.message}`);
-		} finally {
-			setSecuritySubmitting(false);
-		}
-	};
-
 	return (
 		<div className="min-h-screen bg-[#FAF6F0] text-[#2B1A14] flex flex-col font-['Mukta',sans-serif] text-base leading-relaxed">
 			{/* Top Bar (Matches website navigation background #F2EBDD) */}
