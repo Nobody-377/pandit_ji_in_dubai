@@ -137,7 +137,7 @@ export const SITE_SECTIONS = [
 				type: 'single',
 				defaults: [
 					{
-						src: 'https://cdn.zyrosite.com/cdn-builder-placeholders/asset-manager/amenities.jpg',
+						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/bjsvd5-Pm2XA7u3Bhsxt41k.png?width=768&fit=crop',
 						alt: 'Vedic Wedding Ceremony Mandap',
 						title: 'Wedding Mandap'
 					}

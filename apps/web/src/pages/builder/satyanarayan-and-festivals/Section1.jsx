@@ -282,7 +282,7 @@ export default function Section1() {
 					topRight={"Peace & Harmony"}
 					bottomLeft={"Prosperity"}
 					bottomRight={"Spiritual Growth"}
-					imageSrc={"https://cdn.zyrosite.com/cdn-builder-placeholders/asset-manager/amenities.jpg"}
+					imageSrc={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/generated/generated-Wer3mZjaMh9kGTR9.png?width=768&fit=crop"}
 					imageAlt={"Satyanarayan Pooja Ceremony"}
 				/>
 			</LayoutElement>
