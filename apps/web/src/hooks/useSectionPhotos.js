@@ -1,24 +1,55 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import photoService from '@/services/photoService';
-import localPhotoDb from '@/services/localPhotoDb';
+import localPhotoDb, { isBannedPhotoUrl, purgeBannedPlaceholders } from '@/services/localPhotoDb';
+import { SERVICE_SECTION_MAP } from '@/services/poojaService';
 
 /**
- * Custom React hook that fetches dynamic photos for a page section.
- * - Reads synchronously from local persistent cache immediately (zero flash/delay).
- * - Checks Supabase Cloud first (if configured), then local IndexedDB storage.
- * - Listens in real-time across browser tabs, windows, and focus events.
- * - Gracefully falls back to default photos if no overrides exist.
+ * Helper to retrieve a mapped Pooja service photo for a given pageId & sectionId.
  */
-function sanitizePhotos(list, defaultList, isSingle) {
-	if (!list || !Array.isArray(list) || list.length === 0) {
-		return defaultList;
+function getMappedServicePhoto(services, pageId, sectionId) {
+	if (!services || !Array.isArray(services)) return null;
+	const match = Object.entries(SERVICE_SECTION_MAP).find(([, mappings]) => {
+		const arr = Array.isArray(mappings) ? mappings : [mappings];
+		return arr.some((m) => m.pageId === pageId && m.sectionId === sectionId);
+	});
+	if (!match) return null;
+	const [serviceId] = match;
+	const srv = services.find((s) => s.id === serviceId);
+	if (srv && srv.imageUrl && !isBannedPhotoUrl(srv.imageUrl)) {
+		return srv.imageUrl;
 	}
-	if (isSingle) {
-		// Pick the most recent entry if multiple exist in a single-photo slot
-		const latest = list[list.length - 1];
-		return [latest];
+	return null;
+}
+
+/**
+ * Filter out any obsolete or banned placeholder URLs (e.g. amenities.jpg)
+ * and prioritize the latest valid custom photo or mapped service photo.
+ */
+function sanitizePhotos(list, defaultList, isSingle, serviceFallbackUrl = null) {
+	const validDefaults = (Array.isArray(defaultList) ? defaultList : []).filter(
+		(p) => p && p.src && !isBannedPhotoUrl(p.src)
+	);
+
+	if (list && Array.isArray(list) && list.length > 0) {
+		const cleanList = list.filter((p) => p && p.src && !isBannedPhotoUrl(p.src));
+		if (cleanList.length > 0) {
+			return isSingle ? [cleanList[cleanList.length - 1]] : cleanList;
+		}
 	}
-	return list;
+
+	// If no valid section photo exists, check if the mapped pooja service has a custom photo
+	if (serviceFallbackUrl && !isBannedPhotoUrl(serviceFallbackUrl)) {
+		return [
+			{
+				src: serviceFallbackUrl,
+				alt: validDefaults[0]?.alt || '',
+				title: validDefaults[0]?.title || '',
+				source: 'synced_from_service',
+			},
+		];
+	}
+
+	return validDefaults;
 }
 
 export function useSectionPhotos(pageId, sectionId, defaultPhotos = []) {
@@ -26,8 +57,11 @@ export function useSectionPhotos(pageId, sectionId, defaultPhotos = []) {
 
 	// Initialize immediately from synchronous storage if available
 	const [photos, setPhotos] = useState(() => {
+		purgeBannedPlaceholders();
 		const cached = localPhotoDb.getSectionPhotosSync(pageId, sectionId);
-		return sanitizePhotos(cached, defaultPhotos, isSingle);
+		const cachedServices = localPhotoDb.getPoojaServicesSync();
+		const servicePhoto = getMappedServicePhoto(cachedServices, pageId, sectionId);
+		return sanitizePhotos(cached, defaultPhotos, isSingle, servicePhoto);
 	});
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
@@ -41,9 +75,22 @@ export function useSectionPhotos(pageId, sectionId, defaultPhotos = []) {
 	const loadPhotos = useCallback(async () => {
 		try {
 			const livePhotos = await photoService.fetchSectionPhotos(pageId, sectionId);
+			const liveServices = await localPhotoDb.getPoojaServices().catch(() => null);
+			const servicePhoto = getMappedServicePhoto(liveServices, pageId, sectionId);
 
 			if (livePhotos !== null && Array.isArray(livePhotos) && livePhotos.length > 0) {
-				setPhotos(sanitizePhotos(livePhotos, defaultPhotosRef.current, isSingle));
+				const sanitized = sanitizePhotos(livePhotos, defaultPhotosRef.current, isSingle, servicePhoto);
+				setPhotos(sanitized);
+				setIsLive(true);
+			} else if (servicePhoto) {
+				setPhotos([
+					{
+						src: servicePhoto,
+						alt: defaultPhotosRef.current[0]?.alt || '',
+						title: defaultPhotosRef.current[0]?.title || '',
+						source: 'synced_from_service',
+					},
+				]);
 				setIsLive(true);
 			} else {
 				setPhotos(defaultPhotosRef.current);
@@ -53,8 +100,10 @@ export function useSectionPhotos(pageId, sectionId, defaultPhotos = []) {
 		} catch (err) {
 			console.warn(`Falling back to default photos for ${pageId}/${sectionId}:`, err);
 			setError(err);
-			const fallback = localPhotoDb.getSectionPhotosSync(pageId, sectionId) || defaultPhotosRef.current;
-			setPhotos(sanitizePhotos(fallback, defaultPhotosRef.current, isSingle));
+			const fallback = localPhotoDb.getSectionPhotosSync(pageId, sectionId);
+			const fallbackServices = localPhotoDb.getPoojaServicesSync();
+			const servicePhoto = getMappedServicePhoto(fallbackServices, pageId, sectionId);
+			setPhotos(sanitizePhotos(fallback, defaultPhotosRef.current, isSingle, servicePhoto));
 			setIsLive(false);
 		}
 	}, [pageId, sectionId, isSingle]);
@@ -65,13 +114,24 @@ export function useSectionPhotos(pageId, sectionId, defaultPhotos = []) {
 		// Real-time synchronization listeners across tabs and local events
 		const handleDataUpdate = (event) => {
 			const detail = event?.detail;
-			if (!detail || !detail.pageId || (detail.pageId === pageId && detail.sectionId === sectionId)) {
+			if (
+				!detail ||
+				!detail.pageId ||
+				(detail.pageId === pageId && detail.sectionId === sectionId) ||
+				detail.type === 'services' ||
+				detail.type === 'photos'
+			) {
 				loadPhotos();
 			}
 		};
 
 		const handleStorage = (e) => {
-			if (!e.key || e.key === `pj_photos_${pageId}_${sectionId}` || e.key === 'pj_last_sync_timestamp') {
+			if (
+				!e.key ||
+				e.key === `pj_photos_${pageId}_${sectionId}` ||
+				e.key === 'pj_pooja_services' ||
+				e.key === 'pj_last_sync_timestamp'
+			) {
 				loadPhotos();
 			}
 		};
@@ -90,7 +150,13 @@ export function useSectionPhotos(pageId, sectionId, defaultPhotos = []) {
 				channel = new BroadcastChannel('pj_sync_channel');
 				channel.onmessage = (msg) => {
 					const data = msg?.data;
-					if (!data || !data.pageId || (data.pageId === pageId && data.sectionId === sectionId)) {
+					if (
+						!data ||
+						!data.pageId ||
+						(data.pageId === pageId && data.sectionId === sectionId) ||
+						data.type === 'services' ||
+						data.type === 'photos'
+					) {
 						loadPhotos();
 					}
 				};

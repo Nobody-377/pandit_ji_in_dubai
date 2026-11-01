@@ -26,10 +26,14 @@ const defaultBenefitsPhoto = [
 
 export default function Section1() {
 	const { photos: havanPhotos } = useSectionPhotos('shanti-havan-and-yagna', 'shantihavan_feature', defaultHavanPhoto);
-	const activeHavanPhoto = (havanPhotos && havanPhotos.length > 0) ? havanPhotos[0] : defaultHavanPhoto[0];
+	const activeHavanPhoto = (havanPhotos && havanPhotos.length > 0 && havanPhotos[0]?.src && !havanPhotos[0].src.includes('amenities'))
+		? havanPhotos[0]
+		: defaultHavanPhoto[0];
 
 	const { photos: benefitsPhotos } = useSectionPhotos('shanti-havan-and-yagna', 'shantihavan_benefits', defaultBenefitsPhoto);
-	const activeBenefitsPhoto = (benefitsPhotos && benefitsPhotos.length > 0) ? benefitsPhotos[0] : defaultBenefitsPhoto[0];
+	const activeBenefitsPhoto = (benefitsPhotos && benefitsPhotos.length > 0 && benefitsPhotos[0]?.src && !benefitsPhotos[0].src.includes('amenities'))
+		? benefitsPhotos[0]
+		: defaultBenefitsPhoto[0];
 	return (
 		<BlockLayout
 			blockId={"zYZmVT"}

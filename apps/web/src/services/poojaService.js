@@ -160,10 +160,12 @@ async function syncWithSectionPhotosAndDefaults(services) {
 				}
 			}
 
-			// 2. If it's a default service, check if it contains any legacy mismatched URLs
+			// 2. If it's a default service, check if it contains any legacy mismatched or banned URLs
 			if (def) {
 				const isMismatched =
 					!nextUrl ||
+					nextUrl.includes('amenities') ||
+					nextUrl.includes('cdn-builder-placeholders') ||
 					(srv.id === 'srv_satyanarayan' && nextUrl.includes('generated-2VtWj9NpLbLZZmNI')) || // had car pooja image
 					(srv.id === 'srv_wedding' && nextUrl.includes('img-20230916-wa0012')) || // had rudrabhishek image
 					(srv.id === 'srv_griha_pravesh' && nextUrl.includes('img-20260712-wa0014')) || // had office image

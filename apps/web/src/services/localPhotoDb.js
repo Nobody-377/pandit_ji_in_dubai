@@ -125,8 +125,10 @@ export function broadcastDataChange(type, details = {}) {
 
 /**
  * Convert a File object to an optimized Data URL (with canvas compression for fast loading).
+ * Uses 1000px max width and 0.78 quality to keep file sizes well under 100KB,
+ * preventing browser localStorage quota exhaustion (5MB limit) while preserving high visual clarity.
  */
-export async function fileToDataUrl(file, maxWidth = 1600, quality = 0.88) {
+export async function fileToDataUrl(file, maxWidth = 1000, quality = 0.78) {
 	return new Promise((resolve, reject) => {
 		const reader = new FileReader();
 		reader.onload = (e) => {
@@ -161,6 +163,94 @@ export async function fileToDataUrl(file, maxWidth = 1600, quality = 0.88) {
 	});
 }
 
+/**
+ * Blacklisted placeholder URLs that must NEVER be rendered on the website or stored in database.
+ */
+export const BANNED_PHOTO_PATTERNS = [
+	'amenities.jpg',
+	'cdn-builder-placeholders',
+	'zyrosite.com/cdn-builder-placeholders'
+];
+
+export function isBannedPhotoUrl(src) {
+	if (!src || typeof src !== 'string') return false;
+	return BANNED_PHOTO_PATTERNS.some((pattern) => src.includes(pattern));
+}
+
+/**
+ * Purge any obsolete placeholder data (like amenities.jpg) from localStorage and IndexedDB immediately.
+ */
+export function purgeBannedPlaceholders() {
+	if (typeof window === 'undefined') return;
+	try {
+		// 1. Clean localStorage
+		const keysToRemove = [];
+		for (let i = 0; i < localStorage.length; i++) {
+			const key = localStorage.key(i);
+			if (key && key.startsWith('pj_photos_')) {
+				const val = localStorage.getItem(key);
+				if (val && isBannedPhotoUrl(val)) {
+					keysToRemove.push(key);
+				}
+			}
+		}
+		keysToRemove.forEach((k) => {
+			try {
+				localStorage.removeItem(k);
+			} catch (_) {}
+		});
+
+		// Clean pooja services in localStorage if any entry has amenities
+		const servicesRaw = localStorage.getItem('pj_pooja_services');
+		if (servicesRaw && isBannedPhotoUrl(servicesRaw)) {
+			try {
+				const services = JSON.parse(servicesRaw);
+				const cleanedServices = services.map((s) => {
+					if (s.imageUrl && isBannedPhotoUrl(s.imageUrl)) {
+						return {
+							...s,
+							imageUrl: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/bjsvd5-Pm2XA7u3Bhsxt41k.png?width=768&fit=crop',
+						};
+					}
+					return s;
+				});
+				localStorage.setItem('pj_pooja_services', JSON.stringify(cleanedServices));
+			} catch (_) {
+				localStorage.removeItem('pj_pooja_services');
+			}
+		}
+	} catch (_) {}
+
+	// 2. Clean IndexedDB asynchronously
+	getDb().then((db) => {
+		if (!db) return;
+		try {
+			if (db.objectStoreNames.contains(STORE_PHOTOS)) {
+				const tx = db.transaction(STORE_PHOTOS, 'readwrite');
+				const store = tx.objectStore(STORE_PHOTOS);
+				const req = store.openCursor();
+				req.onsuccess = (e) => {
+					const cursor = e.target.result;
+					if (cursor) {
+						const strVal = JSON.stringify(cursor.value || '');
+						if (isBannedPhotoUrl(strVal)) {
+							cursor.delete();
+						}
+						cursor.continue();
+					}
+				};
+			}
+		} catch (_) {}
+	});
+}
+
+// Auto-purge obsolete placeholders immediately when module loads
+if (typeof window !== 'undefined') {
+	try {
+		purgeBannedPlaceholders();
+	} catch (_) {}
+}
+
 export const localPhotoDb = {
 	// =========================================================================
 	// SECTION PHOTOS
@@ -174,8 +264,14 @@ export const localPhotoDb = {
 		try {
 			const raw = localStorage.getItem(`pj_photos_${pageId}_${sectionId}`);
 			if (!raw) return null;
+			if (isBannedPhotoUrl(raw)) {
+				localStorage.removeItem(`pj_photos_${pageId}_${sectionId}`);
+				return null;
+			}
 			const parsed = JSON.parse(raw);
-			return Array.isArray(parsed) ? parsed : null;
+			if (!Array.isArray(parsed)) return null;
+			const clean = parsed.filter((p) => p && p.src && !isBannedPhotoUrl(p.src));
+			return clean.length > 0 ? clean : null;
 		} catch {
 			return null;
 		}
@@ -200,11 +296,21 @@ export const localPhotoDb = {
 				const req = store.get(`${pageId}::${sectionId}`);
 				req.onsuccess = () => {
 					if (req.result && Array.isArray(req.result)) {
-						// Mirror to localStorage for synchronous instant access
-						try {
-							localStorage.setItem(`pj_photos_${pageId}_${sectionId}`, JSON.stringify(req.result));
-						} catch (_) {}
-						resolve(req.result);
+						const clean = req.result.filter((p) => p && p.src && !isBannedPhotoUrl(p.src));
+						if (clean.length > 0) {
+							// Mirror to localStorage for synchronous instant access
+							try {
+								localStorage.setItem(`pj_photos_${pageId}_${sectionId}`, JSON.stringify(clean));
+							} catch (_) {}
+							resolve(clean);
+						} else {
+							// Clean up obsolete store record
+							try {
+								const delTx = db.transaction(STORE_PHOTOS, 'readwrite');
+								delTx.objectStore(STORE_PHOTOS).delete(`${pageId}::${sectionId}`);
+							} catch (_) {}
+							resolve(syncVal);
+						}
 					} else {
 						resolve(syncVal);
 					}
@@ -221,12 +327,15 @@ export const localPhotoDb = {
 	 */
 	async saveSectionPhotos(pageId, sectionId, photos) {
 		const key = `${pageId}::${sectionId}`;
+		const cleanPhotos = Array.isArray(photos)
+			? photos.filter((p) => p && p.src && !isBannedPhotoUrl(p.src))
+			: [];
 
 		// 1. Immediate synchronous localStorage write
 		try {
-			localStorage.setItem(`pj_photos_${pageId}_${sectionId}`, JSON.stringify(photos));
+			localStorage.setItem(`pj_photos_${pageId}_${sectionId}`, JSON.stringify(cleanPhotos));
 		} catch (e) {
-			console.warn('localStorage save photos warning:', e);
+			console.warn('localStorage save photos warning (IndexedDB will persist):', e);
 		}
 
 		// 2. Asynchronous IndexedDB write for permanent persistence
@@ -236,18 +345,18 @@ export const localPhotoDb = {
 				try {
 					const tx = db.transaction(STORE_PHOTOS, 'readwrite');
 					const store = tx.objectStore(STORE_PHOTOS);
-					const req = store.put(photos, key);
-					req.onsuccess = () => resolve(photos);
-					req.onerror = () => resolve(photos);
+					const req = store.put(cleanPhotos, key);
+					req.onsuccess = () => resolve(cleanPhotos);
+					req.onerror = () => resolve(cleanPhotos);
 				} catch {
-					resolve(photos);
+					resolve(cleanPhotos);
 				}
 			});
 		}
 
 		// 3. Broadcast real-time change to all listeners
 		broadcastDataChange('photos', { pageId, sectionId });
-		return photos;
+		return cleanPhotos;
 	},
 
 	/**

@@ -42,10 +42,52 @@ function App() {
 						<NotificationPopup />
 						<EcommerceCheckoutSuccess />
 						<Routes>
-						{/* Private Admin Portal Routes (placed before dynamic slug) */}
+						{/* Private Admin Portal Routes (supporting /admin-portal, /admin_portal, and /admin) */}
 						<Route path={"/admin-portal/login"} element={<AdminLogin />} />
+						<Route path={"/admin_portal/login"} element={<AdminLogin />} />
+						<Route path={"/admin/login"} element={<AdminLogin />} />
 						<Route
 							path={"/admin-portal/*"}
+							element={
+								<AdminProtectedRoute>
+									<AdminDashboard />
+								</AdminProtectedRoute>
+							}
+						/>
+						<Route
+							path={"/admin-portal"}
+							element={
+								<AdminProtectedRoute>
+									<AdminDashboard />
+								</AdminProtectedRoute>
+							}
+						/>
+						<Route
+							path={"/admin_portal/*"}
+							element={
+								<AdminProtectedRoute>
+									<AdminDashboard />
+								</AdminProtectedRoute>
+							}
+						/>
+						<Route
+							path={"/admin_portal"}
+							element={
+								<AdminProtectedRoute>
+									<AdminDashboard />
+								</AdminProtectedRoute>
+							}
+						/>
+						<Route
+							path={"/admin/*"}
+							element={
+								<AdminProtectedRoute>
+									<AdminDashboard />
+								</AdminProtectedRoute>
+							}
+						/>
+						<Route
+							path={"/admin"}
 							element={
 								<AdminProtectedRoute>
 									<AdminDashboard />

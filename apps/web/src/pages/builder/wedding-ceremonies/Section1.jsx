@@ -28,15 +28,31 @@ export default function Section1() {
 	const { photos: photos1 } = useSectionPhotos('wedding-ceremonies', 'wedding_feature_1', defaultWedding1);
 	const { photos: photos2 } = useSectionPhotos('wedding-ceremonies', 'wedding_feature_2', defaultWedding2);
 
-	// Detect if user configured a custom photo for either slot
-	const custom1 = (photos1 && photos1.length > 0 && photos1[0]?.src && photos1[0].src !== defaultWedding1[0].src) ? photos1[0] : null;
-	const custom2 = (photos2 && photos2.length > 0 && photos2[0]?.src && photos2[0].src !== defaultWedding2[0].src) ? photos2[0] : null;
+	// Detect if user configured a custom photo for either slot (excluding any banned placeholder)
+	const isCustom = (p, def) => Boolean(
+		p &&
+		p.src &&
+		!p.src.includes('amenities') &&
+		!p.src.includes('cdn-builder-placeholders') &&
+		p.src !== def[0]?.src
+	);
+
+	const custom1 = isCustom(photos1?.[0], defaultWedding1) ? photos1[0] : null;
+	const custom2 = isCustom(photos2?.[0], defaultWedding2) ? photos2[0] : null;
 
 	// The primary wedding hero image (used on both desktop zGT0m_ and mobile zKbmue)
-	const primaryWeddingPhoto = custom1 || custom2 || (photos1 && photos1[0]) || (photos2 && photos2[0]) || defaultWedding1[0];
+	const primaryWeddingPhoto =
+		custom1 ||
+		custom2 ||
+		(photos1?.[0] && !photos1[0].src.includes('amenities') ? photos1[0] : null) ||
+		(photos2?.[0] && !photos2[0].src.includes('amenities') ? photos2[0] : null) ||
+		defaultWedding1[0];
 
 	// The secondary / benefits card photo
-	const secondaryWeddingPhoto = (custom1 && custom2) ? custom2 : (photos2 && photos2[0] ? photos2[0] : defaultWedding2[0]);
+	const secondaryWeddingPhoto =
+		(custom1 && custom2)
+			? custom2
+			: (photos2?.[0] && !photos2[0].src.includes('amenities') ? photos2[0] : defaultWedding2[0]);
 	return (
 		<BlockLayout
 			blockId={"zgi5mv"}
