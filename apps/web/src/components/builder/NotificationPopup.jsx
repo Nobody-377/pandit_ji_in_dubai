@@ -5,6 +5,7 @@ import popupService, { DEFAULT_POPUP_SETTINGS } from '@/services/popupService';
 import localPhotoDb from '@/services/localPhotoDb';
 
 const SESSION_SHOWN_KEY = 'pj_popup_shown_in_session';
+const LAST_UPDATED_KEY = 'pj_popup_last_seen_timestamp';
 
 export default function NotificationPopup() {
 	const location = useLocation();
@@ -68,6 +69,16 @@ export default function NotificationPopup() {
 			const data = await popupService.fetchPopupSettings();
 			const current = data || DEFAULT_POPUP_SETTINGS;
 			setSettings(current);
+
+			// If admin updated popup settings, clear session suppression so visitor immediately sees the new banner
+			if (current.updated_at) {
+				const lastSeen = sessionStorage.getItem(LAST_UPDATED_KEY);
+				if (lastSeen !== current.updated_at) {
+					sessionStorage.removeItem(SESSION_SHOWN_KEY);
+					sessionStorage.setItem(LAST_UPDATED_KEY, current.updated_at);
+				}
+			}
+
 			if (!isAdminRoute) {
 				triggerPopup(current, forceTrigger);
 			}

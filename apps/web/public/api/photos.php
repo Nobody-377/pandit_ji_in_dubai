@@ -64,3 +64,4 @@ if (!empty($pageId) && !empty($sectionId)) {
 }
 
 echo json_encode($allPhotos);
+

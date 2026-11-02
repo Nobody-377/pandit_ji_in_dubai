@@ -1,5 +1,5 @@
 import { supabase, isSupabaseConfigured } from '@/lib/supabaseClient';
-import localPhotoDb, { fileToDataUrl } from '@/services/localPhotoDb';
+import localPhotoDb, { fileToDataUrl, ensureHostedImageUrl } from '@/services/localPhotoDb';
 
 const BUCKET_NAME = 'site-photos';
 
@@ -140,10 +140,17 @@ export const popupService = {
 	 * Save updated popup settings (Hostinger Server, Cloud & Local).
 	 */
 	async savePopupSettings(settings) {
+		let finalImageUrl = settings.image_url || DEFAULT_POPUP_SETTINGS.image_url;
+
+		// Convert any Base64 data URL to hosted server file
+		if (finalImageUrl && finalImageUrl.startsWith('data:image/')) {
+			finalImageUrl = await ensureHostedImageUrl(finalImageUrl);
+		}
+
 		const payload = {
 			id: 'main_popup',
 			is_enabled: Boolean(settings.is_enabled),
-			image_url: settings.image_url || DEFAULT_POPUP_SETTINGS.image_url,
+			image_url: finalImageUrl,
 			storage_path: settings.storage_path || '',
 			target_url: settings.target_url || DEFAULT_POPUP_SETTINGS.target_url,
 			title: settings.title !== undefined ? settings.title : DEFAULT_POPUP_SETTINGS.title,

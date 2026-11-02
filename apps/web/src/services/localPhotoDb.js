@@ -167,16 +167,45 @@ export async function fileToDataUrl(file, maxWidth = 1000, quality = 0.78) {
  * Blacklisted placeholder URLs that must NEVER be rendered on the website or stored in database.
  */
 export const BANNED_PHOTO_PATTERNS = [
-	'amenities.jpg',
+	'amenities',
 	'cdn-builder-placeholders',
 	'zyrosite.com/cdn-builder-placeholders',
-	'bjsvd5-Pm2XA7u3Bhsxt41k',
-	'bjsvd5'
+	'bjsvd5-pm2xa7u3bhsxt41k',
+	'bjsvd5',
+	'photo-1708963738411',
 ];
 
 export function isBannedPhotoUrl(src) {
 	if (!src || typeof src !== 'string') return false;
-	return BANNED_PHOTO_PATTERNS.some((pattern) => src.includes(pattern));
+	const lower = src.toLowerCase();
+	return BANNED_PHOTO_PATTERNS.some((pattern) => lower.includes(pattern.toLowerCase()));
+}
+
+/**
+ * Automatically converts any Base64 Data URL (data:image/...) to a permanently
+ * hosted file on Hostinger (/api/uploads/img_....jpg) via /api/upload.php.
+ * Ensures tiny JSON payloads and instant, reliable cross-device loading.
+ */
+export async function ensureHostedImageUrl(urlOrData) {
+	if (!urlOrData || typeof urlOrData !== 'string') return urlOrData;
+	if (!urlOrData.startsWith('data:image/')) return urlOrData;
+
+	try {
+		const res = await fetch('/api/upload.php', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ image: urlOrData }),
+		});
+		if (res.ok) {
+			const data = await res.json();
+			if (data && data.url) {
+				return data.url;
+			}
+		}
+	} catch (e) {
+		console.warn('Could not convert base64 to hosted file on server:', e);
+	}
+	return urlOrData;
 }
 
 /**
@@ -329,9 +358,21 @@ export const localPhotoDb = {
 	 */
 	async saveSectionPhotos(pageId, sectionId, photos) {
 		const key = `${pageId}::${sectionId}`;
-		const cleanPhotos = Array.isArray(photos)
+		let cleanPhotos = Array.isArray(photos)
 			? photos.filter((p) => p && p.src && !isBannedPhotoUrl(p.src))
 			: [];
+
+		// If any photos contain Base64 data URLs, convert them to permanent server uploads
+		const convertedPhotos = await Promise.all(
+			cleanPhotos.map(async (p) => {
+				if (p.src && p.src.startsWith('data:image/')) {
+					const hostedUrl = await ensureHostedImageUrl(p.src);
+					return { ...p, src: hostedUrl };
+				}
+				return p;
+			})
+		);
+		cleanPhotos = convertedPhotos;
 
 		// 1. Immediate synchronous localStorage write
 		try {
@@ -359,13 +400,13 @@ export const localPhotoDb = {
 		// 3. Broadcast real-time change to all listeners
 		broadcastDataChange('photos', { pageId, sectionId });
 
-		// 4. Asynchronously mirror to Hostinger Server
+		// 4. Mirror to Hostinger Server
 		try {
-			fetch('/api/photos.php', {
+			await fetch('/api/photos.php', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ pageId, sectionId, photos: cleanPhotos })
-			}).catch(() => {});
+			});
 		} catch (_) {}
 
 		return cleanPhotos;
@@ -455,9 +496,23 @@ export const localPhotoDb = {
 	 * Dual-write pooja services to both localStorage and IndexedDB.
 	 */
 	async savePoojaServices(services) {
+		let cleanServices = Array.isArray(services) ? services : [];
+
+		// If any services contain Base64 data URLs, convert them to permanent server uploads
+		const convertedServices = await Promise.all(
+			cleanServices.map(async (s) => {
+				if (s.imageUrl && s.imageUrl.startsWith('data:image/')) {
+					const hostedUrl = await ensureHostedImageUrl(s.imageUrl);
+					return { ...s, imageUrl: hostedUrl };
+				}
+				return s;
+			})
+		);
+		cleanServices = convertedServices;
+
 		// 1. Immediate synchronous localStorage write
 		try {
-			localStorage.setItem('pj_pooja_services', JSON.stringify(services));
+			localStorage.setItem('pj_pooja_services', JSON.stringify(cleanServices));
 		} catch (e) {
 			console.warn('localStorage save services warning:', e);
 		}
@@ -469,11 +524,11 @@ export const localPhotoDb = {
 				try {
 					const tx = db.transaction(STORE_SERVICES, 'readwrite');
 					const store = tx.objectStore(STORE_SERVICES);
-					const req = store.put(services, 'all_services');
-					req.onsuccess = () => resolve(services);
-					req.onerror = () => resolve(services);
+					const req = store.put(cleanServices, 'all_services');
+					req.onsuccess = () => resolve(cleanServices);
+					req.onerror = () => resolve(cleanServices);
 				} catch {
-					resolve(services);
+					resolve(cleanServices);
 				}
 			});
 		}
@@ -481,16 +536,16 @@ export const localPhotoDb = {
 		// 3. Broadcast real-time change to all listeners
 		broadcastDataChange('services');
 
-		// 4. Asynchronously mirror to Hostinger Server
+		// 4. Mirror to Hostinger Server
 		try {
-			fetch('/api/services.php', {
+			await fetch('/api/services.php', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(services)
-			}).catch(() => {});
+				body: JSON.stringify(cleanServices)
+			});
 		} catch (_) {}
 
-		return services;
+		return cleanServices;
 	},
 
 	// =========================================================================
@@ -539,8 +594,13 @@ export const localPhotoDb = {
 	},
 
 	async savePopupSettings(settings) {
+		const toSave = { ...settings };
+		if (toSave.image_url && toSave.image_url.startsWith('data:image/')) {
+			toSave.image_url = await ensureHostedImageUrl(toSave.image_url);
+		}
+
 		try {
-			localStorage.setItem('pj_local_popup_settings', JSON.stringify(settings));
+			localStorage.setItem('pj_local_popup_settings', JSON.stringify(toSave));
 		} catch (e) {
 			console.warn('localStorage save popup warning:', e);
 		}
@@ -551,27 +611,27 @@ export const localPhotoDb = {
 				try {
 					const tx = db.transaction(STORE_POPUP, 'readwrite');
 					const store = tx.objectStore(STORE_POPUP);
-					const req = store.put(settings, 'active');
-					req.onsuccess = () => resolve(settings);
-					req.onerror = () => resolve(settings);
+					const req = store.put(toSave, 'active');
+					req.onsuccess = () => resolve(toSave);
+					req.onerror = () => resolve(toSave);
 				} catch {
-					resolve(settings);
+					resolve(toSave);
 				}
 			});
 		}
 
-		broadcastDataChange('popup', { settings });
+		broadcastDataChange('popup', { settings: toSave });
 
-		// Asynchronously mirror to Hostinger Server
+		// Mirror to Hostinger Server
 		try {
-			fetch('/api/popup.php', {
+			await fetch('/api/popup.php', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(settings)
-			}).catch(() => {});
+				body: JSON.stringify(toSave)
+			});
 		} catch (_) {}
 
-		return settings;
+		return toSave;
 	},
 
 	// =========================================================================

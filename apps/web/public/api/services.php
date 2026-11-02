@@ -47,3 +47,4 @@ if (file_exists($dataFile)) {
 
 // Return null if no custom services saved yet
 echo json_encode(null);
+
