@@ -215,7 +215,24 @@ export const poojaService = {
 	 * Fetch all pooja services with auto-sync and reconciliation.
 	 */
 	async fetchServices(onlyActive = true) {
-		// 1. Try Supabase Cloud
+		// 1. Try Hostinger Server API first (persisted cross-device source of truth)
+		try {
+			const res = await fetch(`/api/services.php?t=${Date.now()}`);
+			if (res.ok) {
+				const serverData = await res.json();
+				if (serverData && Array.isArray(serverData) && serverData.length > 0) {
+					const synced = await syncWithSectionPhotosAndDefaults(serverData);
+					try {
+						await localPhotoDb.savePoojaServices(synced);
+					} catch (_) {}
+					return onlyActive ? synced.filter((s) => s.isActive !== false) : synced;
+				}
+			}
+		} catch (_) {
+			// Hostinger API unreachable or local dev mode
+		}
+
+		// 2. Try Supabase Cloud
 		if (isSupabaseConfigured && supabase) {
 			try {
 				let query = supabase
@@ -363,28 +380,43 @@ export const poojaService = {
 		let finalImageUrl = updates.imageUrl;
 
 		if (imageFile) {
-			if (isSupabaseConfigured && supabase) {
-				try {
-					const ext = imageFile.name.split('.').pop() || 'jpg';
-					const cleanName = imageFile.name
-						.replace(/\.[^/.]+$/, '')
-						.replace(/[^a-zA-Z0-9]/g, '_')
-						.toLowerCase();
-					const filePath = `services/${Date.now()}_${cleanName}.${ext}`;
-
-					const { error: uploadError } = await supabase.storage
-						.from('site-photos')
-						.upload(filePath, imageFile, { cacheControl: '31536000', upsert: false });
-
-					if (!uploadError) {
-						const { data: urlData } = supabase.storage.from('site-photos').getPublicUrl(filePath);
-						finalImageUrl = urlData.publicUrl;
+			// Try Hostinger Server upload first
+			try {
+				const formData = new FormData();
+				formData.append('file', imageFile);
+				const res = await fetch('/api/upload.php', { method: 'POST', body: formData });
+				if (res.ok) {
+					const data = await res.json();
+					if (data && data.url) {
+						finalImageUrl = data.url;
 					}
-				} catch (err) {
+				}
+			} catch (_) {}
+
+			if (!finalImageUrl || finalImageUrl === updates.imageUrl) {
+				if (isSupabaseConfigured && supabase) {
+					try {
+						const ext = imageFile.name.split('.').pop() || 'jpg';
+						const cleanName = imageFile.name
+							.replace(/\.[^/.]+$/, '')
+							.replace(/[^a-zA-Z0-9]/g, '_')
+							.toLowerCase();
+						const filePath = `services/${Date.now()}_${cleanName}.${ext}`;
+
+						const { error: uploadError } = await supabase.storage
+							.from('site-photos')
+							.upload(filePath, imageFile, { cacheControl: '31536000', upsert: false });
+
+						if (!uploadError) {
+							const { data: urlData } = supabase.storage.from('site-photos').getPublicUrl(filePath);
+							finalImageUrl = urlData.publicUrl;
+						}
+					} catch (err) {
+						finalImageUrl = await fileToDataUrl(imageFile);
+					}
+				} else {
 					finalImageUrl = await fileToDataUrl(imageFile);
 				}
-			} else {
-				finalImageUrl = await fileToDataUrl(imageFile);
 			}
 		}
 
@@ -401,6 +433,15 @@ export const poojaService = {
 		});
 
 		await localPhotoDb.savePoojaServices(updated);
+
+		// Persist to Hostinger Server API
+		try {
+			await fetch('/api/services.php', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(updated),
+			});
+		} catch (_) {}
 
 		// Mirror to corresponding section photos so the pooja landing page updates too!
 		if (finalImageUrl && SERVICE_SECTION_MAP[id]) {

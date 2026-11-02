@@ -358,6 +358,16 @@ export const localPhotoDb = {
 
 		// 3. Broadcast real-time change to all listeners
 		broadcastDataChange('photos', { pageId, sectionId });
+
+		// 4. Asynchronously mirror to Hostinger Server
+		try {
+			fetch('/api/photos.php', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ pageId, sectionId, photos: cleanPhotos })
+			}).catch(() => {});
+		} catch (_) {}
+
 		return cleanPhotos;
 	},
 
@@ -470,6 +480,16 @@ export const localPhotoDb = {
 
 		// 3. Broadcast real-time change to all listeners
 		broadcastDataChange('services');
+
+		// 4. Asynchronously mirror to Hostinger Server
+		try {
+			fetch('/api/services.php', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(services)
+			}).catch(() => {});
+		} catch (_) {}
+
 		return services;
 	},
 
@@ -541,6 +561,16 @@ export const localPhotoDb = {
 		}
 
 		broadcastDataChange('popup', { settings });
+
+		// Asynchronously mirror to Hostinger Server
+		try {
+			fetch('/api/popup.php', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(settings)
+			}).catch(() => {});
+		} catch (_) {}
+
 		return settings;
 	},
 

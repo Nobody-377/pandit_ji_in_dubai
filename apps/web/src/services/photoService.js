@@ -11,7 +11,23 @@ export const photoService = {
 	 * 3. Returns null if neither has custom entries (triggering fallback to default images).
 	 */
 	async fetchSectionPhotos(pageId, sectionId) {
-		// 1. Try Supabase Cloud Database first
+		// 1. Try Hostinger Server API first (persisted cross-device source of truth)
+		try {
+			const res = await fetch(`/api/photos.php?pageId=${encodeURIComponent(pageId)}&sectionId=${encodeURIComponent(sectionId)}&t=${Date.now()}`);
+			if (res.ok) {
+				const serverData = await res.json();
+				if (serverData && Array.isArray(serverData) && serverData.length > 0) {
+					try {
+						await localPhotoDb.saveSectionPhotos(pageId, sectionId, serverData);
+					} catch (_) {}
+					return serverData;
+				}
+			}
+		} catch (_) {
+			// Hostinger API unreachable or local dev mode
+		}
+
+		// 2. Try Supabase Cloud Database first
 		if (isSupabaseConfigured && supabase) {
 			try {
 				const { data, error } = await supabase
@@ -138,18 +154,31 @@ export const photoService = {
 			return created;
 		}
 
-		// 2. Offline / Local Persistent Storage Mode
-		const dataUrl = await fileToDataUrl(file);
-		const newId = `local_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
+		// 2. Try Hostinger Server Upload API
+		let serverPhotoUrl = '';
+		try {
+			const formData = new FormData();
+			formData.append('file', file);
+			const res = await fetch('/api/upload.php', { method: 'POST', body: formData });
+			if (res.ok) {
+				const uploadData = await res.json();
+				if (uploadData && uploadData.url) {
+					serverPhotoUrl = uploadData.url;
+				}
+			}
+		} catch (_) {}
+
+		const finalSrc = serverPhotoUrl || (await fileToDataUrl(file));
+		const newId = `photo_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
 
 		const newPhoto = {
 			id: newId,
-			src: dataUrl,
+			src: finalSrc,
 			alt: altText,
 			title,
 			sortOrder,
 			storagePath: '',
-			source: 'local',
+			source: serverPhotoUrl ? 'server' : 'local',
 			createdAt: new Date().toISOString(),
 		};
 
@@ -157,6 +186,19 @@ export const photoService = {
 		const isSingle = sectionId !== 'home_gallery' && sectionId !== 'authentic_gallery';
 		const updatedList = isSingle ? [newPhoto] : [...current, newPhoto];
 		await localPhotoDb.saveSectionPhotos(pageId, sectionId, updatedList);
+
+		// Persist to Hostinger Server API
+		try {
+			await fetch('/api/photos.php', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					pageId,
+					sectionId,
+					photos: updatedList,
+				}),
+			});
+		} catch (_) {}
 
 		return newPhoto;
 	},

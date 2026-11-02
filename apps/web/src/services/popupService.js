@@ -15,10 +15,28 @@ export const DEFAULT_POPUP_SETTINGS = {
 
 export const popupService = {
 	/**
-	 * Fetch current popup settings from Supabase or local persistent storage.
+	 * Fetch current popup settings from Hostinger Server API, Supabase, or local persistent storage.
 	 */
 	async fetchPopupSettings() {
-		// 1. Try Supabase Cloud Database first
+		// 1. Try Hostinger Server API first (cross-device source of truth for all visitors)
+		try {
+			const res = await fetch(`/api/popup.php?t=${Date.now()}`);
+			if (res.ok) {
+				const serverData = await res.json();
+				if (serverData && serverData.image_url) {
+					const merged = { ...DEFAULT_POPUP_SETTINGS, ...serverData };
+					// Cache locally for instant offline access
+					try {
+						await localPhotoDb.savePopupSettings(merged);
+					} catch (_) {}
+					return merged;
+				}
+			}
+		} catch (_) {
+			// Hostinger API unreachable or running on local dev server without PHP
+		}
+
+		// 2. Try Supabase Cloud Database if configured
 		if (isSupabaseConfigured && supabase) {
 			try {
 				const { data, error } = await supabase
@@ -28,7 +46,6 @@ export const popupService = {
 					.maybeSingle();
 
 				if (!error && data) {
-					// Cache locally
 					await localPhotoDb.savePopupSettings(data);
 					return data;
 				}
@@ -37,7 +54,7 @@ export const popupService = {
 			}
 		}
 
-		// 2. ALWAYS read IndexedDB first (authoritative database with no 5MB quota limitation)
+		// 3. Read IndexedDB (authoritative local database with no 5MB quota limitation)
 		try {
 			const idbData = await localPhotoDb.getPopupSettings();
 			if (idbData && idbData.image_url) {
@@ -45,7 +62,7 @@ export const popupService = {
 			}
 		} catch (_) {}
 
-		// 3. Fallback to synchronous localStorage cache
+		// 4. Fallback to synchronous localStorage cache
 		try {
 			const syncLocal = localPhotoDb.getPopupSettingsSync();
 			if (syncLocal && syncLocal.image_url) {
@@ -57,37 +74,61 @@ export const popupService = {
 	},
 
 	/**
-	 * Upload a promotional banner image (Cloud or Local Data URL).
+	 * Upload a promotional banner image (Hostinger Server, Cloud, or Local Data URL).
 	 */
 	async uploadPopupImage(file) {
-		if (isSupabaseConfigured && supabase) {
-			const ext = file.name.split('.').pop() || 'jpg';
-			const cleanName = file.name
-				.replace(/\.[^/.]+$/, '')
-				.replace(/[^a-zA-Z0-9]/g, '_')
-				.toLowerCase();
-			const filePath = `popup/${Date.now()}_${cleanName}.${ext}`;
-
-			const { error: uploadError } = await supabase.storage
-				.from(BUCKET_NAME)
-				.upload(filePath, file, {
-					cacheControl: '31536000',
-					upsert: false,
-				});
-
-			if (uploadError) throw uploadError;
-
-			const { data: urlData } = supabase.storage
-				.from(BUCKET_NAME)
-				.getPublicUrl(filePath);
-
-			return {
-				publicUrl: urlData.publicUrl,
-				storagePath: filePath,
-			};
+		// 1. Try Hostinger Server Upload API
+		try {
+			const formData = new FormData();
+			formData.append('file', file);
+			const res = await fetch('/api/upload.php', {
+				method: 'POST',
+				body: formData,
+			});
+			if (res.ok) {
+				const data = await res.json();
+				if (data && data.url) {
+					return {
+						publicUrl: data.url,
+						storagePath: data.filename || '',
+					};
+				}
+			}
+		} catch (_) {
+			// Fallback to other providers
 		}
 
-		// Local persistent mode
+		// 2. Try Supabase if configured
+		if (isSupabaseConfigured && supabase) {
+			try {
+				const ext = file.name.split('.').pop() || 'jpg';
+				const cleanName = file.name
+					.replace(/\.[^/.]+$/, '')
+					.replace(/[^a-zA-Z0-9]/g, '_')
+					.toLowerCase();
+				const filePath = `popup/${Date.now()}_${cleanName}.${ext}`;
+
+				const { error: uploadError } = await supabase.storage
+					.from(BUCKET_NAME)
+					.upload(filePath, file, {
+						cacheControl: '31536000',
+						upsert: false,
+					});
+
+				if (!uploadError) {
+					const { data: urlData } = supabase.storage
+						.from(BUCKET_NAME)
+						.getPublicUrl(filePath);
+
+					return {
+						publicUrl: urlData.publicUrl,
+						storagePath: filePath,
+					};
+				}
+			} catch (_) {}
+		}
+
+		// 3. Local persistent mode (compressed data URL)
 		const dataUrl = await fileToDataUrl(file);
 		return {
 			publicUrl: dataUrl,
@@ -96,7 +137,7 @@ export const popupService = {
 	},
 
 	/**
-	 * Save updated popup settings (Cloud & Local).
+	 * Save updated popup settings (Hostinger Server, Cloud & Local).
 	 */
 	async savePopupSettings(settings) {
 		const payload = {
@@ -110,10 +151,27 @@ export const popupService = {
 			updated_at: new Date().toISOString(),
 		};
 
-		// 1. Always save to local persistent storage for instant offline resilience
+		// 1. Save to Hostinger Server API so all visitors see updates immediately
+		try {
+			const res = await fetch('/api/popup.php', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(payload),
+			});
+			if (res.ok) {
+				const saved = await res.json();
+				if (saved && saved.image_url) {
+					payload.image_url = saved.image_url;
+				}
+			}
+		} catch (serverErr) {
+			console.warn('Hostinger server popup save fallback:', serverErr);
+		}
+
+		// 2. Always save to local persistent storage for instant offline resilience
 		await localPhotoDb.savePopupSettings(payload);
 
-		// 2. If Cloud is active, upsert to Supabase
+		// 3. If Cloud is active, upsert to Supabase
 		if (isSupabaseConfigured && supabase) {
 			try {
 				const { data, error } = await supabase
@@ -122,9 +180,7 @@ export const popupService = {
 					.select()
 					.single();
 
-				if (error) {
-					console.error('Supabase savePopupSettings error:', error);
-				} else if (data) {
+				if (!error && data) {
 					return data;
 				}
 			} catch (cloudErr) {

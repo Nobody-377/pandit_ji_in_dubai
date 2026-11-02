@@ -1,0 +1,5 @@
+# Deny direct browser access to raw JSON files
+<Files ~ "\.json$">
+    Order allow,deny
+    Deny from all
+</Files>
