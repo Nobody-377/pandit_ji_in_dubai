@@ -538,7 +538,7 @@ export const localPhotoDb = {
 			});
 		}
 
-		broadcastDataChange('popup');
+		broadcastDataChange('popup', { settings });
 		return settings;
 	},
 

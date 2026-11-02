@@ -37,8 +37,12 @@ export const popupService = {
 			}
 		}
 
-		// 2. Try local persistent storage
+		// 2. Try local persistent storage (sync first for zero latency, then indexedDB)
 		try {
+			const syncLocal = localPhotoDb.getPopupSettingsSync();
+			if (syncLocal) {
+				return { ...DEFAULT_POPUP_SETTINGS, ...syncLocal };
+			}
 			const local = await localPhotoDb.getPopupSettings();
 			if (local) {
 				return { ...DEFAULT_POPUP_SETTINGS, ...local };

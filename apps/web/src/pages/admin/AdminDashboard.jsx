@@ -469,9 +469,15 @@ export default function AdminDashboard() {
 			setPopupSettings(saved);
 			setPopupPreview(saved.image_url);
 			setPopupFile(null);
+
+			// Clear session suppression so popup can be tested immediately
+			try {
+				sessionStorage.removeItem('pj_popup_shown_in_session');
+			} catch (_) {}
+
 			setStatusMessage({
 				type: 'success',
-				text: 'Pop-Up Notification settings saved permanently!'
+				text: 'Pop-Up Notification settings saved permanently! The live site has been updated.'
 			});
 		} catch (err) {
 			console.error('Error saving popup settings:', err);
@@ -1529,6 +1535,32 @@ export default function AdminDashboard() {
 									<p className="text-xs text-[#2B1A14]/70 mt-3 text-center">
 										Target Link: <span className="text-[#8C2B1D] font-mono font-bold">{popupSettings.target_url}</span>
 									</p>
+
+									<div className="mt-4 flex flex-col gap-2 w-full max-w-xs">
+										<a
+											href="/?preview_popup=true"
+											target="_blank"
+											rel="noopener noreferrer"
+											className="w-full py-2.5 px-4 rounded-xl bg-white border border-[#E2D7C8] hover:border-[#8C2B1D] text-[#8C2B1D] text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition shadow-xs hover:bg-[#FAF6F0]"
+										>
+											<Eye className="w-4 h-4 text-[#8C2B1D]" />
+											<span>Test Pop-Up on Live Website</span>
+										</a>
+										<button
+											type="button"
+											onClick={() => {
+												try {
+													sessionStorage.removeItem('pj_popup_shown_in_session');
+													localPhotoDb.savePopupSettings(popupSettings);
+													alert('Pop-up session reset! Open the website in any tab to view the pop-up.');
+												} catch (_) {}
+											}}
+											className="w-full py-2 px-3 rounded-xl bg-[#FAF6F0] border border-[#E2D7C8] text-[#2B1A14]/80 text-xs font-semibold flex items-center justify-center gap-1.5 hover:bg-[#F2EBDD] transition"
+										>
+											<RotateCcw className="w-3.5 h-3.5" />
+											<span>Reset Session Timer & Test</span>
+										</button>
+									</div>
 								</div>
 							</div>
 						</div>
