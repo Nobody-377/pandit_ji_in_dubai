@@ -204,6 +204,7 @@ export default function NotificationPopup() {
 				{/* Promotional Banner Image (Clickable) */}
 				<div className="relative w-full aspect-[4/5] sm:aspect-square bg-black/60 overflow-hidden">
 					<img
+						key={settings.image_url}
 						src={settings.image_url}
 						alt={settings.title || 'Special Pooja Announcement'}
 						className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"

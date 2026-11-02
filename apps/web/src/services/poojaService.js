@@ -41,7 +41,7 @@ export const DEFAULT_POOJA_SERVICES = [
 		title: 'Vedic Wedding Ceremonies (Vivah)',
 		badge: 'Sacred Union',
 		description: 'Complete Hindu wedding rituals including Jaimala, Kanyadaan, Saptapadi (7 sacred pheras), and Sindoor Daan as per Vedic scriptures.',
-		imageUrl: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/bjsvd5-Pm2XA7u3Bhsxt41k.png?width=768&fit=crop',
+		imageUrl: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20230916-wa0012.jpg-CJxXbw9LA6N6QwdH.jpeg?width=768&fit=crop',
 		targetUrl: '/wedding-ceremonies',
 		buttonText: 'View Details & Vidhi',
 		isActive: true,
@@ -54,7 +54,7 @@ export const DEFAULT_POOJA_SERVICES = [
 		title: 'Griha Shanti Havan & Yagna',
 		badge: 'Purification',
 		description: 'Powerful sacred fire ceremonies to dispel negative energy, calm planetary disturbances, and bring auspicious blessings to the entire family.',
-		imageUrl: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/generated/generated-FPqXfKUnedc9mRXi.png?width=768&fit=crop',
+		imageUrl: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0016.jpg-LbPgYucL565kxmOf.jpeg?width=768&fit=crop',
 		targetUrl: '/shanti-havan-and-yagna',
 		buttonText: 'View Details & Vidhi',
 		isActive: true,
@@ -166,11 +166,8 @@ async function syncWithSectionPhotosAndDefaults(services) {
 					!nextUrl ||
 					nextUrl.includes('amenities') ||
 					nextUrl.includes('cdn-builder-placeholders') ||
-					(srv.id === 'srv_satyanarayan' && nextUrl.includes('generated-2VtWj9NpLbLZZmNI')) || // had car pooja image
-					(srv.id === 'srv_wedding' && nextUrl.includes('img-20230916-wa0012')) || // had rudrabhishek image
-					(srv.id === 'srv_griha_pravesh' && nextUrl.includes('img-20260712-wa0014')) || // had office image
-					(srv.id === 'srv_shanti_havan' && nextUrl.includes('img-20260712-wa0016')) || // had wrong image
-					(srv.id === 'srv_pitru_paksha' && nextUrl.includes('1786093528068-GtztxnybZC7umoSY')); // had portrait
+					nextUrl.includes('bjsvd5-Pm2XA7u3Bhsxt41k') ||
+					nextUrl.includes('bjsvd5');
 
 				if (isMismatched) {
 					nextUrl = def.imageUrl;
@@ -179,7 +176,7 @@ async function syncWithSectionPhotosAndDefaults(services) {
 			}
 
 			// 3. Mirror customized service image to mapped section photos
-			if (nextUrl && def && nextUrl !== def.imageUrl && mappings) {
+			if (nextUrl && mappings && !nextUrl.includes('amenities') && !nextUrl.includes('bjsvd5')) {
 				const mapList = Array.isArray(mappings) ? mappings : [mappings];
 				for (const m of mapList) {
 					try {

@@ -169,7 +169,9 @@ export async function fileToDataUrl(file, maxWidth = 1000, quality = 0.78) {
 export const BANNED_PHOTO_PATTERNS = [
 	'amenities.jpg',
 	'cdn-builder-placeholders',
-	'zyrosite.com/cdn-builder-placeholders'
+	'zyrosite.com/cdn-builder-placeholders',
+	'bjsvd5-Pm2XA7u3Bhsxt41k',
+	'bjsvd5'
 ];
 
 export function isBannedPhotoUrl(src) {
@@ -209,7 +211,7 @@ export function purgeBannedPlaceholders() {
 					if (s.imageUrl && isBannedPhotoUrl(s.imageUrl)) {
 						return {
 							...s,
-							imageUrl: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/bjsvd5-Pm2XA7u3Bhsxt41k.png?width=768&fit=crop',
+							imageUrl: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20230916-wa0012.jpg-CJxXbw9LA6N6QwdH.jpeg?width=768&fit=crop',
 						};
 					}
 					return s;

@@ -7,10 +7,11 @@ import GridImage from '@/components/builder/elements/GridImage';
 import GridButton from '@/components/builder/elements/GridButton';
 import BenefitsCard from '@/components/builder/elements/BenefitsCard';
 import { useSectionPhotos } from '@/hooks/useSectionPhotos';
+import { isBannedPhotoUrl } from '@/services/localPhotoDb';
 
 const defaultHavanPhoto = [
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/generated/generated-FPqXfKUnedc9mRXi.png?width=768&fit=crop",
+		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0016.jpg-LbPgYucL565kxmOf.jpeg?width=768&fit=crop",
 		alt: "Shanti Havan and Yagna",
 		title: "Havan Kund & Yagna"
 	}
@@ -26,12 +27,12 @@ const defaultBenefitsPhoto = [
 
 export default function Section1() {
 	const { photos: havanPhotos } = useSectionPhotos('shanti-havan-and-yagna', 'shantihavan_feature', defaultHavanPhoto);
-	const activeHavanPhoto = (havanPhotos && havanPhotos.length > 0 && havanPhotos[0]?.src && !havanPhotos[0].src.includes('amenities'))
+	const activeHavanPhoto = (havanPhotos && havanPhotos.length > 0 && havanPhotos[0]?.src && !isBannedPhotoUrl(havanPhotos[0].src) && !havanPhotos[0].src.includes('amenities') && !havanPhotos[0].src.includes('bjsvd5'))
 		? havanPhotos[0]
 		: defaultHavanPhoto[0];
 
 	const { photos: benefitsPhotos } = useSectionPhotos('shanti-havan-and-yagna', 'shantihavan_benefits', defaultBenefitsPhoto);
-	const activeBenefitsPhoto = (benefitsPhotos && benefitsPhotos.length > 0 && benefitsPhotos[0]?.src && !benefitsPhotos[0].src.includes('amenities'))
+	const activeBenefitsPhoto = (benefitsPhotos && benefitsPhotos.length > 0 && benefitsPhotos[0]?.src && !isBannedPhotoUrl(benefitsPhotos[0].src) && !benefitsPhotos[0].src.includes('amenities') && !benefitsPhotos[0].src.includes('bjsvd5'))
 		? benefitsPhotos[0]
 		: defaultBenefitsPhoto[0];
 	return (
@@ -227,6 +228,7 @@ export default function Section1() {
 				hasEntranceAnimation={true}
 			>
 				<BenefitsCard
+					key={activeBenefitsPhoto.src}
 					topLeft={"Spiritual Purification"}
 					topRight={"Positive Energy"}
 					bottomLeft={"Peace & Harmony"}
@@ -253,6 +255,7 @@ export default function Section1() {
 			>
 				<GridImage
 					id={"zeQjbf"}
+					key={activeHavanPhoto.src}
 					src={activeHavanPhoto.src}
 					alt={activeHavanPhoto.alt || "Shanti Havan and Yagna"}
 					objectFit={"cover"}

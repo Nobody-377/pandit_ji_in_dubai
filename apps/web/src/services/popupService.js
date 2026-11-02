@@ -37,15 +37,19 @@ export const popupService = {
 			}
 		}
 
-		// 2. Try local persistent storage (sync first for zero latency, then indexedDB)
+		// 2. ALWAYS read IndexedDB first (authoritative database with no 5MB quota limitation)
+		try {
+			const idbData = await localPhotoDb.getPopupSettings();
+			if (idbData && idbData.image_url) {
+				return { ...DEFAULT_POPUP_SETTINGS, ...idbData };
+			}
+		} catch (_) {}
+
+		// 3. Fallback to synchronous localStorage cache
 		try {
 			const syncLocal = localPhotoDb.getPopupSettingsSync();
-			if (syncLocal) {
+			if (syncLocal && syncLocal.image_url) {
 				return { ...DEFAULT_POPUP_SETTINGS, ...syncLocal };
-			}
-			const local = await localPhotoDb.getPopupSettings();
-			if (local) {
-				return { ...DEFAULT_POPUP_SETTINGS, ...local };
 			}
 		} catch (_) {}
 

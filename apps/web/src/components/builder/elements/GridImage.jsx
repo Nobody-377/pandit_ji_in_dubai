@@ -52,6 +52,7 @@ export default function GridImage({
 
 	const image = src ? (
 		<img
+			key={src}
 			ref={imgRef}
 			className="grid-image__image"
 			src={src}

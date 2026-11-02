@@ -7,10 +7,11 @@ import GridImage from '@/components/builder/elements/GridImage';
 import GridButton from '@/components/builder/elements/GridButton';
 import BenefitsCard from '@/components/builder/elements/BenefitsCard';
 import { useSectionPhotos } from '@/hooks/useSectionPhotos';
+import { isBannedPhotoUrl } from '@/services/localPhotoDb';
 
 const defaultWedding1 = [
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/bjsvd5-Pm2XA7u3Bhsxt41k.png?width=768&fit=crop",
+		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20230916-wa0012.jpg-CJxXbw9LA6N6QwdH.jpeg?width=768&fit=crop",
 		alt: "Vedic Wedding Ceremony Mandap",
 		title: "Wedding Mandap"
 	}
@@ -18,7 +19,7 @@ const defaultWedding1 = [
 
 const defaultWedding2 = [
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/bjsvd5-Pm2XA7u3Bhsxt41k.png?width=768&fit=crop",
+		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0011.jpg-m4730MVyqgY9OzLF.jpeg?width=768&fit=crop",
 		alt: "Sacred Fire Rituals",
 		title: "Sacred Fire Rituals"
 	}
@@ -28,31 +29,17 @@ export default function Section1() {
 	const { photos: photos1 } = useSectionPhotos('wedding-ceremonies', 'wedding_feature_1', defaultWedding1);
 	const { photos: photos2 } = useSectionPhotos('wedding-ceremonies', 'wedding_feature_2', defaultWedding2);
 
-	// Detect if user configured a custom photo for either slot (excluding any banned placeholder)
-	const isCustom = (p, def) => Boolean(
-		p &&
-		p.src &&
-		!p.src.includes('amenities') &&
-		!p.src.includes('cdn-builder-placeholders') &&
-		p.src !== def[0]?.src
-	);
-
-	const custom1 = isCustom(photos1?.[0], defaultWedding1) ? photos1[0] : null;
-	const custom2 = isCustom(photos2?.[0], defaultWedding2) ? photos2[0] : null;
-
 	// The primary wedding hero image (used on both desktop zGT0m_ and mobile zKbmue)
 	const primaryWeddingPhoto =
-		custom1 ||
-		custom2 ||
-		(photos1?.[0] && !photos1[0].src.includes('amenities') ? photos1[0] : null) ||
-		(photos2?.[0] && !photos2[0].src.includes('amenities') ? photos2[0] : null) ||
+		(photos1?.[0] && photos1[0].src && !isBannedPhotoUrl(photos1[0].src) && !photos1[0].src.includes('bjsvd5') ? photos1[0] : null) ||
+		(photos2?.[0] && photos2[0].src && !isBannedPhotoUrl(photos2[0].src) && !photos2[0].src.includes('bjsvd5') ? photos2[0] : null) ||
 		defaultWedding1[0];
 
 	// The secondary / benefits card photo
 	const secondaryWeddingPhoto =
-		(custom1 && custom2)
-			? custom2
-			: (photos2?.[0] && !photos2[0].src.includes('amenities') ? photos2[0] : defaultWedding2[0]);
+		(photos2?.[0] && photos2[0].src && !isBannedPhotoUrl(photos2[0].src) && !photos2[0].src.includes('bjsvd5') ? photos2[0] : null) ||
+		(photos1?.[0] && photos1[0].src && !isBannedPhotoUrl(photos1[0].src) && !photos1[0].src.includes('bjsvd5') ? photos1[0] : null) ||
+		defaultWedding2[0];
 	return (
 		<BlockLayout
 			blockId={"zgi5mv"}
@@ -246,6 +233,7 @@ export default function Section1() {
 				hasEntranceAnimation={true}
 			>
 				<BenefitsCard
+					key={secondaryWeddingPhoto.src}
 					topLeft={"Sacred Union"}
 					topRight={"Divine Blessings"}
 					bottomLeft={"Family Traditions"}
@@ -273,6 +261,7 @@ export default function Section1() {
 			>
 				<GridImage
 					id={"zGT0m_"}
+					key={primaryWeddingPhoto.src}
 					src={primaryWeddingPhoto.src}
 					alt={primaryWeddingPhoto.alt || "Vedic Wedding Ceremony Mandap"}
 					objectFit={"cover"}
@@ -338,6 +327,7 @@ export default function Section1() {
 			>
 				<GridImage
 					id={"zKbmue"}
+					key={primaryWeddingPhoto.src}
 					src={primaryWeddingPhoto.src}
 					alt={primaryWeddingPhoto.alt || "Sacred Fire Rituals"}
 					objectFit={"cover"}

@@ -137,7 +137,7 @@ export const SITE_SECTIONS = [
 				type: 'single',
 				defaults: [
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/bjsvd5-Pm2XA7u3Bhsxt41k.png?width=768&fit=crop',
+						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20230916-wa0012.jpg-CJxXbw9LA6N6QwdH.jpeg?width=768&fit=crop',
 						alt: 'Vedic Wedding Ceremony Mandap',
 						title: 'Wedding Mandap'
 					}
@@ -150,7 +150,7 @@ export const SITE_SECTIONS = [
 				type: 'single',
 				defaults: [
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/bjsvd5-Pm2XA7u3Bhsxt41k.png?width=768&fit=crop',
+						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0011.jpg-m4730MVyqgY9OzLF.jpeg?width=768&fit=crop',
 						alt: 'Sacred Fire Rituals',
 						title: 'Sacred Fire Rituals'
 					}
@@ -210,7 +210,7 @@ export const SITE_SECTIONS = [
 				type: 'single',
 				defaults: [
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/generated/generated-FPqXfKUnedc9mRXi.png?width=768&fit=crop',
+						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0016.jpg-LbPgYucL565kxmOf.jpeg?width=768&fit=crop',
 						alt: 'Shanti Havan and Yagna',
 						title: 'Havan Kund & Yagna'
 					}

@@ -33,7 +33,20 @@ function sanitizePhotos(list, defaultList, isSingle, serviceFallbackUrl = null) 
 	if (list && Array.isArray(list) && list.length > 0) {
 		const cleanList = list.filter((p) => p && p.src && !isBannedPhotoUrl(p.src));
 		if (cleanList.length > 0) {
-			return isSingle ? [cleanList[cleanList.length - 1]] : cleanList;
+			const activePhoto = cleanList[cleanList.length - 1];
+			// If mapped service has an updated photo and current photo was synced from service, prioritize latest service photo
+			if (serviceFallbackUrl && !isBannedPhotoUrl(serviceFallbackUrl) && (activePhoto.source === 'synced_from_service' || !activePhoto.source)) {
+				return [
+					{
+						...activePhoto,
+						src: serviceFallbackUrl,
+						alt: activePhoto.alt || validDefaults[0]?.alt || '',
+						title: activePhoto.title || validDefaults[0]?.title || '',
+						source: 'synced_from_service',
+					}
+				];
+			}
+			return isSingle ? [activePhoto] : cleanList;
 		}
 	}
 

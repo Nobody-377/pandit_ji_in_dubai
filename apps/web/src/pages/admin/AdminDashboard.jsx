@@ -1380,6 +1380,79 @@ export default function AdminDashboard() {
 													</p>
 												</div>
 											</div>
+
+											{/* Direct Image URL input */}
+											<div className="mt-3">
+												<label className="block text-xs font-bold text-[#2B1A14]/75 uppercase mb-1 font-['Poppins',sans-serif]">
+													Or Direct Image Link / CDN URL
+												</label>
+												<input
+													type="text"
+													value={popupSettings.image_url || ''}
+													onChange={(e) => {
+														setPopupFile(null);
+														setPopupSettings({ ...popupSettings, image_url: e.target.value });
+														setPopupPreview(e.target.value);
+													}}
+													placeholder="https://... (paste direct image link)"
+													className="w-full bg-[#FAF6F0] border border-[#E2D7C8] focus:border-[#8C2B1D] text-[#2B1A14] rounded-xl px-3.5 py-2 text-xs sm:text-sm outline-none"
+												/>
+											</div>
+
+											{/* Quick Authentic Presets */}
+											<div className="mt-3 pt-3 border-t border-[#E2D7C8]">
+												<span className="text-[11px] font-bold text-[#8C2B1D] uppercase tracking-wider block mb-2 font-['Poppins',sans-serif]">
+													One-Click Authentic Pooja Banners:
+												</span>
+												<div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+													{[
+														{
+															name: 'Vedic Wedding',
+															url: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20230916-wa0012.jpg-CJxXbw9LA6N6QwdH.jpeg?width=768&fit=crop',
+															target: '/wedding-ceremonies',
+														},
+														{
+															name: 'Sacred Havan',
+															url: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0016.jpg-LbPgYucL565kxmOf.jpeg?width=768&fit=crop',
+															target: '/shanti-havan-and-yagna',
+														},
+														{
+															name: 'Griha Pravesh',
+															url: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0012.jpg-0veqAugf2xgtLIbu.jpeg?width=768&fit=crop',
+															target: '/griha-pravesh-and-vastu',
+														},
+														{
+															name: 'Satyanarayan',
+															url: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/generated/generated-Wer3mZjaMh9kGTR9.png?width=768&fit=crop',
+															target: '/satyanarayan-and-festivals',
+														},
+													].map((preset) => (
+														<button
+															key={preset.name}
+															type="button"
+															onClick={() => {
+																setPopupFile(null);
+																setPopupSettings({
+																	...popupSettings,
+																	image_url: preset.url,
+																	target_url: preset.target,
+																});
+																setPopupPreview(preset.url);
+															}}
+															className="flex items-center gap-2 p-2 rounded-xl bg-white border border-[#E2D7C8] hover:border-[#8C2B1D] text-left transition group"
+														>
+															<img
+																src={preset.url}
+																alt={preset.name}
+																className="w-8 h-8 rounded-lg object-cover shrink-0"
+															/>
+															<span className="text-[11px] font-bold text-[#2B1A14] group-hover:text-[#8C2B1D] truncate">
+																{preset.name}
+															</span>
+														</button>
+													))}
+												</div>
+											</div>
 										</div>
 
 										{/* Target Destination Link */}
@@ -3227,6 +3300,16 @@ VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`}
 													className="hidden"
 												/>
 											</label>
+											<input
+												type="text"
+												value={servicePreview || ''}
+												onChange={(e) => {
+													setServiceFile(null);
+													setServicePreview(e.target.value);
+												}}
+												placeholder="https://... (or paste direct image URL)"
+												className="mt-2 w-full bg-white border border-[#E2D7C8] focus:border-[#8C2B1D] text-[#2B1A14] rounded-xl px-3 py-1.5 text-xs outline-none"
+											/>
 											<p className="text-[11px] text-[#2B1A14]/60 mt-1">
 												Recommended: 600x400 JPEG or PNG
 											</p>
@@ -3434,6 +3517,16 @@ VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`}
 													className="hidden"
 												/>
 											</label>
+											<input
+												type="text"
+												value={servicePreview || ''}
+												onChange={(e) => {
+													setServiceFile(null);
+													setServicePreview(e.target.value);
+												}}
+												placeholder="https://... (or paste direct image URL)"
+												className="mt-2 w-full bg-white border border-[#E2D7C8] focus:border-[#8C2B1D] text-[#2B1A14] rounded-xl px-3 py-1.5 text-xs outline-none"
+											/>
 											{serviceFile && (
 												<p className="text-[11px] text-emerald-700 font-bold mt-1">
 													New file: {serviceFile.name}
