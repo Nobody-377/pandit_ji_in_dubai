@@ -165,14 +165,22 @@ export const popupService = {
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(payload),
 			});
-			if (res.ok) {
-				const saved = await res.json();
-				if (saved && saved.image_url) {
-					payload.image_url = saved.image_url;
-				}
+			if (!res.ok) {
+				const body = await res.json().catch(() => ({}));
+				throw new Error(body.error || `Popup API save failed (HTTP ${res.status})`);
 			}
+			const saved = await res.json();
+			if (!saved || !saved.image_url || saved.success === false) {
+				throw new Error('Popup API did not confirm that the settings were saved.');
+			}
+			payload.image_url = saved.image_url;
+			payload.updated_at = saved.updated_at || payload.updated_at;
 		} catch (serverErr) {
-			console.warn('Hostinger server popup save fallback:', serverErr);
+			console.error('Hostinger popup settings could not be saved:', serverErr);
+			// On the live site, do not report success when the cross-device source of truth failed.
+			if (import.meta.env.PROD) {
+				throw serverErr;
+			}
 		}
 
 		// 2. Always save to local persistent storage for instant offline resilience
