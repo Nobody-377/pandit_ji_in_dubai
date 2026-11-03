@@ -18,6 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $dataDir = __DIR__ . '/data';
 $dataFile = $dataDir . '/popup.json';
 
+// Automatically clean up any legacy restrictive .htaccess in data directory that triggers Hostinger 403
+if (file_exists($dataDir . '/.htaccess')) {
+    @unlink($dataDir . '/.htaccess');
+}
+
 function popupJsonError($status, $message) {
     http_response_code($status);
     echo json_encode(['success' => false, 'error' => $message]);

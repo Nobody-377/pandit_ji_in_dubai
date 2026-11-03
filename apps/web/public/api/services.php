@@ -18,6 +18,9 @@ $dataDir = __DIR__ . '/data/';
 if (!is_dir($dataDir)) {
     @mkdir($dataDir, 0755, true);
 }
+if (file_exists($dataDir . '.htaccess')) {
+    @unlink($dataDir . '.htaccess');
+}
 $dataFile = $dataDir . 'services.json';
 
 // Handle POST: Update services
