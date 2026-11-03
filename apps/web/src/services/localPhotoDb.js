@@ -182,15 +182,56 @@ export function isBannedPhotoUrl(src) {
 	return BANNED_PHOTO_PATTERNS.some((pattern) => lower.includes(pattern.toLowerCase()));
 }
 
+export function dataUrlToBlob(dataUrl) {
+	try {
+		const parts = dataUrl.split(';base64,');
+		if (parts.length < 2) return null;
+		const contentType = parts[0].split(':')[1] || 'image/jpeg';
+		const raw = window.atob(parts[1]);
+		const rawLength = raw.length;
+		const uInt8Array = new Uint8Array(rawLength);
+		for (let i = 0; i < rawLength; ++i) {
+			uInt8Array[i] = raw.charCodeAt(i);
+		}
+		return new Blob([uInt8Array], { type: contentType });
+	} catch {
+		return null;
+	}
+}
+
 /**
  * Automatically converts any Base64 Data URL (data:image/...) to a permanently
  * hosted file on Hostinger (/api/uploads/img_....jpg) via /api/upload.php.
- * Ensures tiny JSON payloads and instant, reliable cross-device loading.
+ * Uses multipart/form-data Blob to bypass WAF / ModSecurity 403 blocks and JSON limits.
  */
 export async function ensureHostedImageUrl(urlOrData) {
 	if (!urlOrData || typeof urlOrData !== 'string') return urlOrData;
 	if (!urlOrData.startsWith('data:image/')) return urlOrData;
 
+	// 1. Try standard multipart/form-data upload via Blob (prevents WAF 403 Forbidden)
+	try {
+		const blob = dataUrlToBlob(urlOrData);
+		if (blob) {
+			const ext = (blob.type.split('/')[1] || 'jpg').replace('jpeg', 'jpg');
+			const formData = new FormData();
+			formData.append('file', blob, `banner_${Date.now()}.${ext}`);
+
+			const res = await fetch('/api/upload.php', {
+				method: 'POST',
+				body: formData,
+			});
+			if (res.ok) {
+				const data = await res.json();
+				if (data && data.url) {
+					return data.url;
+				}
+			}
+		}
+	} catch (e) {
+		console.warn('FormData blob upload warning:', e);
+	}
+
+	// 2. Fallback to JSON payload
 	try {
 		const res = await fetch('/api/upload.php', {
 			method: 'POST',
