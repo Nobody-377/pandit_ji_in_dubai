@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import pocketbaseClient from '@/lib/pocketbaseClient';
+import { trackEnquiryFormSuccess } from '@/services/trackingService';
 
 const toPx = (value) => (value != null ? `${value}px` : undefined);
 
@@ -72,6 +73,11 @@ export default function GridForm({
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
+		// Prevent duplicate submission while already submitting
+		if (status === 'loading') {
+			return;
+		}
+
 		if (!collectionName) {
 			console.warn(`[GridForm] Missing collection name for formId="${formId}"`);
 			setStatus('error');
@@ -99,10 +105,13 @@ export default function GridForm({
 				}
 			}
 
-			await pocketbaseClient.collection(collectionName).create(payload);
+			const createdRecord = await pocketbaseClient.collection(collectionName).create(payload);
 
 			setStatus('success');
 			setValues(initialValues);
+
+			// Trigger enquiry form conversion tracking only after confirmed successful backend response
+			trackEnquiryFormSuccess(formId || collectionName || id, createdRecord?.id);
 		} catch (error) {
 			console.error('[GridForm] submit failed', error);
 			setStatus('error');

@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { trackSpaPageView } from '@/services/trackingService';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import ScrollToTop from '@/components/ScrollToTop';
@@ -28,12 +29,23 @@ import AdminLogin from '@/pages/admin/AdminLogin';
 import AdminDashboard from '@/pages/admin/AdminDashboard';
 import '@/components/builder/styles/global.css';
 
+function AnalyticsRouteTracker() {
+	const location = useLocation();
+
+	React.useEffect(() => {
+		trackSpaPageView(location.pathname);
+	}, [location.pathname]);
+
+	return null;
+}
+
 function App() {
 	return (
 		<TooltipProvider>
 			<AdminAuthProvider>
 				<EcommerceCartProvider>
 					<Router>
+						<AnalyticsRouteTracker />
 						<ScrollToTop />
 						<CustomSiteCode />
 						<CookieConsent />

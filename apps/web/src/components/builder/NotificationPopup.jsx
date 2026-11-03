@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { X, ExternalLink, Sparkles } from 'lucide-react';
 import popupService, { DEFAULT_POPUP_SETTINGS } from '@/services/popupService';
 import localPhotoDb from '@/services/localPhotoDb';
+import { trackPhoneCallCtaClick } from '@/services/trackingService';
 
 const SESSION_SHOWN_KEY = 'pj_popup_shown_in_session';
 const LAST_UPDATED_KEY = 'pj_popup_last_seen_timestamp';
@@ -176,7 +177,10 @@ export default function NotificationPopup() {
 
 		if (target.startsWith('http://') || target.startsWith('https://')) {
 			window.open(target, '_blank', 'noopener,noreferrer');
-		} else if (target.startsWith('tel:') || target.startsWith('mailto:')) {
+		} else if (target.startsWith('tel:')) {
+			trackPhoneCallCtaClick(target.slice(4));
+			window.location.href = target;
+		} else if (target.startsWith('mailto:')) {
 			window.location.href = target;
 		} else {
 			// Internal route navigation
