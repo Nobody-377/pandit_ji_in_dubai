@@ -17,10 +17,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 $dataDir = __DIR__ . '/data';
 $dataFile = $dataDir . '/popup.json';
+$uploadsDir = __DIR__ . '/uploads';
 
-// Automatically clean up any legacy restrictive .htaccess in data directory that triggers Hostinger 403
+// Automatically clean up any legacy restrictive .htaccess files that trigger Hostinger 403
 if (file_exists($dataDir . '/.htaccess')) {
     @unlink($dataDir . '/.htaccess');
+}
+if (file_exists($uploadsDir . '/.htaccess')) {
+    @unlink($uploadsDir . '/.htaccess');
 }
 
 function popupJsonError($status, $message) {
@@ -40,6 +44,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!is_dir($dataDir) && !@mkdir($dataDir, 0755, true) && !is_dir($dataDir)) {
         error_log('Popup API: unable to create data directory: ' . $dataDir);
         popupJsonError(500, 'Could not create popup data directory. Check hosting permissions.');
+    }
+
+    // Automatically convert any Base64 data URL to a permanent static file in /api/uploads/
+    if (!empty($decoded['image_url']) && strpos($decoded['image_url'], 'data:image/') === 0) {
+        if (!is_dir($uploadsDir)) {
+            @mkdir($uploadsDir, 0755, true);
+        }
+        $dataUri = $decoded['image_url'];
+        preg_match('/^data:image\/(\w+);base64,/', $dataUri, $matches);
+        $ext = isset($matches[1]) ? strtolower($matches[1]) : 'jpg';
+        if ($ext === 'jpeg') $ext = 'jpg';
+        $base64Data = substr($dataUri, strpos($dataUri, ',') + 1);
+        $binary = base64_decode(preg_replace('/\s+/', '', $base64Data));
+        if ($binary !== false && strlen($binary) > 0) {
+            $filename = 'img_popup_' . time() . '_' . substr(md5(uniqid()), 0, 6) . '.' . $ext;
+            $savedFile = $uploadsDir . '/' . $filename;
+            if (@file_put_contents($savedFile, $binary)) {
+                $decoded['image_url'] = '/api/uploads/' . $filename;
+            }
+        }
     }
 
     $decoded['updated_at'] = date('c');

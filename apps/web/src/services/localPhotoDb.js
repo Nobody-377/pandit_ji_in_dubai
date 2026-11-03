@@ -182,12 +182,26 @@ export function isBannedPhotoUrl(src) {
 	return BANNED_PHOTO_PATTERNS.some((pattern) => lower.includes(pattern.toLowerCase()));
 }
 
-export function dataUrlToBlob(dataUrl) {
+export async function dataUrlToBlob(dataUrl) {
+	if (!dataUrl || typeof dataUrl !== 'string' || !dataUrl.startsWith('data:image/')) {
+		return null;
+	}
+	// 1. Native browser fetch converts data URLs safely without string memory limits or character errors
+	try {
+		const res = await fetch(dataUrl);
+		if (res.ok) {
+			const blob = await res.blob();
+			if (blob && blob.size > 0) return blob;
+		}
+	} catch (_) {}
+
+	// 2. Fallback to manual base64 decoding with whitespace stripping
 	try {
 		const parts = dataUrl.split(';base64,');
 		if (parts.length < 2) return null;
 		const contentType = parts[0].split(':')[1] || 'image/jpeg';
-		const raw = window.atob(parts[1]);
+		const cleanBase64 = parts[1].replace(/\s+/g, '');
+		const raw = window.atob(cleanBase64);
 		const rawLength = raw.length;
 		const uInt8Array = new Uint8Array(rawLength);
 		for (let i = 0; i < rawLength; ++i) {
@@ -210,7 +224,7 @@ export async function ensureHostedImageUrl(urlOrData) {
 
 	// 1. Try standard multipart/form-data upload via Blob (prevents WAF 403 Forbidden)
 	try {
-		const blob = dataUrlToBlob(urlOrData);
+		const blob = await dataUrlToBlob(urlOrData);
 		if (blob) {
 			const ext = (blob.type.split('/')[1] || 'jpg').replace('jpeg', 'jpg');
 			const formData = new FormData();

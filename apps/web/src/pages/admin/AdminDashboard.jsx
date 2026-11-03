@@ -100,6 +100,7 @@ export default function AdminDashboard() {
 	const [popupSettings, setPopupSettings] = useState(DEFAULT_POPUP_SETTINGS);
 	const [popupLoading, setPopupLoading] = useState(false);
 	const [popupSaving, setPopupSaving] = useState(false);
+	const [popupUploading, setPopupUploading] = useState(false);
 	const [popupFile, setPopupFile] = useState(null);
 	const [popupPreview, setPopupPreview] = useState(DEFAULT_POPUP_SETTINGS.image_url);
 
@@ -433,7 +434,39 @@ export default function AdminDashboard() {
 	// =========================================================================
 	// POPUP NOTIFICATION HANDLERS
 	// =========================================================================
-	const handlePopupFileSelect = (e) => {
+	const uploadAndSetPopupImage = async (fileOrDataUrl) => {
+		setPopupUploading(true);
+		try {
+			let hostedUrl = '';
+			if (fileOrDataUrl instanceof File) {
+				const res = await popupService.uploadPopupImage(fileOrDataUrl);
+				hostedUrl = res?.publicUrl || '';
+			} else if (typeof fileOrDataUrl === 'string' && fileOrDataUrl.startsWith('data:image/')) {
+				hostedUrl = await ensureHostedImageUrl(fileOrDataUrl);
+			}
+
+			if (hostedUrl) {
+				setPopupSettings((prev) => ({
+					...prev,
+					image_url: hostedUrl,
+				}));
+				setPopupPreview(hostedUrl);
+				setPopupFile(null);
+				setStatusMessage({
+					type: 'success',
+					text: 'Banner image saved and hosted on server! Click Save & Apply below to publish it live.',
+				});
+				return hostedUrl;
+			}
+		} catch (err) {
+			console.error('Immediate banner upload failed:', err);
+		} finally {
+			setPopupUploading(false);
+		}
+		return null;
+	};
+
+	const handlePopupFileSelect = async (e) => {
 		const file = e.target.files?.[0];
 		if (!file) return;
 
@@ -444,9 +477,10 @@ export default function AdminDashboard() {
 
 		setPopupFile(file);
 		setPopupPreview(URL.createObjectURL(file));
+		await uploadAndSetPopupImage(file);
 	};
 
-	const handlePopupFileDrop = (e) => {
+	const handlePopupFileDrop = async (e) => {
 		e.preventDefault();
 		e.stopPropagation();
 		const file = e.dataTransfer?.files?.[0];
@@ -459,10 +493,11 @@ export default function AdminDashboard() {
 
 		setPopupFile(file);
 		setPopupPreview(URL.createObjectURL(file));
+		await uploadAndSetPopupImage(file);
 	};
 
 	const handleSavePopupSettings = async (e) => {
-		e.preventDefault();
+		if (e && e.preventDefault) e.preventDefault();
 		setPopupSaving(true);
 
 		try {
@@ -471,8 +506,10 @@ export default function AdminDashboard() {
 
 			if (popupFile) {
 				const uploadRes = await popupService.uploadPopupImage(popupFile);
-				finalImageUrl = uploadRes.publicUrl;
-				finalStoragePath = uploadRes.storagePath;
+				if (uploadRes && uploadRes.publicUrl) {
+					finalImageUrl = uploadRes.publicUrl;
+					finalStoragePath = uploadRes.storagePath;
+				}
 			} else if (finalImageUrl && finalImageUrl.startsWith('data:image/')) {
 				finalImageUrl = await ensureHostedImageUrl(finalImageUrl);
 			}
@@ -498,9 +535,11 @@ export default function AdminDashboard() {
 				type: 'success',
 				text: 'Pop-Up Notification banner saved permanently! The live site has been updated.'
 			});
+			return saved;
 		} catch (err) {
 			console.error('Error saving popup settings:', err);
 			alert(`Failed to save popup settings: ${err.message}`);
+			throw err;
 		} finally {
 			setPopupSaving(false);
 		}
@@ -1395,13 +1434,27 @@ export default function AdminDashboard() {
 													className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
 												/>
 												<div className="py-3 flex flex-col items-center">
-													<Upload className="w-8 h-8 text-[#8C2B1D] mb-2" />
-													<p className="text-sm font-bold text-[#2B1A14]">
-														{popupFile ? popupFile.name : 'Click or drag new banner to replace picture'}
-													</p>
-													<p className="text-xs text-[#2B1A14]/60 mt-1">
-														Recommended ratio: Square (1:1) or Vertical Poster (4:5)
-													</p>
+													{popupUploading ? (
+														<>
+															<RefreshCw className="w-8 h-8 text-[#8C2B1D] animate-spin mb-2" />
+															<p className="text-sm font-bold text-[#8C2B1D]">
+																Uploading & hosting banner on server...
+															</p>
+															<p className="text-xs text-[#2B1A14]/60 mt-1">
+																Saving to permanent storage, please wait...
+															</p>
+														</>
+													) : (
+														<>
+															<Upload className="w-8 h-8 text-[#8C2B1D] mb-2" />
+															<p className="text-sm font-bold text-[#2B1A14]">
+																{popupFile ? popupFile.name : 'Click or drag new banner to replace picture'}
+															</p>
+															<p className="text-xs text-[#2B1A14]/60 mt-1">
+																Recommended ratio: Square (1:1) or Vertical Poster (4:5)
+															</p>
+														</>
+													)}
 												</div>
 											</div>
 
@@ -1413,12 +1466,16 @@ export default function AdminDashboard() {
 												<input
 													type="text"
 													value={popupSettings.image_url || ''}
-													onChange={(e) => {
+													onChange={async (e) => {
+														const val = e.target.value;
 														setPopupFile(null);
-														setPopupSettings({ ...popupSettings, image_url: e.target.value });
-														setPopupPreview(e.target.value);
+														setPopupSettings({ ...popupSettings, image_url: val });
+														setPopupPreview(val);
+														if (val && val.startsWith('data:image/')) {
+															await uploadAndSetPopupImage(val);
+														}
 													}}
-													placeholder="https://... (paste direct image link)"
+													placeholder="https://... or /api/uploads/..."
 													className="w-full bg-[#FAF6F0] border border-[#E2D7C8] focus:border-[#8C2B1D] text-[#2B1A14] rounded-xl px-3.5 py-2 text-xs sm:text-sm outline-none"
 												/>
 											</div>
@@ -1633,29 +1690,63 @@ export default function AdminDashboard() {
 										Target Link: <span className="text-[#8C2B1D] font-mono font-bold">{popupSettings.target_url}</span>
 									</p>
 
-									<div className="mt-4 flex flex-col gap-2 w-full max-w-xs">
-										<a
-											href="/?preview_popup=true"
-											target="_blank"
-											rel="noopener noreferrer"
+									<div className="mt-4 flex flex-col gap-2.5 w-full max-w-xs">
+										{/* Primary Save Button under Preview */}
+										<button
+											type="button"
+											onClick={handleSavePopupSettings}
+											disabled={popupSaving || popupUploading}
+											className="w-full py-3.5 bg-[#8C2B1D] hover:bg-[#a33222] text-white font-bold rounded-xl text-base transition duration-200 shadow-md shadow-[#8C2B1D]/20 flex items-center justify-center gap-2 font-['Marcellus',serif] disabled:opacity-50"
+										>
+											{popupSaving ? (
+												<>
+													<RefreshCw className="w-5 h-5 animate-spin" />
+													<span>Publishing to Live Site...</span>
+												</>
+											) : popupUploading ? (
+												<>
+													<RefreshCw className="w-5 h-5 animate-spin" />
+													<span>Uploading Banner Image...</span>
+												</>
+											) : (
+												<>
+													<Sparkles className="w-5 h-5" />
+													<span>Save & Apply Pop-Up Changes</span>
+												</>
+											)}
+										</button>
+
+										{/* Save & Test Live Button */}
+										<button
+											type="button"
+											onClick={async () => {
+												try {
+													await handleSavePopupSettings();
+													window.open('/?preview_popup=true', '_blank', 'noopener,noreferrer');
+												} catch (_) {}
+											}}
+											disabled={popupSaving || popupUploading}
 											className="w-full py-2.5 px-4 rounded-xl bg-white border border-[#E2D7C8] hover:border-[#8C2B1D] text-[#8C2B1D] text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition shadow-xs hover:bg-[#FAF6F0]"
 										>
 											<Eye className="w-4 h-4 text-[#8C2B1D]" />
-											<span>Test Pop-Up on Live Website</span>
-										</a>
+											<span>Save & Test Pop-Up on Live Website</span>
+										</button>
+
+										{/* Reset Session & Save Button */}
 										<button
 											type="button"
-											onClick={() => {
+											onClick={async () => {
 												try {
 													sessionStorage.removeItem('pj_popup_shown_in_session');
-													localPhotoDb.savePopupSettings(popupSettings);
-													alert('Pop-up session reset! Open the website in any tab to view the pop-up.');
+													await handleSavePopupSettings();
+													alert('Pop-up saved and session timer reset! You can now view the pop-up on the website.');
 												} catch (_) {}
 											}}
+											disabled={popupSaving || popupUploading}
 											className="w-full py-2 px-3 rounded-xl bg-[#FAF6F0] border border-[#E2D7C8] text-[#2B1A14]/80 text-xs font-semibold flex items-center justify-center gap-1.5 hover:bg-[#F2EBDD] transition"
 										>
 											<RotateCcw className="w-3.5 h-3.5" />
-											<span>Reset Session Timer & Test</span>
+											<span>Reset Session Timer & Save</span>
 										</button>
 									</div>
 								</div>
