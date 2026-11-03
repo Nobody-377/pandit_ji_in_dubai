@@ -10,7 +10,7 @@ import { useSectionPhotos } from '@/hooks/useSectionPhotos';
 
 const defaultRudraPhoto = [
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20230916-wa0012.jpg-CJxXbw9LA6N6QwdH.jpeg?width=768&fit=crop",
+		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/20240229_154541.jpg-h2vMCasbNutJ9OkK.jpeg?width=768&fit=crop",
 		alt: "Rudrabhishek Pooja Dubai",
 		title: "Rudrabhishek Ceremony"
 	}

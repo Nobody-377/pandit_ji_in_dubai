@@ -45,7 +45,7 @@ export const DEFAULT_REVIEWS = [
 		ceremony: 'Shiva Rudrabhishek & Planets Shanti',
 		rating: 5,
 		comment: 'Shree Vishal Shastriji conducted a powerful Rudrabhishek with bilva patra, panchamrit, and authentic Vedic chanting. The divine vibrations filled our entire residence. Truly blessed to have him in the UAE.',
-		imageUrl: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20230916-wa0012.jpg-CJxXbw9LA6N6QwdH.jpeg?width=600&fit=crop',
+		imageUrl: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/20240229_154541.jpg-h2vMCasbNutJ9OkK.jpeg?width=600&fit=crop',
 		date: 'July 2026',
 		isApproved: true,
 		createdAt: '2026-07-28T16:45:00.000Z',

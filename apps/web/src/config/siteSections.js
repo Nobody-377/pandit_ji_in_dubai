@@ -51,7 +51,7 @@ export const SITE_SECTIONS = [
 						title: 'Aarti & Holy Blessings'
 					},
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20230916-wa0012.jpg-CJxXbw9LA6N6QwdH.jpeg?width=375&height=375&fit=crop',
+						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0011.jpg-m4730MVyqgY9OzLF.jpeg?width=375&height=375&fit=crop',
 						alt: 'Vedic Pandit Ji Dubai',
 						title: 'Vedic Pandit Ji Dubai'
 					}
@@ -104,7 +104,7 @@ export const SITE_SECTIONS = [
 						title: 'Pooja Step 4'
 					},
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20230916-wa0012.jpg-CJxXbw9LA6N6QwdH.jpeg?width=375&height=375&fit=crop',
+						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0011.jpg-m4730MVyqgY9OzLF.jpeg?width=375&height=375&fit=crop',
 						alt: 'Vedic Pooja Step 5',
 						title: 'Pooja Step 5'
 					}
@@ -137,7 +137,7 @@ export const SITE_SECTIONS = [
 				type: 'single',
 				defaults: [
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20230916-wa0012.jpg-CJxXbw9LA6N6QwdH.jpeg?width=768&fit=crop',
+						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0011.jpg-m4730MVyqgY9OzLF.jpeg?width=768&fit=crop',
 						alt: 'Vedic Wedding Ceremony Mandap',
 						title: 'Wedding Mandap'
 					}
@@ -243,7 +243,7 @@ export const SITE_SECTIONS = [
 				type: 'single',
 				defaults: [
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20230916-wa0012.jpg-CJxXbw9LA6N6QwdH.jpeg?width=768&fit=crop',
+						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/20240229_154541.jpg-h2vMCasbNutJ9OkK.jpeg?width=768&fit=crop',
 						alt: 'Rudrabhishek Pooja Dubai',
 						title: 'Rudrabhishek Ceremony'
 					}

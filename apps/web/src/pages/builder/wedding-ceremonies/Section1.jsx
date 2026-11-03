@@ -11,7 +11,7 @@ import { isBannedPhotoUrl } from '@/services/localPhotoDb';
 
 const defaultWedding1 = [
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20230916-wa0012.jpg-CJxXbw9LA6N6QwdH.jpeg?width=768&fit=crop",
+		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0011.jpg-m4730MVyqgY9OzLF.jpeg?width=768&fit=crop",
 		alt: "Vedic Wedding Ceremony Mandap",
 		title: "Wedding Mandap"
 	}
@@ -19,7 +19,7 @@ const defaultWedding1 = [
 
 const defaultWedding2 = [
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0011.jpg-m4730MVyqgY9OzLF.jpeg?width=768&fit=crop",
+		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0016.jpg-LbPgYucL565kxmOf.jpeg?width=768&fit=crop",
 		alt: "Sacred Fire Rituals",
 		title: "Sacred Fire Rituals"
 	}
@@ -31,14 +31,14 @@ export default function Section1() {
 
 	// The primary wedding hero image (used on both desktop zGT0m_ and mobile zKbmue)
 	const primaryWeddingPhoto =
-		(photos1?.[0] && photos1[0].src && !isBannedPhotoUrl(photos1[0].src) && !photos1[0].src.includes('bjsvd5') ? photos1[0] : null) ||
-		(photos2?.[0] && photos2[0].src && !isBannedPhotoUrl(photos2[0].src) && !photos2[0].src.includes('bjsvd5') ? photos2[0] : null) ||
+		(photos1?.[0] && photos1[0].src && !isBannedPhotoUrl(photos1[0].src) && !photos1[0].src.includes('bjsvd5') && !photos1[0].src.includes('img-20230916-wa0012') ? photos1[0] : null) ||
+		(photos2?.[0] && photos2[0].src && !isBannedPhotoUrl(photos2[0].src) && !photos2[0].src.includes('bjsvd5') && !photos2[0].src.includes('img-20230916-wa0012') ? photos2[0] : null) ||
 		defaultWedding1[0];
 
 	// The secondary / benefits card photo
 	const secondaryWeddingPhoto =
-		(photos2?.[0] && photos2[0].src && !isBannedPhotoUrl(photos2[0].src) && !photos2[0].src.includes('bjsvd5') ? photos2[0] : null) ||
-		(photos1?.[0] && photos1[0].src && !isBannedPhotoUrl(photos1[0].src) && !photos1[0].src.includes('bjsvd5') ? photos1[0] : null) ||
+		(photos2?.[0] && photos2[0].src && !isBannedPhotoUrl(photos2[0].src) && !photos2[0].src.includes('bjsvd5') && !photos2[0].src.includes('img-20230916-wa0012') ? photos2[0] : null) ||
+		(photos1?.[0] && photos1[0].src && !isBannedPhotoUrl(photos1[0].src) && !photos1[0].src.includes('bjsvd5') && !photos1[0].src.includes('img-20230916-wa0012') ? photos1[0] : null) ||
 		defaultWedding2[0];
 	return (
 		<BlockLayout

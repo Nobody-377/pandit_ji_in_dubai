@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import photoService from '@/services/photoService';
 import localPhotoDb, { isBannedPhotoUrl, purgeBannedPlaceholders } from '@/services/localPhotoDb';
-import { SERVICE_SECTION_MAP } from '@/services/poojaService';
+import { poojaService, SERVICE_SECTION_MAP } from '@/services/poojaService';
 
 /**
  * Helper to retrieve a mapped Pooja service photo for a given pageId & sectionId.
@@ -34,8 +34,8 @@ function sanitizePhotos(list, defaultList, isSingle, serviceFallbackUrl = null) 
 		const cleanList = list.filter((p) => p && p.src && !isBannedPhotoUrl(p.src));
 		if (cleanList.length > 0) {
 			const activePhoto = cleanList[cleanList.length - 1];
-			// If mapped service has an updated photo and current photo was synced from service, prioritize latest service photo
-			if (serviceFallbackUrl && !isBannedPhotoUrl(serviceFallbackUrl) && (activePhoto.source === 'synced_from_service' || !activePhoto.source)) {
+			// If mapped service has an updated photo, prioritize latest service photo
+			if (serviceFallbackUrl && !isBannedPhotoUrl(serviceFallbackUrl)) {
 				return [
 					{
 						...activePhoto,
@@ -88,7 +88,7 @@ export function useSectionPhotos(pageId, sectionId, defaultPhotos = []) {
 	const loadPhotos = useCallback(async () => {
 		try {
 			const livePhotos = await photoService.fetchSectionPhotos(pageId, sectionId);
-			const liveServices = await localPhotoDb.getPoojaServices().catch(() => null);
+			const liveServices = (await poojaService.fetchServices(false).catch(() => null)) || (await localPhotoDb.getPoojaServices().catch(() => null));
 			const servicePhoto = getMappedServicePhoto(liveServices, pageId, sectionId);
 
 			if (livePhotos !== null && Array.isArray(livePhotos) && livePhotos.length > 0) {

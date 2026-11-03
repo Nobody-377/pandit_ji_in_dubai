@@ -5,6 +5,7 @@ import photoService from '@/services/photoService';
 import popupService, { DEFAULT_POPUP_SETTINGS } from '@/services/popupService';
 import reviewService from '@/services/reviewService';
 import poojaService from '@/services/poojaService';
+import localPhotoDb, { ensureHostedImageUrl } from '@/services/localPhotoDb';
 import { isSupabaseConfigured } from '@/lib/supabaseClient';
 import {
 	LogOut,
@@ -445,6 +446,21 @@ export default function AdminDashboard() {
 		setPopupPreview(URL.createObjectURL(file));
 	};
 
+	const handlePopupFileDrop = (e) => {
+		e.preventDefault();
+		e.stopPropagation();
+		const file = e.dataTransfer?.files?.[0];
+		if (!file) return;
+
+		if (!file.type.startsWith('image/')) {
+			alert('Please select a valid image file (JPEG, PNG, WebP).');
+			return;
+		}
+
+		setPopupFile(file);
+		setPopupPreview(URL.createObjectURL(file));
+	};
+
 	const handleSavePopupSettings = async (e) => {
 		e.preventDefault();
 		setPopupSaving(true);
@@ -457,6 +473,8 @@ export default function AdminDashboard() {
 				const uploadRes = await popupService.uploadPopupImage(popupFile);
 				finalImageUrl = uploadRes.publicUrl;
 				finalStoragePath = uploadRes.storagePath;
+			} else if (finalImageUrl && finalImageUrl.startsWith('data:image/')) {
+				finalImageUrl = await ensureHostedImageUrl(finalImageUrl);
 			}
 
 			const payload = {
@@ -473,11 +491,12 @@ export default function AdminDashboard() {
 			// Clear session suppression so popup can be tested immediately
 			try {
 				sessionStorage.removeItem('pj_popup_shown_in_session');
+				localStorage.setItem('pj_last_sync_timestamp', String(Date.now()));
 			} catch (_) {}
 
 			setStatusMessage({
 				type: 'success',
-				text: 'Pop-Up Notification settings saved permanently! The live site has been updated.'
+				text: 'Pop-Up Notification banner saved permanently! The live site has been updated.'
 			});
 		} catch (err) {
 			console.error('Error saving popup settings:', err);
@@ -1363,7 +1382,12 @@ export default function AdminDashboard() {
 											<label className="block text-xs sm:text-sm font-bold text-[#2B1A14] uppercase mb-2 font-['Poppins',sans-serif]">
 												Promotional Picture / Banner
 											</label>
-											<div className="border-2 border-dashed border-[#E2D7C8] hover:border-[#8C2B1D] rounded-2xl p-5 text-center cursor-pointer transition relative bg-[#FAF6F0]">
+											<div
+												onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
+												onDragEnter={(e) => { e.preventDefault(); e.stopPropagation(); }}
+												onDrop={handlePopupFileDrop}
+												className="border-2 border-dashed border-[#E2D7C8] hover:border-[#8C2B1D] rounded-2xl p-5 text-center cursor-pointer transition relative bg-[#FAF6F0]"
+											>
 												<input
 													type="file"
 													accept="image/*"
@@ -1408,7 +1432,7 @@ export default function AdminDashboard() {
 													{[
 														{
 															name: 'Vedic Wedding',
-															url: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20230916-wa0012.jpg-CJxXbw9LA6N6QwdH.jpeg?width=768&fit=crop',
+															url: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0011.jpg-m4730MVyqgY9OzLF.jpeg?width=768&fit=crop',
 															target: '/wedding-ceremonies',
 														},
 														{

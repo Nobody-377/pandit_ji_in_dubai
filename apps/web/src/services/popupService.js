@@ -25,9 +25,9 @@ export const popupService = {
 				const serverData = await res.json();
 				if (serverData && serverData.image_url) {
 					const merged = { ...DEFAULT_POPUP_SETTINGS, ...serverData };
-					// Cache locally for instant offline access
+					// Cache locally quietly without re-broadcasting or posting back
 					try {
-						await localPhotoDb.savePopupSettings(merged);
+						await localPhotoDb.savePopupSettings(merged, false);
 					} catch (_) {}
 					return merged;
 				}
@@ -46,7 +46,7 @@ export const popupService = {
 					.maybeSingle();
 
 				if (!error && data) {
-					await localPhotoDb.savePopupSettings(data);
+					await localPhotoDb.savePopupSettings(data, false);
 					return data;
 				}
 			} catch (cloudErr) {
@@ -165,15 +165,16 @@ export const popupService = {
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(payload),
 			});
-			if (!res.ok) {
-				const body = await res.json().catch(() => ({}));
-				throw new Error(body.error || `Popup API save failed (HTTP ${res.status})`);
+			let saved = null;
+			try {
+				saved = await res.json();
+			} catch (_) {}
+
+			if (!res.ok || !saved || saved.success === false) {
+				const errMsg = (saved && saved.error) ? saved.error : `Popup API save failed (HTTP ${res.status})`;
+				throw new Error(errMsg);
 			}
-			const saved = await res.json();
-			if (!saved || !saved.image_url || saved.success === false) {
-				throw new Error('Popup API did not confirm that the settings were saved.');
-			}
-			payload.image_url = saved.image_url;
+			payload.image_url = saved.image_url || payload.image_url;
 			payload.updated_at = saved.updated_at || payload.updated_at;
 		} catch (serverErr) {
 			console.error('Hostinger popup settings could not be saved:', serverErr);
@@ -183,8 +184,8 @@ export const popupService = {
 			}
 		}
 
-		// 2. Always save to local persistent storage for instant offline resilience
-		await localPhotoDb.savePopupSettings(payload);
+		// 2. Always save to local persistent storage and broadcast change
+		await localPhotoDb.savePopupSettings(payload, true);
 
 		// 3. If Cloud is active, upsert to Supabase
 		if (isSupabaseConfigured && supabase) {

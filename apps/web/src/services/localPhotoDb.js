@@ -173,6 +173,7 @@ export const BANNED_PHOTO_PATTERNS = [
 	'bjsvd5-pm2xa7u3bhsxt41k',
 	'bjsvd5',
 	'photo-1708963738411',
+	'img-20230916-wa0012',
 ];
 
 export function isBannedPhotoUrl(src) {
@@ -240,7 +241,7 @@ export function purgeBannedPlaceholders() {
 					if (s.imageUrl && isBannedPhotoUrl(s.imageUrl)) {
 						return {
 							...s,
-							imageUrl: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20230916-wa0012.jpg-CJxXbw9LA6N6QwdH.jpeg?width=768&fit=crop',
+							imageUrl: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0011.jpg-m4730MVyqgY9OzLF.jpeg?width=768&fit=crop',
 						};
 					}
 					return s;
@@ -593,7 +594,7 @@ export const localPhotoDb = {
 		});
 	},
 
-	async savePopupSettings(settings) {
+	async savePopupSettings(settings, shouldBroadcast = true) {
 		const toSave = { ...settings };
 		if (toSave.image_url && toSave.image_url.startsWith('data:image/')) {
 			toSave.image_url = await ensureHostedImageUrl(toSave.image_url);
@@ -620,16 +621,9 @@ export const localPhotoDb = {
 			});
 		}
 
-		broadcastDataChange('popup', { settings: toSave });
-
-		// Mirror to Hostinger Server
-		try {
-			await fetch('/api/popup.php', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(toSave)
-			});
-		} catch (_) {}
+		if (shouldBroadcast) {
+			broadcastDataChange('popup', { settings: toSave });
+		}
 
 		return toSave;
 	},

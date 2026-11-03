@@ -71,11 +71,12 @@ export default function NotificationPopup() {
 			setSettings(current);
 
 			// If admin updated popup settings, clear session suppression so visitor immediately sees the new banner
-			if (current.updated_at) {
+			if (current.updated_at || current.image_url) {
 				const lastSeen = sessionStorage.getItem(LAST_UPDATED_KEY);
-				if (lastSeen !== current.updated_at) {
+				const currentKey = `${current.updated_at || ''}_${current.image_url || ''}`;
+				if (lastSeen !== currentKey) {
 					sessionStorage.removeItem(SESSION_SHOWN_KEY);
-					sessionStorage.setItem(LAST_UPDATED_KEY, current.updated_at);
+					sessionStorage.setItem(LAST_UPDATED_KEY, currentKey);
 				}
 			}
 
@@ -218,6 +219,11 @@ export default function NotificationPopup() {
 						key={settings.image_url}
 						src={settings.image_url}
 						alt={settings.title || 'Special Pooja Announcement'}
+						onError={(e) => {
+							if (e.currentTarget.src !== DEFAULT_POPUP_SETTINGS.image_url) {
+								e.currentTarget.src = DEFAULT_POPUP_SETTINGS.image_url;
+							}
+						}}
 						className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
 					/>
 
