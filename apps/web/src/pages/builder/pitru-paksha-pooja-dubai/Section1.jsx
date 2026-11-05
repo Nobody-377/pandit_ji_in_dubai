@@ -101,7 +101,7 @@ export default function Section1() {
 					id={"I7WyiG"}
 					text={"Consult Pandit Ji on WhatsApp"}
 					type={"primary"}
-					href={"https://wa.me/971504192987?text=Pranam%20Pandit%20Ji%20%F0%9F%99%8F%20%20I%20would%20like%20to%20inquire%20about%20booking%20Pitru%20Paksha%20/%20Shraddh%20Karma%20/%20Pitru%20Dosh%20Pooja%20in%20Dubai/UAE."}
+					href={"https://wa.me/971504192987"}
 					target={"_blank"}
 					rel={"nofollow"}
 					borderRadius={8}

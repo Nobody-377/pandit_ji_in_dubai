@@ -62,7 +62,7 @@ export default function Footer() {
 					id={"WicTGk"}
 					text={"Book Pooja"}
 					type={"primary"}
-					href={"https://wa.me/971504192987?text=Pranam%20Pandit%20ji%20,%20I%20am%20looking%20to%20organise%20a%20puja%20at%20my%20home%20and%20wanted%20to%20discuss%20the%20details%20with%20you%20.%20lets%20me%20know%20when%20you%20are%20free%20for%20a%20quick%20call"}
+					href={"https://wa.me/971504192987"}
 					target={"_blank"}
 					rel={"nofollow"}
 					borderRadius={999}

@@ -439,7 +439,7 @@ export default function Section1() {
 					id={"db3Rvq"}
 					text={"Learn More"}
 					type={"primary"}
-					href={"https://wa.me/971504192987?text=Griha Pravesh Pooja: \"Namaste Pandit Ji, I would like to inquire about booking a Griha Pravesh Pooja for my new home. Please share available auspicious muhurat dates, required samagri, and ceremony details.\""}
+					href={"https://wa.me/971504192987"}
 					target={"_blank"}
 					rel={"nofollow"}
 					borderRadius={6}
@@ -472,7 +472,7 @@ export default function Section1() {
 					id={"2C2VFW"}
 					text={"Learn More"}
 					type={"primary"}
-					href={"https://wa.me/971504192987?text=Wedding Ceremonies: \"Namaste Pandit Ji, I would like to inquire about booking a Vedic Wedding Ceremony. Please provide details regarding auspicious dates, ritual requirements, and availability.\""}
+					href={"https://wa.me/971504192987"}
 					target={"_blank"}
 					rel={"nofollow"}
 					borderRadius={6}
@@ -505,7 +505,7 @@ export default function Section1() {
 					id={"WLgiyl"}
 					text={"Learn More"}
 					type={"primary"}
-					href={"https://wa.me/971504192987?text=Griha Shanti Havan & Yagna: \"Namaste Pandit Ji, I wish to schedule a Griha Shanti Havan & Yagna for peace and energy purification at home. Please share the details and procedure.\""}
+					href={"https://wa.me/971504192987"}
 					target={"_blank"}
 					rel={"nofollow"}
 					borderRadius={6}
@@ -604,7 +604,7 @@ export default function Section1() {
 					id={"IqVmCP"}
 					text={"Learn More"}
 					type={"primary"}
-					href={"https://wa.me/971504192987?text=Satyanarayan Pooja: \"Namaste Pandit Ji, I would like to book a Satyanarayan Pooja for my family. Please inform me about auspicious timings, ritual requirements, and booking details.\""}
+					href={"https://wa.me/971504192987"}
 					target={"_blank"}
 					rel={"nofollow"}
 					borderRadius={6}
@@ -637,7 +637,7 @@ export default function Section1() {
 					id={"cpErAe"}
 					text={"Learn More"}
 					type={"primary"}
-					href={"https://wa.me/971504192987?text=Festival Poojas: \"Namaste Pandit Ji, I am looking to perform a Festival Pooja for an upcoming holy occasion. Please let me know your availability and ceremony arrangements.\""}
+					href={"https://wa.me/971504192987"}
 					target={"_blank"}
 					rel={"nofollow"}
 					borderRadius={6}
@@ -670,7 +670,7 @@ export default function Section1() {
 					id={"DaghXh"}
 					text={"Learn More"}
 					type={"primary"}
-					href={"https://wa.me/971504192987?text=Rudrabhishek Pooja: \"Namaste Pandit Ji, I would like to schedule a Rudrabhishek Pooja. Kindly provide available dates, required offerings, and the booking process.\""}
+					href={"https://wa.me/971504192987"}
 					target={"_blank"}
 					rel={"nofollow"}
 					borderRadius={6}
@@ -769,7 +769,7 @@ export default function Section1() {
 					id={"LX2G8K"}
 					text={"Learn More"}
 					type={"primary"}
-					href={"https://wa.me/971504192987?text=Ganesh Pooja: \"Namaste Pandit Ji, I want to perform a Ganesh Pooja for new beginnings and divine blessings. Please share available slots and ritual details.\""}
+					href={"https://wa.me/971504192987"}
 					target={"_blank"}
 					rel={"nofollow"}
 					borderRadius={6}
@@ -802,7 +802,7 @@ export default function Section1() {
 					id={"ORaFqX"}
 					text={"Learn More"}
 					type={"primary"}
-					href={"https://wa.me/971504192987?text=Lakshmi Pooja: \"Namaste Pandit Ji, I would like to book a Lakshmi Pooja for business/home prosperity. Please provide details on auspicious timings and requirements.\""}
+					href={"https://wa.me/971504192987"}
 					target={"_blank"}
 					rel={"nofollow"}
 					borderRadius={6}
@@ -835,7 +835,7 @@ export default function Section1() {
 					id={"ZtUQ6U"}
 					text={"Learn More"}
 					type={"primary"}
-					href={"https://wa.me/971504192987?text=Navagraha Pooja: \"Namaste Pandit Ji, I am interested in scheduling a Navagraha Pooja. Please guide me on auspicious dates and ritual preparations.\""}
+					href={"https://wa.me/971504192987"}
 					target={"_blank"}
 					rel={"nofollow"}
 					borderRadius={6}
@@ -934,7 +934,7 @@ export default function Section1() {
 					id={"xqRdB8"}
 					text={"Learn More"}
 					type={"primary"}
-					href={"https://wa.me/971504192987?text=Griha Shanti Pooja: \"Namaste Pandit Ji, I wish to arrange a Griha Shanti Pooja for household harmony and peace. Please share available dates and details.\""}
+					href={"https://wa.me/971504192987"}
 					target={"_blank"}
 					rel={"nofollow"}
 					borderRadius={6}
@@ -967,7 +967,7 @@ export default function Section1() {
 					id={"w9A6Kl"}
 					text={"Learn More"}
 					type={"primary"}
-					href={"https://wa.me/971504192987?text=Vastu Pooja: \"Namaste Pandit Ji, I would like to book a Vastu Pooja for my residence/office. Please inform me about available dates and samagri requirements.\""}
+					href={"https://wa.me/971504192987"}
 					target={"_blank"}
 					rel={"nofollow"}
 					borderRadius={6}
@@ -1000,7 +1000,7 @@ export default function Section1() {
 					id={"WUSUxu"}
 					text={"Learn More"}
 					type={"primary"}
-					href={"https://wa.me/971504192987?text=Saraswati Pooja: \"Namaste Pandit Ji, I would like to inquire about scheduling a Saraswati Pooja for knowledge and blessings. Please share ritual details and timings.\""}
+					href={"https://wa.me/971504192987"}
 					target={"_blank"}
 					rel={"nofollow"}
 					borderRadius={6}
@@ -1055,7 +1055,7 @@ export default function Section1() {
 					id={"j8-PLh"}
 					text={"Learn More"}
 					type={"primary"}
-					href={"https://wa.me/971504192987?text=Car Pooja: \"Namaste Pandit Ji, I would like to perform a Car / Vehicle Pooja for safe travels and divine blessings. Please let me know your available timings.\""}
+					href={"https://wa.me/971504192987"}
 					target={"_blank"}
 					rel={"nofollow"}
 					borderRadius={6}

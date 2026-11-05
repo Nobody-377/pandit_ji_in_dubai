@@ -75,7 +75,7 @@ export default function Section4() {
 					id={"ZCsfob"}
 					text={"Book Ceremony"}
 					type={"primary"}
-					href={"https://wa.me/971504192987?text=I%20want%20to%20first%20know%20discuss%20about%20my%20requirements"}
+					href={"https://wa.me/971504192987"}
 					target={"_blank"}
 					rel={"nofollow"}
 					borderRadius={999}

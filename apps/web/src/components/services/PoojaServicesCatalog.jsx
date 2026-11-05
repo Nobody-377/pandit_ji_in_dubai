@@ -224,7 +224,7 @@ export default function PoojaServicesCatalog({
 										</a>
 
 										<a
-											href={`https://wa.me/971504192987?text=${encodeURIComponent(`Namaste Pandit Ji, I would like to inquire about booking ${service.title} in Dubai.`)}`}
+											href="https://wa.me/971504192987"
 											target="_blank"
 											rel="noopener noreferrer"
 											title="WhatsApp Consultation"

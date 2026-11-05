@@ -198,7 +198,7 @@ export default function Section1() {
 					id={"zX8F9e"}
 					text={"Book Now"}
 					type={"primary"}
-					href={"https://wa.me/971504192987?text=Pranam%20Pandit%20Ji.%20I%20am%20looking%20to%20organize%20a%20puja%20at%20my%20home%20and%20wanted%20to%20discuss%20the%20details%20with%20you.%20Let%20me%20know%20when%20you%20are%20free%20for%20a%20quick%20call."}
+					href={"https://wa.me/971504192987"}
 					target={"_blank"}
 					rel={"nofollow"}
 					backgroundColor={"rgb(140, 43, 29)"}
