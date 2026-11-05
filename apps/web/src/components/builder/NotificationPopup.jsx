@@ -51,8 +51,12 @@ export default function NotificationPopup() {
 			return;
 		}
 
-		// Check if already shown in this session
-		if (sessionStorage.getItem(SESSION_SHOWN_KEY)) {
+		// Check if already shown / dismissed in this session
+		if (
+			sessionStorage.getItem(SESSION_SHOWN_KEY) ||
+			sessionStorage.getItem('pj_popup_dismissed_session') ||
+			localStorage.getItem('pj_popup_dismissed_session')
+		) {
 			return;
 		}
 
@@ -71,14 +75,16 @@ export default function NotificationPopup() {
 			const current = data || DEFAULT_POPUP_SETTINGS;
 			setSettings(current);
 
-			// If admin updated popup settings, clear session suppression so visitor immediately sees the new banner
+			// If admin updated popup settings with a new image or timestamp, clear session suppression
 			if (current.updated_at || current.image_url) {
 				const lastSeen = sessionStorage.getItem(LAST_UPDATED_KEY);
 				const currentKey = `${current.updated_at || ''}_${current.image_url || ''}`;
-				if (lastSeen !== currentKey) {
+				if (lastSeen && lastSeen !== currentKey) {
 					sessionStorage.removeItem(SESSION_SHOWN_KEY);
-					sessionStorage.setItem(LAST_UPDATED_KEY, currentKey);
+					sessionStorage.removeItem('pj_popup_dismissed_session');
+					localStorage.removeItem('pj_popup_dismissed_session');
 				}
+				sessionStorage.setItem(LAST_UPDATED_KEY, currentKey);
 			}
 
 			if (!isAdminRoute) {
@@ -97,6 +103,16 @@ export default function NotificationPopup() {
 			return;
 		}
 
+		// If user already dismissed the popup, do NOT re-trigger on route navigation
+		if (
+			!isPreviewMode &&
+			(sessionStorage.getItem(SESSION_SHOWN_KEY) ||
+				sessionStorage.getItem('pj_popup_dismissed_session') ||
+				localStorage.getItem('pj_popup_dismissed_session'))
+		) {
+			return;
+		}
+
 		loadSettings(isPreviewMode);
 
 		return () => {
@@ -108,16 +124,21 @@ export default function NotificationPopup() {
 	useEffect(() => {
 		const handleDataUpdate = (event) => {
 			const detail = event?.detail;
-			if (!detail || detail.type === 'popup') {
-				// Admin saved new popup settings: update and trigger so user sees changes immediately
+			// STRICT: ONLY handle explicit popup updates, NEVER photo or generic events
+			if (detail?.type === 'popup') {
 				sessionStorage.removeItem(SESSION_SHOWN_KEY);
+				sessionStorage.removeItem('pj_popup_dismissed_session');
+				localStorage.removeItem('pj_popup_dismissed_session');
 				loadSettings(true);
 			}
 		};
 
 		const handleStorage = (e) => {
-			if (!e.key || e.key === 'pj_local_popup_settings' || e.key === 'pj_last_sync_timestamp') {
+			// STRICT: ONLY handle popup settings storage key, NEVER pj_last_sync_timestamp!
+			if (e.key === 'pj_local_popup_settings') {
 				sessionStorage.removeItem(SESSION_SHOWN_KEY);
+				sessionStorage.removeItem('pj_popup_dismissed_session');
+				localStorage.removeItem('pj_popup_dismissed_session');
 				loadSettings(true);
 			}
 		};
@@ -130,8 +151,10 @@ export default function NotificationPopup() {
 			if ('BroadcastChannel' in window) {
 				channel = new BroadcastChannel('pj_sync_channel');
 				channel.onmessage = (msg) => {
-					if (!msg?.data || msg.data.type === 'popup') {
+					if (msg?.data?.type === 'popup') {
 						sessionStorage.removeItem(SESSION_SHOWN_KEY);
+						sessionStorage.removeItem('pj_popup_dismissed_session');
+						localStorage.removeItem('pj_popup_dismissed_session');
 						loadSettings(true);
 					}
 				};
@@ -162,16 +185,26 @@ export default function NotificationPopup() {
 
 	const handleClose = (e) => {
 		if (e) e.stopPropagation();
-		// Mark as seen for this session
+		// Mark as seen and permanently dismissed for this session
 		sessionStorage.setItem(SESSION_SHOWN_KEY, 'true');
+		sessionStorage.setItem('pj_popup_dismissed_session', 'true');
+		localStorage.setItem('pj_popup_dismissed_session', 'true');
 		setIsOpen(false);
+		if (timerRef.current) {
+			clearTimeout(timerRef.current);
+		}
 	};
 
 	const handleImageClick = (e) => {
 		e.stopPropagation();
-		// Mark as seen for this session
+		// Mark as seen and permanently dismissed for this session
 		sessionStorage.setItem(SESSION_SHOWN_KEY, 'true');
+		sessionStorage.setItem('pj_popup_dismissed_session', 'true');
+		localStorage.setItem('pj_popup_dismissed_session', 'true');
 		setIsOpen(false);
+		if (timerRef.current) {
+			clearTimeout(timerRef.current);
+		}
 
 		const target = settings.target_url || '/authentic-vedic-pooja-dubai';
 
