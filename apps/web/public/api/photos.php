@@ -39,12 +39,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rawInput = file_get_contents('php://input');
     if (!empty($rawInput)) {
         $payload = json_decode($rawInput, true);
-        if ($payload !== null && isset($payload['pageId'], $payload['sectionId'], $payload['photos'])) {
+        if ($payload !== null && isset($payload['pageId'], $payload['sectionId'])) {
             $key = $payload['pageId'] . '::' . $payload['sectionId'];
-            $allPhotos[$key] = $payload['photos'];
-            file_put_contents($dataFile, json_encode($allPhotos, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-            echo json_encode(['success' => true, 'photos' => $payload['photos']]);
-            exit;
+
+            // Handle Restore to Defaults / Delete Section Override
+            if ((isset($payload['action']) && in_array($payload['action'], ['restore', 'delete'], true)) || (isset($payload['photos']) && empty($payload['photos']))) {
+                if (isset($allPhotos[$key])) {
+                    unset($allPhotos[$key]);
+                    file_put_contents($dataFile, json_encode($allPhotos, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+                }
+                echo json_encode(['success' => true, 'restored' => true]);
+                exit;
+            }
+
+            if (isset($payload['photos']) && is_array($payload['photos'])) {
+                $allPhotos[$key] = $payload['photos'];
+                file_put_contents($dataFile, json_encode($allPhotos, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+                echo json_encode(['success' => true, 'photos' => $payload['photos']]);
+                exit;
+            }
         }
     }
     http_response_code(400);

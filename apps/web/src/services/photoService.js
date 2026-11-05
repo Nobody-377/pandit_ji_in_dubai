@@ -79,16 +79,24 @@ export const photoService = {
 				await supabase.from('site_photos').delete().eq('page_id', pageId).eq('section_id', sectionId);
 			} catch (_) {}
 		}
+		// Sync restore to Hostinger Server API
+		try {
+			await fetch('/api/photos.php', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ pageId, sectionId, action: 'restore' }),
+			});
+		} catch (_) {}
 		return null;
 	},
 
 	/**
-	 * Upload a new image file.
-	 * Saves to Supabase Cloud if configured; otherwise saves to IndexedDB persistent storage.
+	 * Upload a new image file or use a hosted image URL.
+	 * Saves to Supabase Cloud if configured; otherwise saves to IndexedDB persistent storage and Hostinger API.
 	 */
-	async uploadPhoto(file, { pageId, sectionId, title = '', altText = '', sortOrder = 0, existingPhotos = [] }) {
-		// 1. If Supabase is configured, upload to cloud storage
-		if (isSupabaseConfigured && supabase) {
+	async uploadPhoto(file, { pageId, sectionId, title = '', altText = '', sortOrder = 0, existingPhotos = [], imageUrl = '' }) {
+		// 1. If Supabase is configured and file is present, upload to cloud storage
+		if (file && isSupabaseConfigured && supabase) {
 			const ext = file.name.split('.').pop() || 'jpg';
 			const cleanName = file.name
 				.replace(/\.[^/.]+$/, '')
@@ -154,31 +162,37 @@ export const photoService = {
 			return created;
 		}
 
-		// 2. Try Hostinger Server Upload API
+		// 2. Try Hostinger Server Upload API if file is provided
 		let serverPhotoUrl = '';
-		try {
-			const formData = new FormData();
-			formData.append('file', file);
-			const res = await fetch('/api/upload.php', { method: 'POST', body: formData });
-			if (res.ok) {
-				const uploadData = await res.json();
-				if (uploadData && uploadData.url) {
-					serverPhotoUrl = uploadData.url;
+		if (file) {
+			try {
+				const formData = new FormData();
+				formData.append('file', file);
+				const res = await fetch('/api/upload.php', { method: 'POST', body: formData });
+				if (res.ok) {
+					const uploadData = await res.json();
+					if (uploadData && uploadData.url) {
+						serverPhotoUrl = uploadData.url;
+					}
 				}
-			}
-		} catch (_) {}
+			} catch (_) {}
+		}
 
-		const finalSrc = serverPhotoUrl || (await fileToDataUrl(file));
+		const finalSrc = serverPhotoUrl || (file ? await fileToDataUrl(file) : (imageUrl ? imageUrl.trim() : ''));
+		if (!finalSrc) {
+			throw new Error('Please select an image file or enter an image URL.');
+		}
+
 		const newId = `photo_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
 
 		const newPhoto = {
 			id: newId,
 			src: finalSrc,
-			alt: altText,
+			alt: altText || title,
 			title,
 			sortOrder,
 			storagePath: '',
-			source: serverPhotoUrl ? 'server' : 'local',
+			source: serverPhotoUrl ? 'server' : (imageUrl ? 'hosted' : 'local'),
 			createdAt: new Date().toISOString(),
 		};
 
@@ -241,9 +255,23 @@ export const photoService = {
 					}
 				}
 			} else {
-				// Convert to persistent Data URL
-				newImageUrl = await fileToDataUrl(newFile);
+				// Upload to Hostinger upload API
+				let serverPhotoUrl = '';
+				try {
+					const formData = new FormData();
+					formData.append('file', newFile);
+					const res = await fetch('/api/upload.php', { method: 'POST', body: formData });
+					if (res.ok) {
+						const uploadData = await res.json();
+						if (uploadData && uploadData.url) {
+							serverPhotoUrl = uploadData.url;
+						}
+					}
+				} catch (_) {}
+				newImageUrl = serverPhotoUrl || (await fileToDataUrl(newFile));
 			}
+		} else if (updates && updates.imageUrl && updates.imageUrl.trim()) {
+			newImageUrl = updates.imageUrl.trim();
 		}
 
 		const isCloudRecord = targetPhoto.id && !String(targetPhoto.id).startsWith('local_') && targetPhoto.source === 'cloud';
@@ -254,7 +282,7 @@ export const photoService = {
 			if (updates.title !== undefined) dbUpdates.title = updates.title;
 			if (updates.altText !== undefined) dbUpdates.alt_text = updates.altText;
 			if (updates.sortOrder !== undefined) dbUpdates.sort_order = updates.sortOrder;
-			if (newFile) {
+			if (newFile || (updates && updates.imageUrl)) {
 				dbUpdates.image_url = newImageUrl;
 				dbUpdates.storage_path = newStoragePath;
 			}
@@ -300,7 +328,7 @@ export const photoService = {
 			alt: updates.altText !== undefined ? updates.altText : targetPhoto.alt,
 			sortOrder: updates.sortOrder !== undefined ? Number(updates.sortOrder) : (targetPhoto.sortOrder || 0),
 			storagePath: newStoragePath,
-			source: 'local',
+			source: newImageUrl.startsWith('/api/uploads/') ? 'server' : (newImageUrl.startsWith('http') ? 'hosted' : 'local'),
 			updatedAt: new Date().toISOString(),
 		};
 
@@ -323,6 +351,20 @@ export const photoService = {
 		}
 
 		await localPhotoDb.saveSectionPhotos(pageId, sectionId, updatedList);
+
+		// Mirror to Hostinger Server API
+		try {
+			await fetch('/api/photos.php', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					pageId,
+					sectionId,
+					photos: updatedList,
+				}),
+			});
+		} catch (_) {}
+
 		return updatedPhoto;
 	},
 
@@ -352,6 +394,20 @@ export const photoService = {
 		});
 
 		await localPhotoDb.saveSectionPhotos(pageId, sectionId, filtered);
+
+		// Mirror to Hostinger Server API
+		try {
+			await fetch('/api/photos.php', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					pageId,
+					sectionId,
+					photos: filtered,
+				}),
+			});
+		} catch (_) {}
+
 		return true;
 	},
 
@@ -361,6 +417,19 @@ export const photoService = {
 	async reorderPhotos(orderedPhotos, { pageId, sectionId }) {
 		// Save to local storage first for instant feedback
 		await localPhotoDb.saveSectionPhotos(pageId, sectionId, orderedPhotos);
+
+		// Mirror to Hostinger Server API
+		try {
+			await fetch('/api/photos.php', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					pageId,
+					sectionId,
+					photos: orderedPhotos,
+				}),
+			});
+		} catch (_) {}
 
 		// If cloud is active, sync sort order to cloud
 		if (isSupabaseConfigured && supabase) {

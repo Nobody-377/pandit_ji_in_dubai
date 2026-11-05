@@ -7,6 +7,7 @@ import reviewService from '@/services/reviewService';
 import poojaService from '@/services/poojaService';
 import localPhotoDb, { ensureHostedImageUrl } from '@/services/localPhotoDb';
 import { isSupabaseConfigured } from '@/lib/supabaseClient';
+import MediaGalleryManager from './MediaGalleryManager';
 import {
 	LogOut,
 	ExternalLink,
@@ -17,6 +18,7 @@ import {
 	ArrowDown,
 	Upload,
 	Image as ImageIcon,
+	Images,
 	CheckCircle,
 	AlertTriangle,
 	RefreshCw,
@@ -47,8 +49,8 @@ import {
 export default function AdminDashboard() {
 	const { adminUser, logout, credentialsInfo, changeCredentials, resetCredentials } = useAdminAuth();
 
-	// Primary module tab: 'photos' | 'popup' | 'reviews' | 'services' | 'security'
-	const [activeModule, setActiveModule] = useState('photos');
+	// Primary module tab: 'gallery' | 'photos' | 'popup' | 'reviews' | 'services' | 'security'
+	const [activeModule, setActiveModule] = useState('gallery');
 
 	// =========================================================================
 	// PHOTOS MANAGEMENT STATE
@@ -1034,6 +1036,30 @@ export default function AdminDashboard() {
 				<aside className="w-80 bg-[#F7EFE5] border-r border-[#E5DCCF] flex flex-col shrink-0">
 					{/* Primary Navigation Tabs */}
 					<div className="p-4 border-b border-[#E5DCCF] space-y-2">
+						{/* MEDIA GALLERY MODULE TAB */}
+						<button
+							onClick={() => setActiveModule('gallery')}
+							className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm sm:text-base font-bold transition font-['Poppins',sans-serif] ${
+								activeModule === 'gallery'
+									? 'bg-[#8C2B1D] text-white shadow-md shadow-[#8C2B1D]/20'
+									: 'text-[#2B1A14] hover:bg-[#EFE5D8]'
+							}`}
+						>
+							<div className="flex items-center gap-3">
+								<Images className={`w-5 h-5 ${activeModule === 'gallery' ? 'text-[#FAF6F0]' : 'text-[#8C2B1D]'}`} />
+								<span>Media Gallery</span>
+							</div>
+							<span
+								className={`text-xs px-2.5 py-1 rounded-full font-bold font-['Poppins',sans-serif] ${
+									activeModule === 'gallery'
+										? 'bg-black/20 text-[#FAF6F0]'
+										: 'bg-[#FAF6F0] text-[#8C2B1D] border border-[#E5DCCF]'
+								}`}
+							>
+								Featured
+							</span>
+						</button>
+
 						<button
 							onClick={() => setActiveModule('photos')}
 							className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm sm:text-base font-bold transition font-['Poppins',sans-serif] ${
@@ -1043,7 +1069,7 @@ export default function AdminDashboard() {
 							}`}
 						>
 							<Layers className={`w-5 h-5 ${activeModule === 'photos' ? 'text-[#FAF6F0]' : 'text-[#8C2B1D]'}`} />
-							<span>Page Photos & Galleries</span>
+							<span>Page Banners & Photos</span>
 						</button>
 
 						<button
@@ -1142,7 +1168,29 @@ export default function AdminDashboard() {
 					</div>
 
 					{/* Module-Specific Sidebar Content */}
-					{activeModule === 'photos' ? (
+					{activeModule === 'gallery' ? (
+						<div className="p-5 flex-1 text-sm text-[#2B1A14]/80 space-y-4">
+							<div className="p-4 bg-white rounded-xl border border-[#E5DCCF] shadow-2xs">
+								<p className="text-[#8C2B1D] font-bold text-sm mb-1.5 font-['Poppins',sans-serif] flex items-center gap-2">
+									<Images className="w-4 h-4" />
+									<span>Media Gallery Help</span>
+								</p>
+								<p className="text-xs text-[#2B1A14]/70 leading-relaxed font-['Poppins',sans-serif]">
+									Manage the photo showcase carousel on your live homepage. Add ceremony photos, reorder slides, or update photo titles and SEO alt text.
+								</p>
+							</div>
+
+							<div className="p-4 bg-[#FAF6F0] rounded-xl border border-[#E5DCCF] text-xs space-y-2 font-['Poppins',sans-serif]">
+								<p className="font-bold text-[#8C2B1D]">Quick Tips:</p>
+								<ul className="list-disc list-inside space-y-1 text-[#2B1A14]/75">
+									<li>Images are automatically stored on Hostinger server.</li>
+									<li>Square 1:1 or landscape 4:3 images work best.</li>
+									<li>Reorder slides using the left/right arrows.</li>
+									<li>Changes reflect immediately on your live website.</li>
+								</ul>
+							</div>
+						</div>
+					) : activeModule === 'photos' ? (
 						<>
 							<div className="p-4 border-b border-[#E5DCCF]">
 								<div className="text-xs font-bold text-[#8C2B1D] uppercase tracking-wider font-['Poppins',sans-serif]">
@@ -1360,9 +1408,11 @@ export default function AdminDashboard() {
 				{/* Main Workspace (Matches website pure ivory background #FAF6F0) */}
 				<main className="flex-1 flex flex-col overflow-y-auto bg-[#FAF6F0]">
 					{/* ========================================================================= */}
-					{/* MODULE 1: POP-UP NOTIFICATION MANAGER */}
+					{/* MODULE 0: DEDICATED MEDIA GALLERY MANAGER */}
 					{/* ========================================================================= */}
-					{activeModule === 'popup' ? (
+					{activeModule === 'gallery' ? (
+						<MediaGalleryManager />
+					) : activeModule === 'popup' ? (
 						<div className="p-8 sm:p-10 max-w-5xl">
 							{/* Header */}
 							<div className="mb-7 pb-5 border-b border-[#E5DCCF] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
