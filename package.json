@@ -18,7 +18,8 @@
     "shell-quote": "^1.12.0",
     "source-map-js": "^1.2.2",
     "postcss-selector-parser": "^6.1.5",
-    "zod": "^4.6.7"
+    "zod": "^4.6.7",
+    "minimatch": "^11.0.1"
   },
   "workspaces": [
     "apps/*"
