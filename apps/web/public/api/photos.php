@@ -34,6 +34,26 @@ if (file_exists($dataFile)) {
     }
 }
 
+function isPhotoBanned($p) {
+    if (!is_array($p)) return false;
+    $src = isset($p['src']) ? strtolower($p['src']) : '';
+    $title = isset($p['title']) ? strtolower($p['title']) : '';
+    $alt = isset($p['alt']) ? strtolower($p['alt']) : '';
+    if (strpos($title, 'lakshmi pooja') !== false || strpos($alt, 'lakshmi pooja') !== false) return true;
+    if (strpos($title, 'ganesh pooja') !== false || strpos($alt, 'ganesh pooja') !== false) return true;
+    if (strpos($src, 'amenities') !== false || strpos($src, 'bjsvd5') !== false) return true;
+    return false;
+}
+
+// Clean any banned photos from all loaded data
+foreach ($allPhotos as $k => $photosList) {
+    if (is_array($photosList)) {
+        $allPhotos[$k] = array_values(array_filter($photosList, function($p) {
+            return !isPhotoBanned($p);
+        }));
+    }
+}
+
 // Handle POST: Save / update photos for a pageId & sectionId
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rawInput = file_get_contents('php://input');
@@ -53,9 +73,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if (isset($payload['photos']) && is_array($payload['photos'])) {
-                $allPhotos[$key] = $payload['photos'];
+                $clean = array_values(array_filter($payload['photos'], function($p) {
+                    return !isPhotoBanned($p);
+                }));
+                $allPhotos[$key] = $clean;
                 file_put_contents($dataFile, json_encode($allPhotos, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-                echo json_encode(['success' => true, 'photos' => $payload['photos']]);
+                echo json_encode(['success' => true, 'photos' => $clean]);
                 exit;
             }
         }
@@ -71,8 +94,11 @@ $sectionId = isset($_GET['sectionId']) ? trim($_GET['sectionId']) : '';
 
 if (!empty($pageId) && !empty($sectionId)) {
     $key = $pageId . '::' . $sectionId;
-    if (isset($allPhotos[$key])) {
-        echo json_encode($allPhotos[$key]);
+    if (isset($allPhotos[$key]) && is_array($allPhotos[$key])) {
+        $clean = array_values(array_filter($allPhotos[$key], function($p) {
+            return !isPhotoBanned($p);
+        }));
+        echo json_encode($clean);
         exit;
     }
     echo json_encode(null);

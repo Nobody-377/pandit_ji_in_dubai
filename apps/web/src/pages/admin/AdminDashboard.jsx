@@ -5,7 +5,7 @@ import photoService from '@/services/photoService';
 import popupService, { DEFAULT_POPUP_SETTINGS } from '@/services/popupService';
 import reviewService from '@/services/reviewService';
 import poojaService from '@/services/poojaService';
-import localPhotoDb, { ensureHostedImageUrl } from '@/services/localPhotoDb';
+import localPhotoDb, { ensureHostedImageUrl, isBannedPhoto } from '@/services/localPhotoDb';
 import { isSupabaseConfigured } from '@/lib/supabaseClient';
 import {
 	LogOut,
@@ -188,8 +188,9 @@ export default function AdminDashboard() {
 		try {
 			const savedPhotos = await photoService.fetchSectionPhotos(activePage.pageId, activeSection.sectionId);
 			if (savedPhotos !== null && Array.isArray(savedPhotos)) {
-				setPhotos(savedPhotos);
-				setIsLiveFromDb(true);
+				const clean = savedPhotos.filter((p) => !isBannedPhoto(p));
+				setPhotos(clean.length > 0 ? clean : (activeSection.defaults || []));
+				setIsLiveFromDb(clean.length > 0);
 			} else {
 				setPhotos(activeSection.defaults || []);
 				setIsLiveFromDb(false);

@@ -182,6 +182,18 @@ export function isBannedPhotoUrl(src) {
 	return BANNED_PHOTO_PATTERNS.some((pattern) => lower.includes(pattern.toLowerCase()));
 }
 
+export function isBannedPhoto(photo) {
+	if (!photo) return true;
+	if (typeof photo === 'string') return isBannedPhotoUrl(photo);
+	const src = photo.src || '';
+	if (isBannedPhotoUrl(src)) return true;
+	const title = (photo.title || '').toLowerCase();
+	const alt = (photo.alt || '').toLowerCase();
+	if (title.includes('lakshmi pooja') || alt.includes('lakshmi pooja')) return true;
+	if (title.includes('ganesh pooja') || alt.includes('ganesh pooja')) return true;
+	return false;
+}
+
 export async function dataUrlToBlob(dataUrl) {
 	if (!dataUrl || typeof dataUrl !== 'string' || !dataUrl.startsWith('data:image/')) {
 		return null;
@@ -328,8 +340,24 @@ export function purgeBannedPlaceholders() {
 			const key = localStorage.key(i);
 			if (key && key.startsWith('pj_photos_')) {
 				const val = localStorage.getItem(key);
-				if (val && isBannedPhotoUrl(val)) {
-					keysToRemove.push(key);
+				if (val) {
+					try {
+						const parsed = JSON.parse(val);
+						if (Array.isArray(parsed)) {
+							const clean = parsed.filter((p) => !isBannedPhoto(p));
+							if (clean.length !== parsed.length) {
+								if (clean.length > 0) {
+									localStorage.setItem(key, JSON.stringify(clean));
+								} else {
+									keysToRemove.push(key);
+								}
+							}
+						} else if (isBannedPhotoUrl(val)) {
+							keysToRemove.push(key);
+						}
+					} catch (_) {
+						if (isBannedPhotoUrl(val)) keysToRemove.push(key);
+					}
 				}
 			}
 		}
@@ -371,9 +399,20 @@ export function purgeBannedPlaceholders() {
 				req.onsuccess = (e) => {
 					const cursor = e.target.result;
 					if (cursor) {
-						const strVal = JSON.stringify(cursor.value || '');
-						if (isBannedPhotoUrl(strVal)) {
-							cursor.delete();
+						if (Array.isArray(cursor.value)) {
+							const clean = cursor.value.filter((p) => !isBannedPhoto(p));
+							if (clean.length !== cursor.value.length) {
+								if (clean.length > 0) {
+									cursor.update(clean);
+								} else {
+									cursor.delete();
+								}
+							}
+						} else {
+							const strVal = JSON.stringify(cursor.value || '');
+							if (isBannedPhotoUrl(strVal) || strVal.toLowerCase().includes('lakshmi pooja') || strVal.toLowerCase().includes('ganesh pooja')) {
+								cursor.delete();
+							}
 						}
 						cursor.continue();
 					}
@@ -409,7 +448,7 @@ export const localPhotoDb = {
 			}
 			const parsed = JSON.parse(raw);
 			if (!Array.isArray(parsed)) return null;
-			const clean = parsed.filter((p) => p && p.src && !isBannedPhotoUrl(p.src));
+			const clean = parsed.filter((p) => p && p.src && !isBannedPhoto(p));
 			return clean.length > 0 ? clean : null;
 		} catch {
 			return null;
@@ -435,7 +474,7 @@ export const localPhotoDb = {
 				const req = store.get(`${pageId}::${sectionId}`);
 				req.onsuccess = () => {
 					if (req.result && Array.isArray(req.result)) {
-						const clean = req.result.filter((p) => p && p.src && !isBannedPhotoUrl(p.src));
+						const clean = req.result.filter((p) => p && p.src && !isBannedPhoto(p));
 						if (clean.length > 0) {
 							// Mirror to localStorage for synchronous instant access
 							try {
@@ -467,7 +506,7 @@ export const localPhotoDb = {
 	async saveSectionPhotos(pageId, sectionId, photos) {
 		const key = `${pageId}::${sectionId}`;
 		let cleanPhotos = Array.isArray(photos)
-			? photos.filter((p) => p && p.src && !isBannedPhotoUrl(p.src))
+			? photos.filter((p) => p && p.src && !isBannedPhoto(p))
 			: [];
 
 		// If any photos contain Base64 data URLs, convert them to permanent server uploads

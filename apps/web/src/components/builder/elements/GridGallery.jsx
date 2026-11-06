@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ChevronLeft, ChevronRight, X, ZoomIn } from 'lucide-react';
+import { isBannedPhoto } from '@/services/localPhotoDb';
 import './GridGallery.css';
 
 export default function GridGallery({
@@ -12,19 +13,22 @@ export default function GridGallery({
 	layout = 'carousel',
 	className = '',
 }) {
+	const [failedUrls, setFailedUrls] = useState(() => new Set());
+
 	const validImages = useMemo(() => {
-		return (Array.isArray(images) ? images : []).filter(
-			(img) => img && (typeof img === 'string' || img?.src)
-		).map((img) => {
-			if (typeof img === 'string') {
-				return { src: img, alt: 'Pooja Ceremony in Dubai' };
-			}
-			return {
-				src: img.src,
-				alt: img.alt || 'Pooja Ceremony in Dubai',
-			};
-		});
-	}, [images]);
+		return (Array.isArray(images) ? images : [])
+			.filter((img) => img && (typeof img === 'string' || img?.src) && !isBannedPhoto(img))
+			.map((img) => {
+				if (typeof img === 'string') {
+					return { src: img, alt: 'Pooja Ceremony in Dubai' };
+				}
+				return {
+					src: img.src,
+					alt: img.alt || 'Pooja Ceremony in Dubai',
+				};
+			})
+			.filter((img) => !failedUrls.has(img.src));
+	}, [images, failedUrls]);
 
 	const [emblaRef, emblaApi] = useEmblaCarousel({
 		loop: true,
@@ -164,6 +168,11 @@ export default function GridGallery({
 										src={image.src}
 										alt={image.alt}
 										loading="lazy"
+										onError={() => {
+											if (image.src) {
+												setFailedUrls((prev) => new Set(prev).add(image.src));
+											}
+										}}
 										className="grid-gallery-card-img"
 									/>
 									<div className="grid-gallery-card-overlay">

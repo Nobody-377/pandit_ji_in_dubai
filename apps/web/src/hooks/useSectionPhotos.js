@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import photoService from '@/services/photoService';
-import localPhotoDb, { isBannedPhotoUrl, purgeBannedPlaceholders } from '@/services/localPhotoDb';
+import localPhotoDb, { isBannedPhotoUrl, isBannedPhoto, purgeBannedPlaceholders } from '@/services/localPhotoDb';
 import { poojaService, SERVICE_SECTION_MAP } from '@/services/poojaService';
 
 /**
@@ -27,11 +27,11 @@ function getMappedServicePhoto(services, pageId, sectionId) {
  */
 function sanitizePhotos(list, defaultList, isSingle, serviceFallbackUrl = null) {
 	const validDefaults = (Array.isArray(defaultList) ? defaultList : []).filter(
-		(p) => p && p.src && !isBannedPhotoUrl(p.src)
+		(p) => p && p.src && !isBannedPhoto(p)
 	);
 
 	if (list && Array.isArray(list) && list.length > 0) {
-		const cleanList = list.filter((p) => p && p.src && !isBannedPhotoUrl(p.src));
+		const cleanList = list.filter((p) => p && p.src && !isBannedPhoto(p));
 		if (cleanList.length > 0) {
 			const activePhoto = cleanList[cleanList.length - 1];
 			// If mapped service has an updated photo, prioritize latest service photo
