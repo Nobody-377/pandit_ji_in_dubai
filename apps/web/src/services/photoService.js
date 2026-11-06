@@ -1,5 +1,5 @@
 import { supabase, isSupabaseConfigured } from '@/lib/supabaseClient';
-import localPhotoDb, { fileToDataUrl } from '@/services/localPhotoDb';
+import localPhotoDb, { fileToDataUrl, fileToCompressedBlob } from '@/services/localPhotoDb';
 
 const BUCKET_NAME = 'site-photos';
 
@@ -162,12 +162,14 @@ export const photoService = {
 			return created;
 		}
 
-		// 2. Try Hostinger Server Upload API if file is provided
+		// 2. Try Hostinger Server Upload API if file is provided (with instant client-side canvas compression)
 		let serverPhotoUrl = '';
 		if (file) {
 			try {
+				const compressedBlob = await fileToCompressedBlob(file, 1400, 0.82);
 				const formData = new FormData();
-				formData.append('file', file);
+				const fileName = (file.name || 'photo.jpg').replace(/\.[^.]+$/, '.jpg');
+				formData.append('file', compressedBlob, fileName);
 				const res = await fetch('/api/upload.php', { method: 'POST', body: formData });
 				if (res.ok) {
 					const uploadData = await res.json();
@@ -255,11 +257,13 @@ export const photoService = {
 					}
 				}
 			} else {
-				// Upload to Hostinger upload API
+				// Upload to Hostinger upload API with client-side canvas compression
 				let serverPhotoUrl = '';
 				try {
+					const compressedBlob = await fileToCompressedBlob(newFile, 1400, 0.82);
 					const formData = new FormData();
-					formData.append('file', newFile);
+					const fileName = (newFile.name || 'photo.jpg').replace(/\.[^.]+$/, '.jpg');
+					formData.append('file', compressedBlob, fileName);
 					const res = await fetch('/api/upload.php', { method: 'POST', body: formData });
 					if (res.ok) {
 						const uploadData = await res.json();

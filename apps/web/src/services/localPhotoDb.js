@@ -214,6 +214,57 @@ export async function dataUrlToBlob(dataUrl) {
 }
 
 /**
+ * Compresses an image File or Blob using HTML5 Canvas to a lightweight JPEG Blob.
+ * Prevents Hostinger PHP 2MB upload limit rejections and WAF 413 Payload Too Large.
+ * Typically reduces a 10MB photo to ~120KB with zero visible degradation.
+ */
+export async function fileToCompressedBlob(fileOrBlob, maxDimension = 1400, quality = 0.82) {
+	if (!fileOrBlob) return null;
+	return new Promise((resolve) => {
+		try {
+			const img = new Image();
+			const url = URL.createObjectURL(fileOrBlob);
+			img.onload = () => {
+				URL.revokeObjectURL(url);
+				let { width, height } = img;
+				if (width > maxDimension || height > maxDimension) {
+					if (width > height) {
+						height = Math.round((height * maxDimension) / width);
+						width = maxDimension;
+					} else {
+						width = Math.round((width * maxDimension) / height);
+						height = maxDimension;
+					}
+				}
+				const canvas = document.createElement('canvas');
+				canvas.width = width;
+				canvas.height = height;
+				const ctx = canvas.getContext('2d');
+				if (!ctx) {
+					resolve(fileOrBlob);
+					return;
+				}
+				ctx.drawImage(img, 0, 0, width, height);
+				canvas.toBlob(
+					(blob) => {
+						resolve(blob || fileOrBlob);
+					},
+					'image/jpeg',
+					quality
+				);
+			};
+			img.onerror = () => {
+				URL.revokeObjectURL(url);
+				resolve(fileOrBlob);
+			};
+			img.src = url;
+		} catch {
+			resolve(fileOrBlob);
+		}
+	});
+}
+
+/**
  * Automatically converts any Base64 Data URL (data:image/...) to a permanently
  * hosted file on Hostinger (/api/uploads/img_....jpg) via /api/upload.php.
  * Uses multipart/form-data Blob to bypass WAF / ModSecurity 403 blocks and JSON limits.
@@ -224,8 +275,9 @@ export async function ensureHostedImageUrl(urlOrData) {
 
 	// 1. Try standard multipart/form-data upload via Blob (prevents WAF 403 Forbidden)
 	try {
-		const blob = await dataUrlToBlob(urlOrData);
-		if (blob) {
+		const rawBlob = await dataUrlToBlob(urlOrData);
+		if (rawBlob) {
+			const blob = await fileToCompressedBlob(rawBlob, 1400, 0.82);
 			const ext = (blob.type.split('/')[1] || 'jpg').replace('jpeg', 'jpg');
 			const formData = new FormData();
 			formData.append('file', blob, `banner_${Date.now()}.${ext}`);

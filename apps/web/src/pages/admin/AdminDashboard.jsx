@@ -168,12 +168,15 @@ export default function AdminDashboard() {
 		return () => window.removeEventListener('keydown', handleKeyDown);
 	}, []);
 
-	// When page changes, reset section
+	// When page changes, reset section only if the current section doesn't exist in the new page
 	useEffect(() => {
 		if (activePage?.sections?.length) {
-			setSelectedSectionId(activePage.sections[0].sectionId);
+			const exists = activePage.sections.some((s) => s.sectionId === selectedSectionId);
+			if (!exists) {
+				setSelectedSectionId(activePage.sections[0].sectionId);
+			}
 		}
-	}, [activePage]);
+	}, [activePage, selectedSectionId]);
 
 	// Load photos for active section (Cloud or Local Persistent Storage)
 	const loadPhotos = useCallback(async () => {
