@@ -4,7 +4,7 @@ import BlockNavigation from '@/components/builder/blocks/BlockNavigation';
 export default function Header() {
 	return (
 		<BlockNavigation
-			logoSrc={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/new_astrologer_shree_vishal_shastri-removebg-preview-G1TPRlnciYHDfUKK.png?width=768&fit=scale-down"}
+			logoSrc={"/images/pandit_ji_logo.webp"}
 			logoText={"Pandit Ji In Dubai - Vedic Pooja & Ritual Services UAE"}
 			logoHref={"/"}
 			logoHeightDesktop={166}

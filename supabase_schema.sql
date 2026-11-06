@@ -93,7 +93,7 @@ USING (bucket_id = 'site-photos');
 CREATE TABLE IF NOT EXISTS public.popup_settings (
     id TEXT PRIMARY KEY DEFAULT 'main_popup',
     is_enabled BOOLEAN DEFAULT TRUE,
-    image_url TEXT NOT NULL DEFAULT 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/1786093528068-GtztxnybZC7umoSY.png?width=768&fit=crop',
+    image_url TEXT NOT NULL DEFAULT '/images/pandit_ji_portrait.webp',
     storage_path TEXT DEFAULT '',
     target_url TEXT NOT NULL DEFAULT '/book-pandit-in-dubai',
     title TEXT DEFAULT 'Book Your Sacred Vedic Pooja in Dubai',
@@ -106,7 +106,7 @@ INSERT INTO public.popup_settings (id, is_enabled, image_url, target_url, title,
 VALUES (
     'main_popup',
     TRUE,
-    'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/1786093528068-GtztxnybZC7umoSY.png?width=768&fit=crop',
+    '/images/pandit_ji_portrait.webp',
     '/book-pandit-in-dubai',
     'Book Your Sacred Vedic Pooja in Dubai',
     3

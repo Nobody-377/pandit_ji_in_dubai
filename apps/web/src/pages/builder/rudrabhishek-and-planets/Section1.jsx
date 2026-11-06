@@ -10,7 +10,7 @@ import { useSectionPhotos } from '@/hooks/useSectionPhotos';
 
 const defaultRudraPhoto = [
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/20240229_154541.jpg-h2vMCasbNutJ9OkK.jpeg?width=768&fit=crop",
+		src: "/images/havan_mandap.webp",
 		alt: "Rudrabhishek Pooja Dubai",
 		title: "Rudrabhishek Ceremony"
 	}
@@ -282,7 +282,7 @@ export default function Section1() {
 					topRight={"Spiritual Growth"}
 					bottomLeft={"Protection & Wellbeing"}
 					bottomRight={"Peace & Positivity"}
-					imageSrc={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0014.jpg-dtnFK7LOaT2QSB1P.jpeg?width=375&fit=crop"}
+					imageSrc={"/images/griha_pravesh_vastu.webp"}
 					imageAlt={"Rudrabhishek Shiva Lingam Pooja"}
 				/>
 			</LayoutElement>

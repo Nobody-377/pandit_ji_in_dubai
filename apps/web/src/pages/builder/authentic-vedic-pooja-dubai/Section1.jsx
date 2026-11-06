@@ -37,8 +37,8 @@ export default function Section1() {
 				imagePath: "bnt2nu-xpLRzIki59jEhEnz.png",
 				isTransparent: true,
 				"overlay-opacity": "0.30",
-				src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/ljiz0f-qnkJBR446aep7XlF.png?width=1440&fit=crop",
-				srcset: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/ljiz0f-qnkJBR446aep7XlF.png?width=375&fit=crop 375w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/ljiz0f-qnkJBR446aep7XlF.png?width=768&fit=crop 768w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/ljiz0f-qnkJBR446aep7XlF.png?width=1024&fit=crop 1024w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/ljiz0f-qnkJBR446aep7XlF.png?width=1440&fit=crop 1440w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/ljiz0f-qnkJBR446aep7XlF.png?width=1920&fit=crop 1920w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/ljiz0f-qnkJBR446aep7XlF.png?width=2560&fit=crop 2560w"
+				src: "/images/namakaran_ceremony.webp",
+				srcset: "/images/namakaran_ceremony.webp 375w, /images/namakaran_ceremony.webp 768w, /images/namakaran_ceremony.webp 1024w, /images/namakaran_ceremony.webp 1440w, /images/namakaran_ceremony.webp 1920w, /images/namakaran_ceremony.webp 2560w"
 			}}
 			backgroundImagePosition={28}
 		>

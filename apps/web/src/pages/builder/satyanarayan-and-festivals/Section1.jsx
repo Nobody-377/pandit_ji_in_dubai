@@ -10,7 +10,7 @@ import { useSectionPhotos } from '@/hooks/useSectionPhotos';
 
 const defaultSatyaPhoto = [
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/generated/generated-Wer3mZjaMh9kGTR9.png?width=768&fit=crop",
+		src: "/images/satyanarayan_festivals.webp",
 		alt: "Satyanarayan Katha Ceremony",
 		title: "Satyanarayan Katha"
 	}
@@ -282,7 +282,7 @@ export default function Section1() {
 					topRight={"Peace & Harmony"}
 					bottomLeft={"Prosperity"}
 					bottomRight={"Spiritual Growth"}
-					imageSrc={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/generated/generated-Wer3mZjaMh9kGTR9.png?width=768&fit=crop"}
+					imageSrc={"/images/satyanarayan_festivals.webp"}
 					imageAlt={"Satyanarayan Pooja Ceremony"}
 				/>
 			</LayoutElement>

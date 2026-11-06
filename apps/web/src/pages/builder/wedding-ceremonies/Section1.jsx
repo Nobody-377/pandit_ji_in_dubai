@@ -11,7 +11,7 @@ import { isBannedPhotoUrl } from '@/services/localPhotoDb';
 
 const defaultWedding1 = [
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0011.jpg-m4730MVyqgY9OzLF.jpeg?width=768&fit=crop",
+		src: "/images/vedic_wedding_ceremony.webp",
 		alt: "Vedic Wedding Ceremony Mandap",
 		title: "Wedding Mandap"
 	}
@@ -19,7 +19,7 @@ const defaultWedding1 = [
 
 const defaultWedding2 = [
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0016.jpg-LbPgYucL565kxmOf.jpeg?width=768&fit=crop",
+		src: "/images/sacred_havan_ritual.webp",
 		alt: "Sacred Fire Rituals",
 		title: "Sacred Fire Rituals"
 	}

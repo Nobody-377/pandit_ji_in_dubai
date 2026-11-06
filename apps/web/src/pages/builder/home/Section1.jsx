@@ -43,8 +43,8 @@ export default function Section1() {
 				imagePath: "kxkkch-Cjlz4xQ7ruTeNiqV.png",
 				isTransparent: true,
 				"overlay-opacity": "0.50",
-				src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/watermarked_img_15022933639295714049-WsCabFFGWhQYgrhJ.jpg?width=1440&fit=crop",
-				srcset: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/watermarked_img_15022933639295714049-WsCabFFGWhQYgrhJ.jpg?width=375&fit=crop 375w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/watermarked_img_15022933639295714049-WsCabFFGWhQYgrhJ.jpg?width=768&fit=crop 768w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/watermarked_img_15022933639295714049-WsCabFFGWhQYgrhJ.jpg?width=1024&fit=crop 1024w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/watermarked_img_15022933639295714049-WsCabFFGWhQYgrhJ.jpg?width=1440&fit=crop 1440w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/watermarked_img_15022933639295714049-WsCabFFGWhQYgrhJ.jpg?width=1920&fit=crop 1920w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/watermarked_img_15022933639295714049-WsCabFFGWhQYgrhJ.jpg?width=2560&fit=crop 2560w"
+				src: "/images/about_pandit_ji.webp",
+				srcset: "/images/about_pandit_ji.webp 375w, /images/about_pandit_ji.webp 768w, /images/about_pandit_ji.webp 1024w, /images/about_pandit_ji.webp 1440w, /images/about_pandit_ji.webp 1920w, /images/about_pandit_ji.webp 2560w"
 			}}
 			isFixed
 		>

@@ -687,7 +687,7 @@ export default function AdminDashboard() {
 		setServiceTargetUrl('/book-pandit-in-dubai');
 		setServiceButtonText('Book This Pooja');
 		setServiceFile(null);
-		setServicePreview('https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0014.jpg-dtnFK7LOaT2QSB1P.jpeg?width=600&fit=crop');
+		setServicePreview('/images/griha_pravesh_vastu.webp');
 		setIsAddServiceOpen(true);
 	};
 
@@ -947,7 +947,7 @@ export default function AdminDashboard() {
 			<header className="bg-[#F2EBDD] border-b border-[#E5DCCF] px-6 sm:px-8 py-3.5 flex items-center justify-between sticky top-0 z-30 shadow-sm">
 				<div className="flex items-center gap-3.5">
 					<img
-						src="https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/new_astrologer_shree_vishal_shastri-removebg-preview-G1TPRlnciYHDfUKK.png?width=768&fit=scale-down"
+						src="/images/pandit_ji_logo.webp"
 						alt="Pandit Ji Logo"
 						className="h-12 w-auto object-contain"
 					/>
@@ -1489,22 +1489,22 @@ export default function AdminDashboard() {
 													{[
 														{
 															name: 'Vedic Wedding',
-															url: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0011.jpg-m4730MVyqgY9OzLF.jpeg?width=768&fit=crop',
+															url: '/images/vedic_wedding_ceremony.webp',
 															target: '/wedding-ceremonies',
 														},
 														{
 															name: 'Sacred Havan',
-															url: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0016.jpg-LbPgYucL565kxmOf.jpeg?width=768&fit=crop',
+															url: '/images/sacred_havan_ritual.webp',
 															target: '/shanti-havan-and-yagna',
 														},
 														{
 															name: 'Griha Pravesh',
-															url: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0012.jpg-0veqAugf2xgtLIbu.jpeg?width=768&fit=crop',
+															url: '/images/sacred_vedic_rituals.webp',
 															target: '/griha-pravesh-and-vastu',
 														},
 														{
 															name: 'Satyanarayan',
-															url: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/generated/generated-Wer3mZjaMh9kGTR9.png?width=768&fit=crop',
+															url: '/images/satyanarayan_festivals.webp',
 															target: '/satyanarayan-and-festivals',
 														},
 													].map((preset) => (

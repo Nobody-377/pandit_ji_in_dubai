@@ -10,7 +10,7 @@ import { useSectionPhotos } from '@/hooks/useSectionPhotos';
 
 const defaultGrihaPhoto = [
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0012.jpg-0veqAugf2xgtLIbu.jpeg?width=768&fit=crop",
+		src: "/images/sacred_vedic_rituals.webp",
 		alt: "Griha Pravesh Ceremony in UAE",
 		title: "Griha Pravesh Ceremony"
 	}
@@ -257,7 +257,7 @@ export default function Section1() {
 					topRight={"Spiritual Harmony"}
 					bottomLeft={"Family Wellbeing"}
 					bottomRight={"Positive Energy"}
-					imageSrc={"https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0012.jpg-0veqAugf2xgtLIbu.jpeg?width=375&fit=crop"}
+					imageSrc={"/images/sacred_vedic_rituals.webp"}
 					imageAlt={"Griha Pravesh Pooja Ceremony"}
 				/>
 			</LayoutElement>

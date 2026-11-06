@@ -8,7 +8,7 @@ import { useSectionPhotos } from '@/hooks/useSectionPhotos';
 
 const defaultCarPhoto = [
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/generated/generated-2VtWj9NpLbLZZmNI.png?width=768&fit=crop",
+		src: "/images/maha_mrityunjaya.webp",
 		alt: "Car and Vehicle Pooja Dubai",
 		title: "Vehicle Pooja"
 	}

@@ -6,7 +6,7 @@ const BUCKET_NAME = 'site-photos';
 export const DEFAULT_POPUP_SETTINGS = {
 	id: 'main_popup',
 	is_enabled: true,
-	image_url: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/1786093528068-GtztxnybZC7umoSY.png?width=768&fit=crop',
+	image_url: '/images/pandit_ji_portrait.webp',
 	storage_path: '',
 	target_url: '/authentic-vedic-pooja-dubai',
 	title: 'Authentic Vedic Pooja Vidhi & Ritual Information',

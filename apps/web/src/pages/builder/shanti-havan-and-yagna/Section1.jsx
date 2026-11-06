@@ -11,7 +11,7 @@ import { isBannedPhotoUrl } from '@/services/localPhotoDb';
 
 const defaultHavanPhoto = [
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0016.jpg-LbPgYucL565kxmOf.jpeg?width=768&fit=crop",
+		src: "/images/sacred_havan_ritual.webp",
 		alt: "Shanti Havan and Yagna",
 		title: "Havan Kund & Yagna"
 	}
@@ -19,7 +19,7 @@ const defaultHavanPhoto = [
 
 const defaultBenefitsPhoto = [
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/cc2udk-urqOJNFHQkAaJ30S.png?width=768&fit=crop",
+		src: "/images/shanti_havan_yagna.webp",
 		alt: "Sacred Havan Ceremony",
 		title: "Sacred Havan Ceremony"
 	}

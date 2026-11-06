@@ -8,7 +8,7 @@ import { useSectionPhotos } from '@/hooks/useSectionPhotos';
 
 const defaultPitruPhoto = [
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/vczdfl-K9nbyFiOC3NqnzYB.png?width=768&fit=crop",
+		src: "/images/kundali_horoscope.webp",
 		alt: "Pitru Paksha Pooja Dubai",
 		title: "Pitru Paksha Ritual"
 	}

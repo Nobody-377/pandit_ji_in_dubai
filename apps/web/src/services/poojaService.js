@@ -28,7 +28,7 @@ export const DEFAULT_POOJA_SERVICES = [
 		title: 'Griha Pravesh & Vastu Shanti',
 		badge: 'Housewarming',
 		description: 'Establish peace and positive vibrations in your new home with authentic Vedic Griha Pravesh, Vastu Pooja, and Navagraha Havan.',
-		imageUrl: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0012.jpg-0veqAugf2xgtLIbu.jpeg?width=768&fit=crop',
+		imageUrl: '/images/sacred_vedic_rituals.webp',
 		targetUrl: '/griha-pravesh-and-vastu',
 		buttonText: 'View Details & Vidhi',
 		isActive: true,
@@ -41,7 +41,7 @@ export const DEFAULT_POOJA_SERVICES = [
 		title: 'Vedic Wedding Ceremonies (Vivah)',
 		badge: 'Sacred Union',
 		description: 'Complete Hindu wedding rituals including Jaimala, Kanyadaan, Saptapadi (7 sacred pheras), and Sindoor Daan as per Vedic scriptures.',
-		imageUrl: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0011.jpg-m4730MVyqgY9OzLF.jpeg?width=768&fit=crop',
+		imageUrl: '/images/vedic_wedding_ceremony.webp',
 		targetUrl: '/wedding-ceremonies',
 		buttonText: 'View Details & Vidhi',
 		isActive: true,
@@ -54,7 +54,7 @@ export const DEFAULT_POOJA_SERVICES = [
 		title: 'Griha Shanti Havan & Yagna',
 		badge: 'Purification',
 		description: 'Powerful sacred fire ceremonies to dispel negative energy, calm planetary disturbances, and bring auspicious blessings to the entire family.',
-		imageUrl: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0016.jpg-LbPgYucL565kxmOf.jpeg?width=768&fit=crop',
+		imageUrl: '/images/sacred_havan_ritual.webp',
 		targetUrl: '/shanti-havan-and-yagna',
 		buttonText: 'View Details & Vidhi',
 		isActive: true,
@@ -67,7 +67,7 @@ export const DEFAULT_POOJA_SERVICES = [
 		title: 'Satyanarayan Katha & Festivals',
 		badge: 'Devotion',
 		description: 'Auspicious recitation of the 5 adhyayas of Lord Satyanarayan Katha with Panchamrit, Sheera prasad, and Aarti for family well-being.',
-		imageUrl: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/generated/generated-Wer3mZjaMh9kGTR9.png?width=768&fit=crop',
+		imageUrl: '/images/satyanarayan_festivals.webp',
 		targetUrl: '/satyanarayan-and-festivals',
 		buttonText: 'View Details & Vidhi',
 		isActive: true,
@@ -80,7 +80,7 @@ export const DEFAULT_POOJA_SERVICES = [
 		title: 'Shiva Rudrabhishek & Planets',
 		badge: 'Health & Peace',
 		description: 'Abhishek of Lord Shiva with panchamrit, bilva patra, sugarcane juice, and Vedic Rudri path chanting to overcome difficulties and health issues.',
-		imageUrl: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/20240229_154541.jpg-h2vMCasbNutJ9OkK.jpeg?width=768&fit=crop',
+		imageUrl: '/images/havan_mandap.webp',
 		targetUrl: '/rudrabhishek-and-planets',
 		buttonText: 'View Details & Vidhi',
 		isActive: true,
@@ -93,7 +93,7 @@ export const DEFAULT_POOJA_SERVICES = [
 		title: 'Car & Vehicle Pooja (Vahan Pooja)',
 		badge: 'Divine Protection',
 		description: 'Swastika blessing, lemon ritual, coconut breaking, and Lord Ganesha blessings for accident-free and prosperous travels in Dubai & UAE.',
-		imageUrl: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/generated/generated-2VtWj9NpLbLZZmNI.png?width=768&fit=crop',
+		imageUrl: '/images/maha_mrityunjaya.webp',
 		targetUrl: '/car-pooja-in-dubai-vehicle-pooja-in-dubai',
 		buttonText: 'View Details & Vidhi',
 		isActive: true,
@@ -106,7 +106,7 @@ export const DEFAULT_POOJA_SERVICES = [
 		title: 'Pitru Paksha Pooja & Shradh Tarpan',
 		badge: 'Ancestral Peace',
 		description: 'Sacred ancestral offerings, Pind Daan, and Pitru Tarpan rituals performed with Vedic devotion to bring peace to departed souls.',
-		imageUrl: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/vczdfl-K9nbyFiOC3NqnzYB.png?width=768&fit=crop',
+		imageUrl: '/images/kundali_horoscope.webp',
 		targetUrl: '/pitru-paksha-pooja-dubai',
 		buttonText: 'View Details & Vidhi',
 		isActive: true,
@@ -119,7 +119,7 @@ export const DEFAULT_POOJA_SERVICES = [
 		title: 'Office & Business Opening Pooja',
 		badge: 'Prosperity',
 		description: 'Vastu purification and Lakshmi-Ganesh invocation for new shops, offices, warehouses, and commercial establishments in Dubai.',
-		imageUrl: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0014.jpg-dtnFK7LOaT2QSB1P.jpeg?width=768&fit=crop',
+		imageUrl: '/images/griha_pravesh_vastu.webp',
 		targetUrl: '/book-pandit-in-dubai',
 		buttonText: 'Book This Pooja',
 		isActive: true,
@@ -324,7 +324,7 @@ export const poojaService = {
 
 		// Fallback image if none provided
 		if (!finalImageUrl) {
-			finalImageUrl = 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0014.jpg-dtnFK7LOaT2QSB1P.jpeg?width=600&fit=crop';
+			finalImageUrl = '/images/griha_pravesh_vastu.webp';
 		}
 
 		const current = (await localPhotoDb.getPoojaServices()) || DEFAULT_POOJA_SERVICES;

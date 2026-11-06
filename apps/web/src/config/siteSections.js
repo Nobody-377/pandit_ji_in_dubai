@@ -16,42 +16,42 @@ export const SITE_SECTIONS = [
 				type: 'gallery',
 				defaults: [
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/1786093528068-GtztxnybZC7umoSY.png?width=375&height=375&fit=crop',
+						src: '/images/pandit_ji_portrait.webp',
 						alt: 'Vedic Puja Ceremony in Dubai',
 						title: 'Vedic Puja Ceremony'
 					},
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/20240229_154541.jpg-h2vMCasbNutJ9OkK.jpeg?width=375&height=375&fit=crop',
+						src: '/images/havan_mandap.webp',
 						alt: 'Traditional Havan and Mandap Setup',
 						title: 'Traditional Havan'
 					},
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0016.jpg-LbPgYucL565kxmOf.jpeg?width=375&height=375&fit=crop',
+						src: '/images/sacred_havan_ritual.webp',
 						alt: 'Satyanarayan Pooja Dubai',
 						title: 'Satyanarayan Pooja'
 					},
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0014.jpg-dtnFK7LOaT2QSB1P.jpeg?width=375&height=375&fit=crop',
+						src: '/images/griha_pravesh_vastu.webp',
 						alt: 'Griha Pravesh Ceremony in UAE',
 						title: 'Griha Pravesh Ceremony'
 					},
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0012.jpg-0veqAugf2xgtLIbu.jpeg?width=375&height=375&fit=crop',
+						src: '/images/sacred_vedic_rituals.webp',
 						alt: 'Sacred Vedic Rituals',
 						title: 'Sacred Vedic Rituals'
 					},
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0007.jpg-2QiVsBsmEfPNGWgH.jpeg?width=375&height=375&fit=crop',
+						src: '/images/havan_kund_samagri.webp',
 						alt: 'Samagri and Havan Kund Preparation',
 						title: 'Samagri & Kund Setup'
 					},
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20230927-wa0001.jpg-1b98zpUH2G4uyAGi.jpeg?width=375&height=375&fit=crop',
+						src: '/images/aarti_blessings.webp',
 						alt: 'Aarti and Holy Blessings',
 						title: 'Aarti & Holy Blessings'
 					},
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0011.jpg-m4730MVyqgY9OzLF.jpeg?width=375&height=375&fit=crop',
+						src: '/images/vedic_wedding_ceremony.webp',
 						alt: 'Vedic Pandit Ji Dubai',
 						title: 'Vedic Pandit Ji Dubai'
 					}
@@ -64,7 +64,7 @@ export const SITE_SECTIONS = [
 				type: 'single',
 				defaults: [
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/1786093528068-GtztxnybZC7umoSY.png?width=768&fit=crop',
+						src: '/images/pandit_ji_portrait.webp',
 						alt: 'About Pandit Ji Dubai',
 						title: 'About Pandit Ji'
 					}
@@ -84,27 +84,27 @@ export const SITE_SECTIONS = [
 				type: 'gallery',
 				defaults: [
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0016.jpg-LbPgYucL565kxmOf.jpeg?width=375&height=375&fit=crop',
+						src: '/images/sacred_havan_ritual.webp',
 						alt: 'Vedic Pooja Step 1',
 						title: 'Pooja Step 1'
 					},
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0014.jpg-dtnFK7LOaT2QSB1P.jpeg?width=375&height=375&fit=crop',
+						src: '/images/griha_pravesh_vastu.webp',
 						alt: 'Vedic Pooja Step 2',
 						title: 'Pooja Step 2'
 					},
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0011.jpg-m4730MVyqgY9OzLF.jpeg?width=375&height=375&fit=crop',
+						src: '/images/vedic_wedding_ceremony.webp',
 						alt: 'Vedic Pooja Step 3',
 						title: 'Pooja Step 3'
 					},
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0007.jpg-2QiVsBsmEfPNGWgH.jpeg?width=375&height=375&fit=crop',
+						src: '/images/havan_kund_samagri.webp',
 						alt: 'Vedic Pooja Step 4',
 						title: 'Pooja Step 4'
 					},
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0011.jpg-m4730MVyqgY9OzLF.jpeg?width=375&height=375&fit=crop',
+						src: '/images/vedic_wedding_ceremony.webp',
 						alt: 'Vedic Pooja Step 5',
 						title: 'Pooja Step 5'
 					}
@@ -117,7 +117,7 @@ export const SITE_SECTIONS = [
 				type: 'single',
 				defaults: [
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/1786093528068-GtztxnybZC7umoSY.png?width=768&fit=crop',
+						src: '/images/pandit_ji_portrait.webp',
 						alt: 'Vedic Pandit Ji Dubai',
 						title: 'Vedic Pandit Portrait'
 					}
@@ -137,7 +137,7 @@ export const SITE_SECTIONS = [
 				type: 'single',
 				defaults: [
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0011.jpg-m4730MVyqgY9OzLF.jpeg?width=768&fit=crop',
+						src: '/images/vedic_wedding_ceremony.webp',
 						alt: 'Vedic Wedding Ceremony Mandap',
 						title: 'Wedding Mandap'
 					}
@@ -150,7 +150,7 @@ export const SITE_SECTIONS = [
 				type: 'single',
 				defaults: [
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0011.jpg-m4730MVyqgY9OzLF.jpeg?width=768&fit=crop',
+						src: '/images/vedic_wedding_ceremony.webp',
 						alt: 'Sacred Fire Rituals',
 						title: 'Sacred Fire Rituals'
 					}
@@ -170,7 +170,7 @@ export const SITE_SECTIONS = [
 				type: 'single',
 				defaults: [
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0012.jpg-0veqAugf2xgtLIbu.jpeg?width=768&fit=crop',
+						src: '/images/sacred_vedic_rituals.webp',
 						alt: 'Griha Pravesh Ceremony in UAE',
 						title: 'Griha Pravesh Ceremony'
 					}
@@ -190,7 +190,7 @@ export const SITE_SECTIONS = [
 				type: 'single',
 				defaults: [
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/generated/generated-2VtWj9NpLbLZZmNI.png?width=768&fit=crop',
+						src: '/images/maha_mrityunjaya.webp',
 						alt: 'Car and Vehicle Pooja Dubai',
 						title: 'Vehicle Pooja'
 					}
@@ -210,7 +210,7 @@ export const SITE_SECTIONS = [
 				type: 'single',
 				defaults: [
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0016.jpg-LbPgYucL565kxmOf.jpeg?width=768&fit=crop',
+						src: '/images/sacred_havan_ritual.webp',
 						alt: 'Shanti Havan and Yagna',
 						title: 'Havan Kund & Yagna'
 					}
@@ -223,7 +223,7 @@ export const SITE_SECTIONS = [
 				type: 'single',
 				defaults: [
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/cc2udk-urqOJNFHQkAaJ30S.png?width=768&fit=crop',
+						src: '/images/shanti_havan_yagna.webp',
 						alt: 'Sacred Havan Ceremony',
 						title: 'Sacred Havan Ceremony'
 					}
@@ -243,7 +243,7 @@ export const SITE_SECTIONS = [
 				type: 'single',
 				defaults: [
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/20240229_154541.jpg-h2vMCasbNutJ9OkK.jpeg?width=768&fit=crop',
+						src: '/images/havan_mandap.webp',
 						alt: 'Rudrabhishek Pooja Dubai',
 						title: 'Rudrabhishek Ceremony'
 					}
@@ -263,7 +263,7 @@ export const SITE_SECTIONS = [
 				type: 'single',
 				defaults: [
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/generated/generated-Wer3mZjaMh9kGTR9.png?width=768&fit=crop',
+						src: '/images/satyanarayan_festivals.webp',
 						alt: 'Satyanarayan Katha Ceremony',
 						title: 'Satyanarayan Katha'
 					}
@@ -283,7 +283,7 @@ export const SITE_SECTIONS = [
 				type: 'single',
 				defaults: [
 					{
-						src: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/vczdfl-K9nbyFiOC3NqnzYB.png?width=768&fit=crop',
+						src: '/images/kundali_horoscope.webp',
 						alt: 'Pitru Paksha Pooja Dubai',
 						title: 'Pitru Paksha Ritual'
 					}

@@ -111,7 +111,7 @@ if (is_file($dataFile) && is_readable($dataFile)) {
 echo json_encode([
     'id' => 'main_popup',
     'title' => 'Authentic Vedic Pooja Vidhi & Ritual Information',
-    'image_url' => 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/1786093528068-GtztxnybZC7umoSY.png?width=768&fit=crop',
+    'image_url' => '/images/pandit_ji_portrait.webp',
     'target_url' => '/authentic-vedic-pooja-dubai',
     'is_enabled' => true,
     'delay_seconds' => 3,

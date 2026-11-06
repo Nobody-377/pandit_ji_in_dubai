@@ -5,35 +5,35 @@ import './Section6.css';
 
 const galleryImages = [
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/1786093528068-GtztxnybZC7umoSY.png?width=375&height=375&fit=crop",
+		src: "/images/pandit_ji_portrait.webp",
 		alt: "Vedic Puja Ceremony in Dubai"
 	},
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/20240229_154541.jpg-h2vMCasbNutJ9OkK.jpeg?width=375&height=375&fit=crop",
+		src: "/images/havan_mandap.webp",
 		alt: "Traditional Havan and Mandap Setup"
 	},
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0016.jpg-LbPgYucL565kxmOf.jpeg?width=375&height=375&fit=crop",
+		src: "/images/sacred_havan_ritual.webp",
 		alt: "Satyanarayan Pooja Dubai"
 	},
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0014.jpg-dtnFK7LOaT2QSB1P.jpeg?width=375&height=375&fit=crop",
+		src: "/images/griha_pravesh_vastu.webp",
 		alt: "Griha Pravesh Ceremony in UAE"
 	},
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0012.jpg-0veqAugf2xgtLIbu.jpeg?width=375&height=375&fit=crop",
+		src: "/images/sacred_vedic_rituals.webp",
 		alt: "Sacred Vedic Rituals"
 	},
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0007.jpg-2QiVsBsmEfPNGWgH.jpeg?width=375&height=375&fit=crop",
+		src: "/images/havan_kund_samagri.webp",
 		alt: "Samagri and Havan Kund Preparation"
 	},
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20230927-wa0001.jpg-1b98zpUH2G4uyAGi.jpeg?width=375&height=375&fit=crop",
+		src: "/images/aarti_blessings.webp",
 		alt: "Aarti and Holy Blessings"
 	},
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0011.jpg-m4730MVyqgY9OzLF.jpeg?width=375&height=375&fit=crop",
+		src: "/images/vedic_wedding_ceremony.webp",
 		alt: "Vedic Pandit Ji Dubai"
 	}
 ];

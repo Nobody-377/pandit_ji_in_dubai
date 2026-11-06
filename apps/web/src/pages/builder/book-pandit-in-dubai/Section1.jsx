@@ -38,8 +38,8 @@ export default function Section1() {
 				imagePath: "nhcete-VViR4tSTjnew5jpj.png",
 				isTransparent: true,
 				"overlay-opacity": "0.70",
-				src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/nhcete-VViR4tSTjnew5jpj.png?width=1440&fit=crop",
-				srcset: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/nhcete-VViR4tSTjnew5jpj.png?width=375&fit=crop 375w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/nhcete-VViR4tSTjnew5jpj.png?width=768&fit=crop 768w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/nhcete-VViR4tSTjnew5jpj.png?width=1024&fit=crop 1024w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/nhcete-VViR4tSTjnew5jpj.png?width=1440&fit=crop 1440w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/nhcete-VViR4tSTjnew5jpj.png?width=1920&fit=crop 1920w, https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/nhcete-VViR4tSTjnew5jpj.png?width=2560&fit=crop 2560w"
+				src: "/images/rudrabhishek_pooja.webp",
+				srcset: "/images/rudrabhishek_pooja.webp 375w, /images/rudrabhishek_pooja.webp 768w, /images/rudrabhishek_pooja.webp 1024w, /images/rudrabhishek_pooja.webp 1440w, /images/rudrabhishek_pooja.webp 1920w, /images/rudrabhishek_pooja.webp 2560w"
 			}}
 		>
 			<LayoutElement

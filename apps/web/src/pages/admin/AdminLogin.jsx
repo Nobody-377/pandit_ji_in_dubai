@@ -48,7 +48,7 @@ export default function AdminLogin() {
 				<div className="text-center mb-8">
 					<div className="inline-block mb-3">
 						<img
-							src="https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/new_astrologer_shree_vishal_shastri-removebg-preview-G1TPRlnciYHDfUKK.png?width=768&fit=scale-down"
+							src="/images/pandit_ji_logo.webp"
 							alt="Pandit Ji in Dubai"
 							className="h-28 w-auto mx-auto object-contain drop-shadow-sm"
 						/>

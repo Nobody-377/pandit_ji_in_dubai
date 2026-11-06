@@ -296,7 +296,7 @@ export function purgeBannedPlaceholders() {
 					if (s.imageUrl && isBannedPhotoUrl(s.imageUrl)) {
 						return {
 							...s,
-							imageUrl: 'https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/img-20260712-wa0011.jpg-m4730MVyqgY9OzLF.jpeg?width=768&fit=crop',
+							imageUrl: '/images/vedic_wedding_ceremony.webp',
 						};
 					}
 					return s;

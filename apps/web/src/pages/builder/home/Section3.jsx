@@ -9,7 +9,7 @@ import { useSectionPhotos } from '@/hooks/useSectionPhotos';
 
 const defaultAboutPhoto = [
 	{
-		src: "https://horizons-cdn.hostinger.com/3ba7c050-6888-4c70-943a-c2caedb2a9c1/1786093528068-GtztxnybZC7umoSY.png?width=768&fit=crop",
+		src: "/images/pandit_ji_portrait.webp",
 		alt: "About Pandit Ji Dubai",
 		title: "About Pandit Ji"
 	}
