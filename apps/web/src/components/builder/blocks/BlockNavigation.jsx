@@ -360,6 +360,8 @@ export default function BlockNavigation({
 										className="block-navigation__logo-image"
 										src={logoSrc}
 										alt={logoAlt || logoText || 'Logo'}
+										loading="eager"
+										decoding="async"
 									/>
 								) : (
 									<span className="block-navigation__logo-text">{logoText}</span>
