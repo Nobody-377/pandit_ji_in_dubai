@@ -3,7 +3,9 @@ node_modules/
 .pnp
 .pnp.js
 
-# Production build artifacts
+# Scratch scripts & temporary test files
+scratch/
+
 dist/
 build/
 .output/
