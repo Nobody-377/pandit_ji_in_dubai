@@ -66,6 +66,8 @@ const galleryImages = [
 
 export default function Section6() {
 	const { photos } = useSectionPhotos('home', 'home_gallery', galleryImages);
+	// Always prioritize complete gallery images (ensures newly added photos & video display even if browser has stale cache)
+	const displayImages = photos && photos.length >= galleryImages.length ? photos : galleryImages;
 
 	return (
 		<section
@@ -90,7 +92,7 @@ export default function Section6() {
 				</div>
 				<GridGallery
 					id="zRpA_V"
-					images={photos}
+					images={displayImages}
 					layout="carousel"
 				/>
 			</div>

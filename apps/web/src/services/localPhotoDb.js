@@ -345,7 +345,9 @@ export function purgeBannedPlaceholders() {
 						const parsed = JSON.parse(val);
 						if (Array.isArray(parsed)) {
 							const clean = parsed.filter((p) => !isBannedPhoto(p));
-							if (clean.length !== parsed.length) {
+							if (key === 'pj_photos_home_home_gallery' && clean.length < 14) {
+								keysToRemove.push(key);
+							} else if (clean.length !== parsed.length) {
 								if (clean.length > 0) {
 									localStorage.setItem(key, JSON.stringify(clean));
 								} else {
@@ -401,7 +403,9 @@ export function purgeBannedPlaceholders() {
 					if (cursor) {
 						if (Array.isArray(cursor.value)) {
 							const clean = cursor.value.filter((p) => !isBannedPhoto(p));
-							if (clean.length !== cursor.value.length) {
+							if (cursor.key === 'home::home_gallery' && clean.length < 14) {
+								cursor.delete();
+							} else if (clean.length !== cursor.value.length) {
 								if (clean.length > 0) {
 									cursor.update(clean);
 								} else {
