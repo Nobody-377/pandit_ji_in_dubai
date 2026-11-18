@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
-import { ChevronLeft, ChevronRight, X, ZoomIn } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X, ZoomIn, Play } from 'lucide-react';
 import { isBannedPhoto } from '@/services/localPhotoDb';
 import './GridGallery.css';
 
@@ -20,11 +20,20 @@ export default function GridGallery({
 			.filter((img) => img && (typeof img === 'string' || img?.src) && !isBannedPhoto(img))
 			.map((img) => {
 				if (typeof img === 'string') {
-					return { src: img, alt: 'Pooja Ceremony in Dubai' };
+					const isVid = img.endsWith('.mp4');
+					return {
+						src: img,
+						alt: 'Pooja Ceremony in Dubai',
+						poster: isVid ? img.replace(/\.mp4$/, '_poster.webp') : undefined,
+						type: isVid ? 'video' : 'image',
+					};
 				}
+				const isVid = img.type === 'video' || (typeof img.src === 'string' && img.src.endsWith('.mp4'));
 				return {
 					src: img.src,
 					alt: img.alt || 'Pooja Ceremony in Dubai',
+					poster: img.poster || (isVid && typeof img.src === 'string' ? img.src.replace(/\.mp4$/, '_poster.webp') : undefined),
+					type: isVid ? 'video' : 'image',
 				};
 			})
 			.filter((img) => !failedUrls.has(img.src));
@@ -165,7 +174,7 @@ export default function GridGallery({
 							>
 								<div className="grid-gallery-card-aspect">
 									<img
-										src={image.src}
+										src={image.type === 'video' && image.poster ? image.poster : image.src}
 										alt={image.alt}
 										loading="lazy"
 										onError={() => {
@@ -177,8 +186,17 @@ export default function GridGallery({
 									/>
 									<div className="grid-gallery-card-overlay">
 										<div className="grid-gallery-zoom-badge">
-											<ZoomIn size={14} />
-											<span>View</span>
+											{image.type === 'video' ? (
+												<>
+													<Play size={14} fill="currentColor" />
+													<span>Video</span>
+												</>
+											) : (
+												<>
+													<ZoomIn size={14} />
+													<span>View</span>
+												</>
+											)}
 										</div>
 									</div>
 								</div>
@@ -253,11 +271,22 @@ export default function GridGallery({
 						className="grid-gallery-lightbox-stage"
 						onClick={(e) => e.stopPropagation()}
 					>
-						<img
-							src={validImages[lightboxIndex].src.split('?')[0]}
-							alt={validImages[lightboxIndex].alt}
-							className="grid-gallery-lightbox-img"
-						/>
+						{validImages[lightboxIndex]?.type === 'video' ? (
+							<video
+								src={validImages[lightboxIndex].src}
+								poster={validImages[lightboxIndex].poster}
+								controls
+								autoPlay
+								playsInline
+								className="grid-gallery-lightbox-video"
+							/>
+						) : (
+							<img
+								src={validImages[lightboxIndex].src.split('?')[0]}
+								alt={validImages[lightboxIndex].alt}
+								className="grid-gallery-lightbox-img"
+							/>
+						)}
 
 						{validImages.length > 1 && (
 							<>

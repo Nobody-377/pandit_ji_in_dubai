@@ -5,6 +5,32 @@ import './Section6.css';
 
 const galleryImages = [
 	{
+		src: "/images/puja2_ceremony.webp",
+		alt: "Vedic Pooja Setup & Sacred Offerings in Dubai"
+	},
+	{
+		src: "/images/puja6_ceremony.mp4",
+		poster: "/images/puja6_ceremony_poster.webp",
+		type: "video",
+		alt: "Sacred Vedic Puja Ritual Video Ceremony in Dubai"
+	},
+	{
+		src: "/images/puja3_ceremony.webp",
+		alt: "Auspicious Griha Pravesh & Mandap Pooja in UAE"
+	},
+	{
+		src: "/images/puja1_ceremony.webp",
+		alt: "Deities & Flower Rangoli Vedic Pooja Dubai"
+	},
+	{
+		src: "/images/puja4_ceremony.webp",
+		alt: "Grand Indoor Mandap & Shubh Labh Setup Dubai"
+	},
+	{
+		src: "/images/puja5_ceremony.webp",
+		alt: "Shree Krishna & Vastu Devata Pooja Ceremony"
+	},
+	{
 		src: "/images/pandit_ji_portrait.webp",
 		alt: "Vedic Puja Ceremony in Dubai"
 	},

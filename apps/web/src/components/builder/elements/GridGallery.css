@@ -284,7 +284,8 @@
 	justify-content: center;
 }
 
-.grid-gallery-lightbox-img {
+.grid-gallery-lightbox-img,
+.grid-gallery-lightbox-video {
 	max-width: 90vw;
 	max-height: 82vh;
 	width: auto;
